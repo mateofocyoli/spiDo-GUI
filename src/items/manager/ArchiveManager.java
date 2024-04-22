@@ -28,6 +28,8 @@ public class ArchiveManager {
     private static Comparator<Book> compareByReleaseDate = (Book b1, Book b2) -> b1.getReleaseDate().compareTo(b2.getReleaseDate());
     private static Comparator<Book> compareByID = (Book b1, Book b2) -> b1.getID().compareToIgnoreCase(b2.getID());
 
+    /**Map used to store the comparators used to sort the archive Map
+     */
     private static final Map<String, Comparator<Book>> ORDER_CRITERIAS = Map.ofEntries(
         entry("author", compareByAuthor),
         entry("title", compareByTitle),
