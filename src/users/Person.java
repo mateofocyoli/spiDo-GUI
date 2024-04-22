@@ -80,4 +80,10 @@ public abstract class Person implements Comparable<Credentials> {
     public int compareTo(Credentials o) {
         return this.credentials.compareTo(o);
     }
+
+    @Override
+    public String toString() {
+        return getClass().getCanonicalName() + " [name=" + name + ", surname=" + surname + ", birth=" + birth + ", cityOfBirth=" + cityOfBirth
+                + ", sex=" + sex + ", username=" + credentials.getUsername() + "]";
+    }
 }

@@ -1,20 +1,32 @@
 package users;
 
 import java.util.ArrayList;
-import java.util.Collection;
 
 public class PersonManager {
 
+    private static PersonManager instance;
+
     private ArrayList<Person> people;
 
-    public PersonManager() {
+    private PersonManager() {
         people = new ArrayList<>();
     }
 
-    public PersonManager(Collection<? extends Person> people) {
+    /**
+     * Only way to get an instance of this class, so there are no other instances around
+     * @return
+     */
+    public static PersonManager getInstance() {
+        if(instance == null)
+            instance = new PersonManager();
+
+        return instance;
+    }
+
+    /* public PersonManager(Collection<? extends Person> people) {
         this.people = new ArrayList<>();
         this.people.addAll(people);
-    }
+    } */
 
     public Person login(String username, String password) {
 
@@ -45,5 +57,4 @@ public class PersonManager {
     public boolean remove(Person p) {
         return people.remove(p);
     }
-
 }
