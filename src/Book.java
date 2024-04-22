@@ -50,6 +50,18 @@ public class Book {
 	}
 
 
+	public boolean equals(Object obj){
+		if (obj == null || !(obj instanceof Book))
+			return false;
+		//Book other = (Book)obj;
+		return this.ID.equalsIgnoreCase(((Book)obj).ID);/* &&
+			   this.title.equalsIgnoreCase(other.title) &&
+			   this.author.equalsIgnoreCase(other.author) &&
+			   this.genre.equals(other.genre) &&
+			   this.releaseDate.equals(other.releaseDate) &&
+			   this.numPages == other.numPages;*/
+	}
+
 	
 
 
