@@ -26,7 +26,7 @@ public class ArchiveManager {
     private static Comparator<Book> compareByGenre = (Book b1, Book b2) -> b1.getGenre().compareTo(b2.getGenre());
     private static Comparator<Book> compareByNumPages = (Book b1, Book b2) -> Integer.compare(b1.getNumPages(), b2.getNumPages());
     private static Comparator<Book> compareByReleaseDate = (Book b1, Book b2) -> b1.getReleaseDate().compareTo(b2.getReleaseDate());
-    private static Comparator<Book> comparetemp = (Book b1, Book b2) -> b1.getID().compareToIgnoreCase(b2.getID());
+    private static Comparator<Book> compareByID = (Book b1, Book b2) -> b1.getID().compareToIgnoreCase(b2.getID());
 
     private static final Map<String, Comparator<Book>> ORDER_CRITERIAS = Map.ofEntries(
         entry("author", compareByAuthor),
@@ -34,7 +34,7 @@ public class ArchiveManager {
         entry("genre", compareByGenre),
         entry("numPages", compareByNumPages),
         entry("releaseDate", compareByReleaseDate),
-        entry("ID", comparetemp)
+        entry("ID", compareByID)
     );
 
 
@@ -54,7 +54,7 @@ public class ArchiveManager {
      */
     public void sortBy(String orderCriteria){
         List<Entry<String, Book>> list = new ArrayList<>(archive.entrySet());
-        list.sort(Entry.comparingByValue(ORDER_CRITERIAS.getOrDefault(orderCriteria, comparetemp)));
+        list.sort(Entry.comparingByValue(ORDER_CRITERIAS.getOrDefault(orderCriteria, compareByID)));
         archive.clear();
         for (Entry<String, Book> entry : list) {
             archive.put(entry.getKey(), entry.getValue());
@@ -65,6 +65,12 @@ public class ArchiveManager {
         if (applicant == null)
             throw new IllegalAccessException(INVALID_ADMIN_MSG);
         archive.putIfAbsent(book.getID(), book);
+    }
+
+    public void addBooks(Admin applicant, List<Book> books) throws IllegalAccessException {
+        for (Book book : books) {
+            addBook(applicant, book);
+        }
     }
 
     public void removeBook(Admin applicant, Book book) throws IllegalAccessException {

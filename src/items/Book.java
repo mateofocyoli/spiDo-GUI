@@ -3,7 +3,7 @@ import java.awt.Image;
 import java.util.Date;
 import java.util.UUID;
 
-public class Book {
+public class Book extends Loanable{
 
 	public static enum Genre{
 		ACTION,
@@ -30,6 +30,17 @@ public class Book {
 
 
 	public Book(String title, String author, Genre genre, Date releaseDate, int numPages){
+		super(LoanState.IN_ARCHIVE, new Date());
+		this.title = title;
+		this.author = author;
+		this.genre = genre;
+		this.releaseDate = releaseDate;
+		this.numPages = numPages;
+		this.ID = createID(title , author, genre);
+	}
+
+	public Book(String title, String author, Genre genre, Date releaseDate, int numPages, LoanState loanState, Date dueDate){
+		super(loanState, dueDate);
 		this.title = title;
 		this.author = author;
 		this.genre = genre;
