@@ -1,3 +1,4 @@
+package items.manager;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -5,9 +6,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import users.Admin;
+import items.Book;
 import static java.util.Map.entry;   
 
 public class ArchiveManager {
+
+    private static final String INVALID_ADMIN_MSG = "Permission Denied! Only an admin can modify the archive";
 
     private static ArchiveManager instance;
 
@@ -54,7 +59,22 @@ public class ArchiveManager {
         }
     }
 
-    public void addBook(Book book){
+    public void addBook(Admin applicant, Book book) throws IllegalAccessException {
+        if (applicant == null)
+            throw new IllegalAccessException(INVALID_ADMIN_MSG);
         archive.putIfAbsent(book.getID(), book);
+    }
+
+    public void removeBook(Admin applicant, Book book) throws IllegalAccessException {
+        if (applicant == null)
+            throw new IllegalAccessException(INVALID_ADMIN_MSG);
+        archive.remove(book.getID());
+    }
+
+
+    public void removeBook(Admin applicant, String id) throws IllegalAccessException {
+        if (applicant == null)
+            throw new IllegalAccessException(INVALID_ADMIN_MSG);
+        archive.remove(id);
     }
 }
