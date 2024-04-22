@@ -1,3 +1,4 @@
+package items;
 import java.awt.Image;
 import java.util.Date;
 import java.util.UUID;
