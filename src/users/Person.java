@@ -1,8 +1,6 @@
 package users;
 
-import java.util.Comparator;
 import java.util.Date;
-import java.util.Map;
 
 public abstract class Person implements Comparable<Credentials> {
 

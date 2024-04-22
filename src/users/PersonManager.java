@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
+
+import users.sanctions.Sanction;
+
 import static java.util.Map.entry;
 
 public class PersonManager {
@@ -75,7 +78,17 @@ public class PersonManager {
         return people.add(p);
     }
 
-    public boolean remove(Person p) {
+    /**
+     * It is necessary to pass the applicant instance to verify that he can modify the list.
+     * @param applicant
+     * @param p
+     * @return
+     * @throws IllegalAccessException
+     */
+    public boolean remove(Admin applicant, Person p) throws IllegalAccessException {
+        if(applicant == null)
+            throw new IllegalAccessException("applicant can not be null");
+        
         return people.remove(p);
     }
 
@@ -125,5 +138,35 @@ public class PersonManager {
         List<Admin> admins = getAdmins();
         sortBy(admins, criteria);
         return admins;
+    }
+
+    /**
+     * Gives the sanction passed as parameter to the victim. Only an admin can call this method
+     * @param applicant
+     * @param victim
+     * @param s
+     * @return
+     * @throws IllegalAccessException
+     */
+    public boolean sanction(Admin applicant, User victim, Sanction s) throws IllegalAccessException {
+        if(applicant == null)
+            throw new IllegalAccessException("applicant can not be null");
+        
+        return victim.addSanction(s);
+    }
+
+    /**
+     * Removes the sanction from the victim. Only an admin can call this method
+     * @param applicant
+     * @param victim
+     * @param s
+     * @return
+     * @throws IllegalAccessException
+     */
+    public boolean pardon(Admin applicant, User victim, Sanction s) throws IllegalAccessException {
+        if(applicant == null)
+            throw new IllegalAccessException("applicant can not be null");
+        
+        return victim.removeSanction(s);
     }
 }
