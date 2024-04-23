@@ -29,7 +29,9 @@ public class Book extends Loanable{
 	private final String ID;
 
 
-	public Book(String title, String author, Genre genre, Date releaseDate, int numPages, Image coverImage){
+	public Book(String title, String author,
+				Genre genre, Date releaseDate, 
+				int numPages, Image coverImage){
 		super(LoanState.IN_ARCHIVE, new Date());
 		this.title = title;
 		this.author = author;
@@ -40,7 +42,10 @@ public class Book extends Loanable{
 		this.ID = createID(title , author, genre);
 	}
 
-	public Book(String title, String author, Genre genre, Date releaseDate, int numPages, Image coverImage, LoanState loanState, Date dueDate){
+	public Book(String title, String author, 
+				Genre genre, Date releaseDate, 
+				int numPages, Image coverImage, 
+				LoanState loanState, Date dueDate){
 		super(loanState, dueDate);
 		this.title = title;
 		this.author = author;
