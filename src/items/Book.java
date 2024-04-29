@@ -26,7 +26,14 @@ public class Book extends Loanable{
 	private int numPages;
 	private Image coverImage;
 
-
+	/**Contructor with default loan state IN_ARCHIVE
+	 * @param title
+	 * @param author
+	 * @param genre
+	 * @param releaseDate
+	 * @param numPages
+	 * @param coverImage
+	 */
 	public Book(String title, String author,
 				Genre genre, LocalDate releaseDate, 
 				int numPages, Image coverImage){
@@ -39,6 +46,13 @@ public class Book extends Loanable{
 		this.coverImage = coverImage;
 	}
 
+	/**Constructor with default loan state IN_ARCHIVE and no cover image
+	 * @param title
+	 * @param author
+	 * @param genre
+	 * @param releaseDate
+	 * @param numPages
+	 */
 	public Book(String title, String author,
 				Genre genre, LocalDate releaseDate, 
 				int numPages){
@@ -64,6 +78,15 @@ public class Book extends Loanable{
 		this.coverImage = coverImage;
 	}
 
+	/**Constructor with no coverImage TODO: set a default image
+	 * @param title
+	 * @param author
+	 * @param genre
+	 * @param releaseDate
+	 * @param numPages
+	 * @param loanState
+	 * @param dueDate
+	 */
 	public Book(String title, String author, 
 				Genre genre, LocalDate releaseDate, 
 				int numPages, 
@@ -76,19 +99,6 @@ public class Book extends Loanable{
 		this.numPages = numPages;
 		this.coverImage = null;
 	}
-
-/*
-	public String createID(){
-		StringBuffer newID = new StringBuffer();
-		newID.append(this.title.length() > 1 ? this.title.substring(0, 2) : this.title.charAt(0));
-		newID.append(this.author.length() > 1 ? this.author.substring(0, 2) : this.author.charAt(0));
-		newID.append("-");
-		newID.append(this.genre.toString().substring(0, 4));
-		newID.append("-");
-		newID.append();
-		return newID.toString();
-	}
-*/
 
 	public boolean equals(Object obj){
 		if (obj == null || !(obj instanceof Book))
