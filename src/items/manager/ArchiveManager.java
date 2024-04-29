@@ -10,7 +10,9 @@ import java.util.Map.Entry;
 import users.Admin;
 import items.Book;
 
-import static java.util.Map.entry;   
+import static java.util.Map.entry;
+
+import java.time.LocalDate;   
 
 public class ArchiveManager {
 
@@ -87,7 +89,11 @@ public class ArchiveManager {
             throw new IllegalAccessException(INVALID_ADMIN_MSG);
         archive.remove(id);
     }
-
+    
+    /**Search books in the archive whose attributes match generic query 
+     * @param searchQuery can be the book ID, title, author name, genre, release date (in ISO 8601 format)
+     * @return a list of books whose attributes match the query
+     */
     public ArrayList<Book> searchBook(String searchQuery) {
         ArrayList<Book> booksFound= new ArrayList<>();
         Book temp = archive.get(searchQuery);
@@ -97,8 +103,8 @@ public class ArchiveManager {
             temp = entry.getValue();
             if (temp.getAuthor().equalsIgnoreCase(searchQuery) ||
                 temp.getTitle().equalsIgnoreCase(searchQuery) ||
-                temp.getGenre().name().equalsIgnoreCase(searchQuery) //||
-                //temp.getReleaseDate().equals(new DAtesearchQuery) || TODO: capire come fare per la data
+                temp.getGenre().name().equalsIgnoreCase(searchQuery) ||
+                temp.getReleaseDate().equals(LocalDate.parse(searchQuery)) 
                 ) {
                     booksFound.add(temp);
                 }

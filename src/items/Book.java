@@ -1,7 +1,7 @@
 package items;
 import java.awt.Image;
-import java.util.Date;
 import java.util.UUID;
+import java.time.LocalDate;
 
 public class Book extends Loanable{
 
@@ -23,16 +23,16 @@ public class Book extends Loanable{
 	private String title;
 	private String author;
 	private Genre genre;
-	private Date releaseDate;
+	private LocalDate releaseDate;
 	private int numPages;
 	private Image coverImage;
 	private final String ID;
 
 
 	public Book(String title, String author,
-				Genre genre, Date releaseDate, 
+				Genre genre, LocalDate releaseDate, 
 				int numPages, Image coverImage){
-		super(LoanState.IN_ARCHIVE, new Date());
+		super(LoanState.IN_ARCHIVE, LocalDate.now());
 		this.title = title;
 		this.author = author;
 		this.genre = genre;
@@ -43,9 +43,9 @@ public class Book extends Loanable{
 	}
 
 	public Book(String title, String author, 
-				Genre genre, Date releaseDate, 
+				Genre genre, LocalDate releaseDate, 
 				int numPages, Image coverImage, 
-				LoanState loanState, Date dueDate){
+				LoanState loanState, LocalDate dueDate){
 		super(loanState, dueDate);
 		this.title = title;
 		this.author = author;
@@ -108,7 +108,7 @@ public class Book extends Loanable{
 	}
 
 
-	public Date getReleaseDate() {
+	public LocalDate getReleaseDate() {
 		return releaseDate;
 	}
 

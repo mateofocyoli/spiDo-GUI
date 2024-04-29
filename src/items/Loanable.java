@@ -1,6 +1,6 @@
 package items;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 import users.Admin;
 
@@ -16,9 +16,9 @@ public abstract class Loanable {
     }
 
     private LoanState state;
-    private Date dueDate;
+    private LocalDate dueDate;
     
-    public Loanable(LoanState state, Date dueDate) {
+    public Loanable(LoanState state, LocalDate dueDate) {
         this.state = state;
         this.dueDate = dueDate;
     }
@@ -33,7 +33,7 @@ public abstract class Loanable {
 
 
 
-    public void setDueDate(Admin applicant, Date dueDate) throws IllegalAccessException {
+    public void setDueDate(Admin applicant, LocalDate dueDate) throws IllegalAccessException {
         if (applicant == null)
             throw new IllegalAccessException(INVALID_ADMIN_MSG);
     }
@@ -44,7 +44,7 @@ public abstract class Loanable {
         return state;
     }
 
-    public Date getDueDate() {
+    public LocalDate getDueDate() {
         return dueDate;
     }
 
