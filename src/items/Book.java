@@ -1,6 +1,5 @@
 package items;
 import java.awt.Image;
-import java.util.UUID;
 import java.time.LocalDate;
 
 public class Book extends Loanable{
@@ -26,7 +25,6 @@ public class Book extends Loanable{
 	private LocalDate releaseDate;
 	private int numPages;
 	private Image coverImage;
-	private final String ID;
 
 
 	public Book(String title, String author,
@@ -39,7 +37,18 @@ public class Book extends Loanable{
 		this.releaseDate = releaseDate;
 		this.numPages = numPages;
 		this.coverImage = coverImage;
-		this.ID = createID(title , author, genre);
+	}
+
+	public Book(String title, String author,
+				Genre genre, LocalDate releaseDate, 
+				int numPages){
+		super(LoanState.IN_ARCHIVE, LocalDate.now());
+		this.title = title;
+		this.author = author;
+		this.genre = genre;
+		this.releaseDate = releaseDate;
+		this.numPages = numPages;
+		this.coverImage = null;
 	}
 
 	public Book(String title, String author, 
@@ -53,21 +62,33 @@ public class Book extends Loanable{
 		this.releaseDate = releaseDate;
 		this.numPages = numPages;
 		this.coverImage = coverImage;
-		this.ID = createID(title , author, genre);
 	}
 
+	public Book(String title, String author, 
+				Genre genre, LocalDate releaseDate, 
+				int numPages, 
+				LoanState loanState, LocalDate dueDate){
+		super(loanState, dueDate);
+		this.title = title;
+		this.author = author;
+		this.genre = genre;
+		this.releaseDate = releaseDate;
+		this.numPages = numPages;
+		this.coverImage = null;
+	}
 
-	private static String createID(String title, String author, Genre genre){
+/*
+	public String createID(){
 		StringBuffer newID = new StringBuffer();
-		newID.append(title.length() > 1 ? title.substring(0, 2) : title.charAt(0));
-		newID.append(author.length() > 1 ? author.substring(0, 2) : author.charAt(0));
+		newID.append(this.title.length() > 1 ? this.title.substring(0, 2) : this.title.charAt(0));
+		newID.append(this.author.length() > 1 ? this.author.substring(0, 2) : this.author.charAt(0));
 		newID.append("-");
-		newID.append(genre.toString().substring(0, 4));
+		newID.append(this.genre.toString().substring(0, 4));
 		newID.append("-");
-		newID.append(UUID.randomUUID().toString());
+		newID.append();
 		return newID.toString();
 	}
-
+*/
 
 	public boolean equals(Object obj){
 		if (obj == null || !(obj instanceof Book))
@@ -126,6 +147,14 @@ public class Book extends Loanable{
 	public String getID() {
 		return ID;
 	}
+
+	@Override
+	public String toString() {
+		return "Book [title=" + title + ", author=" + author + ", genre=" + genre + ", releaseDate=" + releaseDate
+				+ ", numPages=" + numPages + "]";
+	}
+
+	
 	
 	
 	

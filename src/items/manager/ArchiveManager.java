@@ -65,6 +65,13 @@ public class ArchiveManager {
         }
     }
 
+    public List<Book> getSortedBooksBy(String orderCriteria) {
+        List<Book> list = new ArrayList<>(archive.values());
+        list.sort(ORDER_CRITERIAS.getOrDefault(orderCriteria, compareByID));
+        return list;
+    }
+
+
     public void addBook(Admin applicant, Book book) throws IllegalAccessException {
         if (applicant == null)
             throw new IllegalAccessException(INVALID_ADMIN_MSG);

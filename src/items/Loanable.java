@@ -1,6 +1,7 @@
 package items;
 
 import java.time.LocalDate;
+import java.util.UUID;
 
 import users.Admin;
 
@@ -17,12 +18,17 @@ public abstract class Loanable {
 
     private LoanState state;
     private LocalDate dueDate;
+    public final String ID;
     
     public Loanable(LoanState state, LocalDate dueDate) {
         this.state = state;
         this.dueDate = dueDate;
+        this.ID = createID();
     }
 
+    private String createID() {
+        return UUID.randomUUID().toString();
+    }
     
 
     public void setState(Admin applicant, LoanState state) throws IllegalAccessException {
