@@ -101,23 +101,32 @@ public class PersonManager {
     /**
      * Adds a new account to the system. No admin object is required.
      * The person object can not have any field left {@code null} or empty.
+     * There cannot be two accounts with the same credentials (same username).
      * @param p The new account's object to add into the system
      * @return {@code true} if the account has been added successfully
      */
     public boolean add(Person p) {
-        if(p.getName() == null || p.getName().isEmpty())
+        if(p.getName() == null || p.getName().isBlank())
             return false;
         
-        if(p.getSurname() == null || p.getSurname().isEmpty())
+        if(p.getSurname() == null || p.getSurname().isBlank())
             return false;
         
         if(p.getBirth() == null)
             return false;
         
-        if(p.getCityOfBirth() == null || p.getCityOfBirth().isEmpty())
+        if(p.getCityOfBirth() == null || p.getCityOfBirth().isBlank())
             return false;
         
-        if(p.getName() == null || p.getName().isEmpty())
+        if(p.getSex() == null)
+            return false;
+        
+        if(p.getCredentials() == null)
+            return false;
+        
+        // Find an account with the same username and return false if one is found
+        String username = p.getCredentials().getUsername();
+        if(!filter((PersonFilter<String>) FILTER_CRITERIAS.get("Username"), username).isEmpty())
             return false;
 
         return people.add(p);

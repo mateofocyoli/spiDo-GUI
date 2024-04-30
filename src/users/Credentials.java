@@ -27,14 +27,14 @@ public class Credentials implements Comparable<Credentials> {
         if(username == null)
             throw new InvalidParameterException("username cannot be null");
 
-        if(username.length() == 0)
-            throw new InvalidParameterException("username cannot be empty");
+        if(username.isBlank())
+            throw new InvalidParameterException("username cannot be blank");
 
         if(password == null)
             throw new InvalidParameterException("password cannot be null");
         
-        if(password.length() == 0)
-            throw new InvalidParameterException("password cannot be empty");
+        if(password.isBlank())
+            throw new InvalidParameterException("password cannot be blank");
 
         this.username = username;
         this.passwordHash = generateHash(password);
