@@ -9,21 +9,19 @@ import users.Person;
 import users.PersonManager;
 import users.User;
 import users.Admin;
+import java.time.LocalDate;
 
 public class SavoMain {
 
     public static void main(String args[]) throws ParseException {
         
         PersonManager pm = PersonManager.getInstance();
-        SimpleDateFormat df = new SimpleDateFormat("dd/mm/yyyy");
+        SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
 
         Date birth = df.parse("30/08/2002");
         Credentials c = new Credentials("username", "null");
-        Person p = new User("nome", "cognome", null, null, null, c);
-        pm.add(p);
-
-
-
+        Person p1 = new User("nome", "cognome", null, null, null, c);
+        pm.add(p1);
 
 
 
