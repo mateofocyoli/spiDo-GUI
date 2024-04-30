@@ -2,14 +2,21 @@ package users;
 
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Predicate;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import users.sanctions.Sanction;
 
 import static java.util.Map.entry;
 
 public class PersonManager {
+
+    private static final String INVALID_ADMIN_MSG = "Permission Denied! Only an admin can can change the loan terms";
 
     private static Comparator<Person> compareByName = (Person p1, Person p2) -> p1.getName().compareToIgnoreCase(p2.getName());
     private static Comparator<Person> compareBySurname = (Person p1, Person p2) -> p1.getSurname().compareToIgnoreCase(p2.getSurname());
@@ -19,7 +26,6 @@ public class PersonManager {
     private static Comparator<Person> compareByCredentials = (Person p1, Person p2) -> p1.getCredentials().compareTo(p2.getCredentials());
     private static Comparator<Person> compareByType = (Person p1, Person p2) -> p1.getClass().getCanonicalName().compareTo(p2.getClass().getCanonicalName());
 
-    private static PersonManager instance;
     private static final Map<String, Comparator<Person>> ORDER_CRITERIAS = Map.ofEntries(
         entry("Name", compareByName),
         entry("Surname", compareBySurname),
@@ -30,7 +36,27 @@ public class PersonManager {
         entry("Type", compareByType)
     );
 
-    private ArrayList<Person> people;
+    /* private static PersonFilter<String> filterByName = (Person p, String name) -> p.getName().compareToIgnoreCase(name) == 0;
+    private static PersonFilter<String> filterBySurname = (Person p, String surname) -> p.getName().compareToIgnoreCase(surname) == 0;
+    private static PersonFilter<Date> compareByBirth = (Person p, String surname) -> p.getName().compareToIgnoreCase(surname) == 0;
+    private static PersonFilter<String> compareByCityOfBirth = (Person p1, Person p2) -> p1.getCityOfBirth().compareToIgnoreCase(p2.getCityOfBirth());
+    private static PersonFilter<Sex> compareBySex = (Person p1, Person p2) -> p1.getSex().compareTo(p2.getSex());
+    private static PersonFilter<String> compareByCredentials = (Person p1, Person p2) -> p1.getCredentials().compareTo(p2.getCredentials());
+    private static PersonFilter<String> compareByType = (Person p1, Person p2) -> p1.getClass().getCanonicalName().compareTo(p2.getClass().getCanonicalName());
+
+    private static final Map<String, PersonFilter<?>> FILTER_CRITERIAS = Map.ofEntries(
+        entry("Name", filterByName),
+        entry("Surname", filterBySurname),
+        entry("Birth", compareByBirth),
+        entry("CityOfBirth", compareByCityOfBirth),
+        entry("Sex", compareBySex),
+        entry("Credentials", compareByCredentials),
+        entry("Type", compareByType)
+    ); */
+
+    private static PersonManager instance;
+
+    private List<Person> people;
 
     private PersonManager() {
         people = new ArrayList<>();
@@ -54,7 +80,7 @@ public class PersonManager {
 
     public Person login(String username, String password) {
 
-        Person p = findBy("username", username);
+        Person p = null;//filter("Credentials", username);
 
         if(p == null)
             return null;
@@ -62,15 +88,6 @@ public class PersonManager {
         if(p.getCredentials().check(username, password))
             return p;
         
-        return null;
-    }
-
-    public Person findBy(String method, String argument) {
-        // Find by username
-        for(Person p : people) {
-            if(p.getCredentials().compareTo(new Credentials(argument, "useless")) == 0)
-                return p;
-        }
         return null;
     }
 
@@ -87,7 +104,7 @@ public class PersonManager {
      */
     public boolean remove(Admin applicant, Person p) throws IllegalAccessException {
         if(applicant == null)
-            throw new IllegalAccessException("applicant can not be null");
+            throw new IllegalAccessException(INVALID_ADMIN_MSG);
         
         return people.remove(p);
     }
@@ -140,6 +157,18 @@ public class PersonManager {
         return admins;
     }
 
+
+
+    private <T> List<Person> filter(PersonFilter<T> predicate, T argument) {
+        List<Person> list = new ArrayList<>();
+        for(Person p : people) {
+            if (predicate.test(p, argument))
+                list.add(p);
+        }
+        return list;
+    }
+
+
     /**
      * Gives the sanction passed as parameter to the victim. Only an admin can call this method
      * @param applicant
@@ -150,7 +179,7 @@ public class PersonManager {
      */
     public boolean sanction(Admin applicant, User victim, Sanction s) throws IllegalAccessException {
         if(applicant == null)
-            throw new IllegalAccessException("applicant can not be null");
+            throw new IllegalAccessException(INVALID_ADMIN_MSG);
         
         return victim.addSanction(s);
     }
@@ -165,7 +194,7 @@ public class PersonManager {
      */
     public boolean pardon(Admin applicant, User victim, Sanction s) throws IllegalAccessException {
         if(applicant == null)
-            throw new IllegalAccessException("applicant can not be null");
+            throw new IllegalAccessException(INVALID_ADMIN_MSG);
         
         return victim.removeSanction(s);
     }
