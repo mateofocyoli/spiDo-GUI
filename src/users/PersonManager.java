@@ -98,7 +98,28 @@ public class PersonManager {
         return null;
     }
 
+    /**
+     * Adds a new account to the system. No admin object is required.
+     * The person object can not have any field left {@code null} or empty.
+     * @param p The new account's object to add into the system
+     * @return {@code true} if the account has been added successfully
+     */
     public boolean add(Person p) {
+        if(p.getName() == null || p.getName().isEmpty())
+            return false;
+        
+        if(p.getSurname() == null || p.getSurname().isEmpty())
+            return false;
+        
+        if(p.getBirth() == null)
+            return false;
+        
+        if(p.getCityOfBirth() == null || p.getCityOfBirth().isEmpty())
+            return false;
+        
+        if(p.getName() == null || p.getName().isEmpty())
+            return false;
+
         return people.add(p);
     }
 
