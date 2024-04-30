@@ -82,7 +82,7 @@ public class PersonManager {
      */
     public Person login(String username, String password) {
 
-        List<Person> list = filter((PersonFilter<String>) FILTER_CRITERIAS.get("Username"), username);
+        List<Person> list = filterBy(people, "Username", username);
         
         if(list.isEmpty())
             return null;
@@ -126,7 +126,7 @@ public class PersonManager {
         
         // Find an account with the same username and return false if one is found
         String username = p.getCredentials().getUsername();
-        if(!filter((PersonFilter<String>) FILTER_CRITERIAS.get("Username"), username).isEmpty())
+        if(!filterBy(people, "Username", username).isEmpty())
             return false;
 
         return people.add(p);
@@ -157,23 +157,21 @@ public class PersonManager {
     }
 
     public List<User> getUsers() {
-        ArrayList<User> usersList = new ArrayList<>();
+        List<Person> personList = filterBy(people, "Type", User.class);
+        List<User> usersList = new ArrayList<>();
         
-        for(Person p : people) {
-            if(p instanceof User)
-                usersList.add((User) p);
-        }
+        for(Person p : personList)
+            usersList.add((User) p);
 
         return usersList;
     }
 
     public List<Admin> getAdmins() {
-        ArrayList<Admin> adminsList = new ArrayList<>();
+        List<Person> personList = filterBy(people, "Type", Admin.class);
+        List<Admin> adminsList = new ArrayList<>();
         
-        for(Person p : people) {
-            if(p instanceof Admin)
-                adminsList.add((Admin) p);
-        }
+        for(Person p : personList)
+            adminsList.add((Admin) p);
 
         return adminsList;
     }
@@ -194,17 +192,29 @@ public class PersonManager {
         return admins;
     }
 
-
-
-    private <T> List<Person> filter(PersonFilter<T> predicate, T argument) {
-        List<Person> list = new ArrayList<>();
-        for(Person p : people) {
-            if (predicate.test(p, argument))
-                list.add(p);
-        }
+    public <T> List<? extends Person> filterBy(String criteria, T argument) {
+        List<Person> list = filterBy(people, criteria, argument);
         return list;
     }
 
+    /**
+     * Filters the list of person passed as argument and returns a list containg only the objects that met the criteria.
+     * @param <T> The type of the criteria (String, Date, Credentials...)
+     * @param list The list to be filtered
+     * @param criteria A String representing the filter criteria
+     * @param argument The object that represents the criteria to be met
+     * @return A list containing the objects that met the criteria
+     */
+    @SuppressWarnings("unchecked")
+    public static <T, E extends Person> List<E> filterBy(List<E> list, String criteria, T argument) {
+        PersonFilter<T> filter = (PersonFilter<T>) FILTER_CRITERIAS.get(criteria);
+        List<E> newList = new ArrayList<>();
+        for(E element : list) {
+            if (filter.test(element, argument))
+                newList.add((E) element);
+        }
+        return newList;
+    }
 
     /**
      * Gives the sanction passed as parameter to the victim. Only an admin can call this method
