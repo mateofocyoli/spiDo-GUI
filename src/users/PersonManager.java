@@ -36,23 +36,23 @@ public class PersonManager {
         entry("Type", compareByType)
     );
 
-    /* private static PersonFilter<String> filterByName = (Person p, String name) -> p.getName().compareToIgnoreCase(name) == 0;
+    private static PersonFilter<String> filterByName = (Person p, String name) -> p.getName().compareToIgnoreCase(name) == 0;
     private static PersonFilter<String> filterBySurname = (Person p, String surname) -> p.getName().compareToIgnoreCase(surname) == 0;
-    private static PersonFilter<Date> compareByBirth = (Person p, String surname) -> p.getName().compareToIgnoreCase(surname) == 0;
-    private static PersonFilter<String> compareByCityOfBirth = (Person p1, Person p2) -> p1.getCityOfBirth().compareToIgnoreCase(p2.getCityOfBirth());
-    private static PersonFilter<Sex> compareBySex = (Person p1, Person p2) -> p1.getSex().compareTo(p2.getSex());
-    private static PersonFilter<String> compareByCredentials = (Person p1, Person p2) -> p1.getCredentials().compareTo(p2.getCredentials());
-    private static PersonFilter<String> compareByType = (Person p1, Person p2) -> p1.getClass().getCanonicalName().compareTo(p2.getClass().getCanonicalName());
+    private static PersonFilter<Date> filterByBirth = (Person p, Date birth) -> p.getBirth().compareTo(birth) == 0;
+    private static PersonFilter<String> filterByCityOfBirth = (Person p1, String cityOfBirth) -> p1.getCityOfBirth().compareToIgnoreCase(cityOfBirth) == 0;
+    private static PersonFilter<Person.Sex> filterBySex = (Person p1, Person.Sex sex) -> p1.getSex().compareTo(sex) == 0;
+    private static PersonFilter<String> filterByUsername = (Person p1, String username) -> p1.getCredentials().compareTo(new Credentials(username, "useless")) == 0;
+    private static PersonFilter<Class<? extends Person>> filterByType = (Person p1, Class<? extends Person> type) -> p1.getClass().getCanonicalName().compareTo(type.getCanonicalName()) == 0;
 
     private static final Map<String, PersonFilter<?>> FILTER_CRITERIAS = Map.ofEntries(
         entry("Name", filterByName),
         entry("Surname", filterBySurname),
-        entry("Birth", compareByBirth),
-        entry("CityOfBirth", compareByCityOfBirth),
-        entry("Sex", compareBySex),
-        entry("Credentials", compareByCredentials),
-        entry("Type", compareByType)
-    ); */
+        entry("Birth", filterByBirth),
+        entry("CityOfBirth", filterByCityOfBirth),
+        entry("Sex", filterBySex),
+        entry("Username", filterByUsername),
+        entry("Type", filterByType)
+    );
 
     private static PersonManager instance;
 
@@ -80,7 +80,12 @@ public class PersonManager {
 
     public Person login(String username, String password) {
 
-        Person p = null;//filter("Credentials", username);
+        List<Person> list = filter((PersonFilter<String>) FILTER_CRITERIAS.get("Username"), username);
+        
+        if(list.isEmpty())
+            return null;
+
+        Person p = list.get(0);
 
         if(p == null)
             return null;
