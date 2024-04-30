@@ -146,8 +146,9 @@ public class PersonManager {
         return people.remove(p);
     }
 
-    public void sortBy(String criteria) {
+    public List<Person> sortBy(String criteria) {
         people.sort(ORDER_CRITERIAS.getOrDefault(criteria, compareBySurname));
+        return getList();
     }
 
     public List<Person> getList() {
@@ -192,7 +193,7 @@ public class PersonManager {
         return admins;
     }
 
-    public <T> List<? extends Person> filterBy(String criteria, T argument) {
+    public <T> List<Person> filterBy(String criteria, T argument) {
         List<Person> list = filterBy(people, criteria, argument);
         return list;
     }
