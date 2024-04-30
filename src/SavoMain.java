@@ -16,6 +16,19 @@ public class SavoMain {
         
         PersonManager pm = PersonManager.getInstance();
         SimpleDateFormat df = new SimpleDateFormat("dd/mm/yyyy");
+
+        Date birth = df.parse("30/08/2002");
+        Credentials c = new Credentials("username", "null");
+        Person p = new User("nome", "cognome", null, null, null, c);
+        pm.add(p);
+
+
+
+
+
+
+        
+        
         pm.add(new Admin("tommaso", "savoldi", df.parse("30/08/2002"), "bs", Person.Sex.MALE, new Credentials("cyber", "ciao")));
         pm.add(new User("mato", "foco", df.parse("01/07/2002"), "bs", Person.Sex.MALE, new Credentials("mateofocyoli", "1")));
         pm.add(new User("marco", "patata", df.parse("06/02/2001"), "esine", Person.Sex.FEMALE, new Credentials("caroz", "ziopera")));

@@ -5,10 +5,6 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-import java.util.function.Predicate;
-import java.util.stream.Collector;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import users.sanctions.Sanction;
 
@@ -78,6 +74,12 @@ public class PersonManager {
         this.people.addAll(people);
     } */
 
+    /**
+     * Finds the user's object associated to the credentials passed as arguments.
+     * @param username String representing the user's username
+     * @param password String representing the user's password
+     * @return The person object instance of the user who is trying to log in. If the password is wrong or the username does not belong to any user registered in the system, the method returns {@code null}.
+     */
     public Person login(String username, String password) {
 
         List<Person> list = filter((PersonFilter<String>) FILTER_CRITERIAS.get("Username"), username);
@@ -102,9 +104,9 @@ public class PersonManager {
 
     /**
      * It is necessary to pass the applicant instance to verify that he can modify the list.
-     * @param applicant
-     * @param p
-     * @return
+     * @param applicant The admin requesting the action.
+     * @param p The person who is to be removed from the system
+     * @return {@code true} if the system did contain the person removed.
      * @throws IllegalAccessException
      */
     public boolean remove(Admin applicant, Person p) throws IllegalAccessException {
