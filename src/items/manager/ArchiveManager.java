@@ -7,12 +7,15 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import users.Admin;
-import items.Book;
-
 import static java.util.Map.entry;
 
-import java.time.LocalDate;   
+import java.time.Year;   
+
+import exceptions.InvalidAdminException;
+import users.Admin;
+import users.PersonManager;
+import items.Book;
+
 
 public class ArchiveManager {
 
@@ -72,28 +75,28 @@ public class ArchiveManager {
     }
 
 
-    public void addBook(Admin applicant, Book book) throws IllegalAccessException {
-        if (applicant == null)
-            throw new IllegalAccessException(INVALID_ADMIN_MSG);
+    public void addBook(Admin applicant, Book book) throws InvalidAdminException {
+        if (!PersonManager.getInstance().getAdmins().contains(applicant))
+            throw new InvalidAdminException(INVALID_ADMIN_MSG);
         archive.putIfAbsent(book.getID(), book);
     }
 
-    public void addBooks(Admin applicant, List<Book> books) throws IllegalAccessException {
+    public void addBooks(Admin applicant, List<Book> books) throws InvalidAdminException {
         for (Book book : books) {
             addBook(applicant, book);
         }
     }
 
-    public void removeBook(Admin applicant, Book book) throws IllegalAccessException {
-        if (applicant == null)
-            throw new IllegalAccessException(INVALID_ADMIN_MSG);
+    public void removeBook(Admin applicant, Book book) throws InvalidAdminException {
+        if (!PersonManager.getInstance().getAdmins().contains(applicant))
+            throw new InvalidAdminException(INVALID_ADMIN_MSG);
         archive.remove(book.getID());
     }
 
 
-    public void removeBook(Admin applicant, String id) throws IllegalAccessException {
-        if (applicant == null)
-            throw new IllegalAccessException(INVALID_ADMIN_MSG);
+    public void removeBook(Admin applicant, String id) throws InvalidAdminException {
+        if (!PersonManager.getInstance().getAdmins().contains(applicant))
+            throw new InvalidAdminException(INVALID_ADMIN_MSG);
         archive.remove(id);
     }
     
@@ -111,7 +114,7 @@ public class ArchiveManager {
             if (temp.getAuthor().equalsIgnoreCase(searchQuery) ||
                 temp.getTitle().equalsIgnoreCase(searchQuery) ||
                 temp.getGenre().name().equalsIgnoreCase(searchQuery) ||
-                temp.getReleaseDate().equals(LocalDate.parse(searchQuery)) 
+                temp.getReleaseDate().equals(Year.parse(searchQuery)) 
                 ) {
                     booksFound.add(temp);
                 }
