@@ -1,12 +1,12 @@
 package users;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 public abstract class Person implements Comparable<Credentials> {
 
     private String name;
     private String surname;
-    private Date birth;
+    private LocalDate birth;
     private String cityOfBirth;
     private Sex sex;
     private Credentials credentials;
@@ -15,17 +15,13 @@ public abstract class Person implements Comparable<Credentials> {
         MALE, FEMALE;
     }
 
-    protected Person(String name, String surname, Date birth, String cityOfBirth, Sex sex, Credentials credentials) {
+    protected Person(String name, String surname, LocalDate birth, String cityOfBirth, Sex sex, Credentials credentials) {
         this.name = name;
         this.surname = surname;
         this.birth = birth;
         this.cityOfBirth = cityOfBirth;
         this.sex = sex;
         this.credentials = credentials;
-    }
-
-    public String getID() {
-        return "calcolato";
     }
 
     public String getName() {
@@ -44,11 +40,11 @@ public abstract class Person implements Comparable<Credentials> {
         this.surname = surname;
     }
 
-    public Date getBirth() {
+    public LocalDate getBirth() {
         return birth;
     }
 
-    public void setBirth(Date birth) {
+    public void setBirth(LocalDate birth) {
         this.birth = birth;
     }
 

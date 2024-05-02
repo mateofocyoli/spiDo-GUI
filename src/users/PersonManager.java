@@ -2,13 +2,14 @@ package users;
 
 import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
 import users.sanctions.Sanction;
 
 import static java.util.Map.entry;
+
+import java.time.LocalDate;
 
 public class PersonManager {
 
@@ -34,7 +35,7 @@ public class PersonManager {
 
     private static PersonFilter<String> filterByName = (Person p, String name) -> p.getName().compareToIgnoreCase(name) == 0;
     private static PersonFilter<String> filterBySurname = (Person p, String surname) -> p.getName().compareToIgnoreCase(surname) == 0;
-    private static PersonFilter<Date> filterByBirth = (Person p, Date birth) -> p.getBirth().compareTo(birth) == 0;
+    private static PersonFilter<LocalDate> filterByBirth = (Person p, LocalDate birth) -> p.getBirth().compareTo(birth) == 0;
     private static PersonFilter<String> filterByCityOfBirth = (Person p1, String cityOfBirth) -> p1.getCityOfBirth().compareToIgnoreCase(cityOfBirth) == 0;
     private static PersonFilter<Person.Sex> filterBySex = (Person p1, Person.Sex sex) -> p1.getSex().compareTo(sex) == 0;
     private static PersonFilter<String> filterByUsername = (Person p1, String username) -> p1.getCredentials().compareTo(new Credentials(username, "useless")) == 0;
@@ -200,7 +201,7 @@ public class PersonManager {
 
     /**
      * Filters the list of person passed as argument and returns a list containg only the objects that met the criteria.
-     * @param <T> The type of the criteria (String, Date, Credentials...)
+     * @param <T> The type of the criteria (String, LocalDate, Credentials...)
      * @param list The list to be filtered
      * @param criteria A String representing the filter criteria
      * @param argument The object that represents the criteria to be met
