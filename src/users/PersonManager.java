@@ -4,16 +4,23 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
+import java.util.Scanner;
+
+import com.google.gson.annotations.Expose;
 
 import users.sanctions.Sanction;
 
 import static java.util.Map.entry;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.time.LocalDate;
 
 public class PersonManager {
 
     private static final String INVALID_ADMIN_MSG = "Permission Denied! Only an admin can can change the loan terms";
+    private static final String FILE_PATH = "./data/PersonManager.data";
 
     private static Comparator<Person> compareByName = (Person p1, Person p2) -> p1.getName().compareToIgnoreCase(p2.getName());
     private static Comparator<Person> compareBySurname = (Person p1, Person p2) -> p1.getSurname().compareToIgnoreCase(p2.getSurname());
@@ -53,10 +60,24 @@ public class PersonManager {
 
     private static PersonManager instance;
 
+    @Expose
     private List<Person> people;
 
     private PersonManager() {
-        people = new ArrayList<>();
+        File file = new File(FILE_PATH);
+        try (Scanner fileScanner = new Scanner(file)) {
+            StringBuilder sb = new StringBuilder();
+            while(fileScanner.hasNext()) {
+                sb.append(fileScanner.nextLine());
+                sb.append("\n");
+            }
+            String fileContent = sb.toString();
+            System.out.println(fileContent);
+        } catch (FileNotFoundException e) {
+            // No file is found, start from zero
+            System.out.println("No file found for PersonManager. Creating one from scratch.");
+            people = new ArrayList<>();
+        }
     }
 
     /**

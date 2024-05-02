@@ -5,9 +5,13 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 
+import com.google.gson.annotations.Expose;
+
 public class Credentials implements Comparable<Credentials> {
 
+    @Expose
     private final String username;
+    @Expose
     private final byte[] passwordHash;
 
     private static final String HASH_ALGORITHM = "SHA-256";

@@ -2,13 +2,21 @@ package users;
 
 import java.time.LocalDate;
 
+import com.google.gson.annotations.Expose;
+
 public abstract class Person implements Comparable<Credentials> {
 
+    @Expose
     private String name;
+    @Expose
     private String surname;
+    @Expose
     private LocalDate birth;
+    @Expose
     private String cityOfBirth;
+    @Expose
     private Sex sex;
+    @Expose
     private Credentials credentials;
 
     public enum Sex {

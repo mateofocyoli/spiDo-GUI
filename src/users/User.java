@@ -3,18 +3,19 @@ package users;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import items.Book;
+
+import com.google.gson.annotations.Expose;
+
 import users.sanctions.Sanction;
 
 public class User extends Person {
 
-    private List<Book> prestiti;
+    @Expose
     private List<Sanction> sanctions;
 
     public User(String name, String surname, LocalDate birth, String cityOfBirth, Sex sex, Credentials credentials) {
         super(name, surname, birth, cityOfBirth, sex, credentials);
 
-        prestiti = new ArrayList<>();
         sanctions = new ArrayList<>();
     }
 
