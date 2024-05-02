@@ -3,7 +3,10 @@ package items;
 import java.time.LocalDate;
 import java.util.UUID;
 
+import exceptions.InvalidAdminException;
 import users.Admin;
+import users.PersonManager;
+import users.User;
 
 public abstract class Loanable {
 
@@ -18,12 +21,14 @@ public abstract class Loanable {
 
     private LoanState state;
     private LocalDate dueDate;
-    public final String ID;
+    private final String ID;
+    private User borrower;
     
     public Loanable(LoanState state, LocalDate dueDate) {
         this.state = state;
         this.dueDate = dueDate;
         this.ID = createID();
+        this.borrower = null;
     }
 
     private String createID() {
@@ -31,19 +36,37 @@ public abstract class Loanable {
     }
     
 
-    public void setState(Admin applicant, LoanState state) throws IllegalAccessException {
-        if (applicant == null)
-            throw new IllegalAccessException(INVALID_ADMIN_MSG);
-        this.state = state;
+    public void setOnLoanTo(Admin applicant, User borrower) throws InvalidAdminException {
+        if (!PersonManager.getInstance().getAdmins().contains(applicant)) {
+            throw new InvalidAdminException(INVALID_ADMIN_MSG);
+        }
+        this.state = LoanState.ON_LOAN;
+        this.dueDate = LocalDate.now().plusMonths(1);
+        this.borrower = borrower;
     }
 
-
-
-    public void setDueDate(Admin applicant, LocalDate dueDate) throws IllegalAccessException {
-        if (applicant == null)
-            throw new IllegalAccessException(INVALID_ADMIN_MSG);
+    public void setOnArchive(Admin applicant) throws InvalidAdminException {
+        if (!PersonManager.getInstance().getAdmins().contains(applicant)) {
+            throw new InvalidAdminException(INVALID_ADMIN_MSG);
+        }
+        this.state = LoanState.IN_ARCHIVE;
+        this.borrower = null;
     }
 
+    public void setLost(Admin applicant) throws InvalidAdminException {
+        if (!PersonManager.getInstance().getAdmins().contains(applicant)) {
+            throw new InvalidAdminException(INVALID_ADMIN_MSG);
+        }
+        this.state = LoanState.LOST;
+        
+    }
+
+    public void setRuined(Admin applicant) throws InvalidAdminException {
+        if (!PersonManager.getInstance().getAdmins().contains(applicant)) {
+            throw new InvalidAdminException(INVALID_ADMIN_MSG);
+        }
+        this.state = LoanState.RUINED;
+    }
 
 
     public LoanState getState() {
@@ -52,6 +75,14 @@ public abstract class Loanable {
 
     public LocalDate getDueDate() {
         return dueDate;
+    }
+
+    public User getBorrower() {
+        return borrower;
+    }
+
+    public String getID(){
+        return ID;
     }
 
     

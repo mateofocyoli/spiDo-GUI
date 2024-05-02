@@ -105,7 +105,7 @@ public class Book extends Loanable{
 		if (obj == null || !(obj instanceof Book))
 			return false;
 		//Book other = (Book)obj;
-		return this.ID.equalsIgnoreCase(((Book)obj).ID);/* &&
+		return getID().equalsIgnoreCase(((Book)obj).getID());/* &&
 			   this.title.equalsIgnoreCase(other.title) &&
 			   this.author.equalsIgnoreCase(other.author) &&
 			   this.genre.equals(other.genre) &&
@@ -154,10 +154,6 @@ public class Book extends Loanable{
 		return coverImage;
 	}
 
-
-	public String getID() {
-		return ID;
-	}
 
 	@Override
 	public String toString() {
