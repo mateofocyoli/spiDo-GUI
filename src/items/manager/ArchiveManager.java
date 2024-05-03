@@ -10,8 +10,9 @@ import java.util.Map.Entry;
 
 import static java.util.Map.entry;
 
-import java.time.Year;   
+import java.time.Year;
 
+import exceptions.BookNotInArchiveException;
 import exceptions.InvalidAdminException;
 import users.Admin;
 import users.PersonManager;
@@ -99,12 +100,12 @@ public class ArchiveManager {
     }
 
 
-    public void removeBook(Admin applicant, String id) throws InvalidAdminException, NoSuchElementException {
+    public void removeBook(Admin applicant, String id) throws InvalidAdminException, BookNotInArchiveException {
         if (!PersonManager.getInstance().getAdmins().contains(applicant)){
             throw new InvalidAdminException(INVALID_ADMIN_MSG);
         }
         if (!archive.containsKey(id)){
-            throw new NoSuchElementException();
+            throw new BookNotInArchiveException();
         }
         archive.remove(id);
     }

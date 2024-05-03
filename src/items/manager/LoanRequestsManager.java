@@ -7,6 +7,7 @@ import java.util.List;
 import exceptions.BookNotInArchiveException;
 import exceptions.InvalidAdminException;
 import exceptions.InvalidUserException;
+import exceptions.RequestNotPresentException;
 import items.Book;
 import items.LoanRequest;
 import items.Loanable;
@@ -34,7 +35,13 @@ public class LoanRequestsManager {
     }
 
 
-    public LoanRequest makeRequest(User applicant, Book book) throws InvalidUserException, BookNotInArchiveException {
+    /**File a request for a book on loan with the date of today, if one with same applicant and book request was already filed
+     * @param applicant the user who wants to borrow a book
+     * @param book the requested book
+     * @throws InvalidUserException if the user is not accredited
+     * @throws BookNotInArchiveException if the book is not available to loan (e.g. already borrowed, lost or ruined)
+     */
+    public LoanRequest makeBookRequest(User applicant, Book book) throws InvalidUserException, BookNotInArchiveException {
 
         if (!PersonManager.getInstance().getUsers().contains(applicant)){
             throw new InvalidUserException();
@@ -57,19 +64,33 @@ public class LoanRequestsManager {
     }
 
 
-    public void acceptRequest(Admin applicant, LoanRequest request) throws InvalidAdminException, BookNotInArchiveException  {
-        if (!requests.contains(request)){
-            throw new BookNotInArchiveException();
+    /**If the request is filed, it will be accepted and removed from the pending ones
+     * @param applicant an admin is necessary to approve/deny loans
+     * @param request the loan request to accept
+     * @throws InvalidAdminException if the admin is not accredited
+     * @throws RequestNotPresentException if the request was not filed
+     */
+    public void acceptRequest(Admin applicant, LoanRequest request) throws InvalidAdminException, RequestNotPresentException  {
+        if (!requests.contains(request)) {
+            throw new RequestNotPresentException();
         }
         request.accept(applicant);
+        requests.remove(request);
+
     }
 
-    public void denyRequest(Admin applicant, LoanRequest request) throws InvalidAdminException, BookNotInArchiveException {
+    /**If the request is filed, it will be removed from the pending ones
+     * @param applicant an admin is necessary to approve/deny loans
+     * @param request the loan request to deny
+     * @throws InvalidAdminException if the admin is not accredited
+     * @throws RequestNotPresentException if the request was not filed
+     */
+    public void denyRequest(Admin applicant, LoanRequest request) throws InvalidAdminException, RequestNotPresentException {
         if (!PersonManager.getInstance().getAdmins().contains(applicant)) {
             throw new InvalidAdminException();
         }
         if (!requests.contains(request)) {
-            throw new BookNotInArchiveException();
+            throw new RequestNotPresentException();
         }
         requests.remove(request);
     }
