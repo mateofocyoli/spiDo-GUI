@@ -13,12 +13,12 @@ public class LoanRequest {
     private static final String INVALID_ADMIN_MSG = "Permission Denied! Only an admin can accept or deny requests";
 
     private User applicant;
-    private Book requested;
+    private Loanable requested;
     private boolean accepted;
     private LocalDate dateOfRequest;
 
 
-    public LoanRequest(User applicant, Book requested, LocalDate dateOfRequest) {
+    public LoanRequest(User applicant, Loanable requested, LocalDate dateOfRequest) {
         this.applicant = applicant;
         this.requested = requested;
         this.dateOfRequest = dateOfRequest;
@@ -36,7 +36,7 @@ public class LoanRequest {
     }
 
 
-    public Book getRequested() {
+    public Loanable getRequested() {
         return requested;
     }
 
@@ -50,13 +50,13 @@ public class LoanRequest {
         return dateOfRequest;
     }
 
-    public void acceptRequest(Admin admin) throws InvalidAdminException {
+    public void accept(Admin admin) throws InvalidAdminException {
         if (!PersonManager.getInstance().getAdmins().contains(admin)) {
             throw new InvalidAdminException(INVALID_ADMIN_MSG);
         }
 
         this.accepted = true;
-        //applicant.
+        this.requested.setOnLoanTo(admin, applicant);
     }
 
 

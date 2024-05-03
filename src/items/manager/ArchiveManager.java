@@ -5,6 +5,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.NoSuchElementException;
 import java.util.Map.Entry;
 
 import static java.util.Map.entry;
@@ -87,16 +88,24 @@ public class ArchiveManager {
         }
     }
 
-    public void removeBook(Admin applicant, Book book) throws InvalidAdminException {
-        if (!PersonManager.getInstance().getAdmins().contains(applicant))
+    public void removeBook(Admin applicant, Book book) throws InvalidAdminException, NoSuchElementException {
+        if (!PersonManager.getInstance().getAdmins().contains(applicant)){
             throw new InvalidAdminException(INVALID_ADMIN_MSG);
+        }
+        if (!archive.containsKey(book.getID())){
+            throw new NoSuchElementException();
+        }
         archive.remove(book.getID());
     }
 
 
-    public void removeBook(Admin applicant, String id) throws InvalidAdminException {
-        if (!PersonManager.getInstance().getAdmins().contains(applicant))
+    public void removeBook(Admin applicant, String id) throws InvalidAdminException, NoSuchElementException {
+        if (!PersonManager.getInstance().getAdmins().contains(applicant)){
             throw new InvalidAdminException(INVALID_ADMIN_MSG);
+        }
+        if (!archive.containsKey(id)){
+            throw new NoSuchElementException();
+        }
         archive.remove(id);
     }
     
@@ -120,5 +129,9 @@ public class ArchiveManager {
                 }
         }
         return booksFound;
+    }
+
+    public boolean isBookPresent(Book book) {
+        return archive.containsKey(book.getID());
     }
 }
