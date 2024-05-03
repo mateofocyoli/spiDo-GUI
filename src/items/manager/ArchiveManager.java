@@ -110,7 +110,7 @@ public class ArchiveManager {
     }
     
     /**Search books in the archive whose attributes match generic query 
-     * @param searchQuery can be the book ID, title, author name, genre, release date (in ISO 8601 format)
+     * @param searchQuery can be the book ID (the list will be of one element if present), title, author name, genre, release date (in ISO 8601 format)
      * @return a list of books whose attributes match the query
      */
     public ArrayList<Book> searchBook(String searchQuery) {

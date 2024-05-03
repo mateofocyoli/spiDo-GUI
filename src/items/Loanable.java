@@ -12,6 +12,8 @@ public abstract class Loanable {
 
     private static final String INVALID_ADMIN_MSG = "Permission Denied! Only an admin can can change the loan terms";
     
+    /**State of loanable object, which can be borrowed only if it is IN_ARCHIVE
+     */
     public static enum LoanState{
         ON_LOAN,
         IN_ARCHIVE,
@@ -35,7 +37,11 @@ public abstract class Loanable {
         return UUID.randomUUID().toString();
     }
     
-
+    /**Sets the loanable object state on loan to borrower for one month starting from the moment this method is called
+     * @param applicant an admin is necessary to modify loan states
+     * @param borrower the user that will have on loan the object
+     * @throws InvalidAdminException if the admin is not accredited
+     */
     public void setOnLoanTo(Admin applicant, User borrower) throws InvalidAdminException {
         if (!PersonManager.getInstance().getAdmins().contains(applicant)) {
             throw new InvalidAdminException(INVALID_ADMIN_MSG);
@@ -45,6 +51,10 @@ public abstract class Loanable {
         this.borrower = borrower;
     }
 
+    /**Sets the loanable object to in archive, so it will be available for other borrowers, sets the borrower to null
+     * @param applicant an admin is necessary to modify loan states
+     * @throws InvalidAdminException if the admin is not accredited
+     */
     public void setOnArchive(Admin applicant) throws InvalidAdminException {
         if (!PersonManager.getInstance().getAdmins().contains(applicant)) {
             throw new InvalidAdminException(INVALID_ADMIN_MSG);
@@ -53,6 +63,10 @@ public abstract class Loanable {
         this.borrower = null;
     }
 
+    /**Sets the loanable object state to LOST without modifying the borrower, so that the person who is resposible is known
+     * @param applicant an admin is necessary to modify loan states
+     * @throws InvalidAdminException if the admin is not accredited
+     */
     public void setLost(Admin applicant) throws InvalidAdminException {
         if (!PersonManager.getInstance().getAdmins().contains(applicant)) {
             throw new InvalidAdminException(INVALID_ADMIN_MSG);
@@ -61,6 +75,10 @@ public abstract class Loanable {
         
     }
 
+    /**Sets the loanable object state to RUINED without modifying the borrower, so that the person who is resposible is known
+     * @param applicant an admin is necessary to modify loan states
+     * @throws InvalidAdminException if the admin is not accredited
+     */
     public void setRuined(Admin applicant) throws InvalidAdminException {
         if (!PersonManager.getInstance().getAdmins().contains(applicant)) {
             throw new InvalidAdminException(INVALID_ADMIN_MSG);

@@ -50,6 +50,10 @@ public class LoanRequest {
         return dateOfRequest;
     }
 
+    /**The loan request is accepted: the loanable object will be borrowed by the applicant
+     * @param admin
+     * @throws InvalidAdminException
+     */
     public void accept(Admin admin) throws InvalidAdminException {
         if (!PersonManager.getInstance().getAdmins().contains(admin)) {
             throw new InvalidAdminException(INVALID_ADMIN_MSG);
