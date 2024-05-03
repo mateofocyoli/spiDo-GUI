@@ -7,10 +7,13 @@ import java.util.List;
 import exceptions.BookNotInArchiveException;
 import exceptions.InvalidAdminException;
 import exceptions.InvalidUserException;
+import exceptions.ManagerAlreadyInitializedException;
 import exceptions.RequestNotPresentException;
+
 import items.Book;
 import items.LoanRequest;
 import items.Loanable;
+
 import users.Admin;
 import users.PersonManager;
 import users.User;
@@ -32,6 +35,15 @@ public class LoanRequestsManager {
             instance = new LoanRequestsManager();
         }
         return instance;
+    }
+
+    public void initializeRequests(ArrayList<LoanRequest> requests) throws ManagerAlreadyInitializedException {
+        if (this.requests.size() > 0) {
+            throw new ManagerAlreadyInitializedException();
+        }
+
+        this.requests.addAll(requests);
+
     }
 
 

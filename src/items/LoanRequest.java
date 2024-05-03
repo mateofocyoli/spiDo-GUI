@@ -1,11 +1,11 @@
 package items;
 
-import users.User;
-
 import java.time.LocalDate;
 
 import exceptions.InvalidAdminException;
+
 import users.Admin;
+import users.User;
 import users.PersonManager;
 
 public class LoanRequest {
@@ -51,8 +51,8 @@ public class LoanRequest {
     }
 
     /**The loan request is accepted: the loanable object will be borrowed by the applicant
-     * @param admin
-     * @throws InvalidAdminException
+     * @param admin an admin is necessary to accept loan requests
+     * @throws InvalidAdminException if admin is not accredited
      */
     public void accept(Admin admin) throws InvalidAdminException {
         if (!PersonManager.getInstance().getAdmins().contains(admin)) {

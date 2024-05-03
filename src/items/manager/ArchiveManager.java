@@ -14,8 +14,11 @@ import java.time.Year;
 
 import exceptions.BookNotInArchiveException;
 import exceptions.InvalidAdminException;
+import exceptions.ManagerAlreadyInitializedException;
+
 import users.Admin;
 import users.PersonManager;
+
 import items.Book;
 
 
@@ -57,6 +60,22 @@ public class ArchiveManager {
         }
         return instance;
     }
+
+    /**Initialize the archive with 
+     * @param books
+     * @throws ManagerAlreadyInitializedException
+     */
+    public void initializeArchive(ArrayList<Book> books) throws ManagerAlreadyInitializedException {
+        if (this.archive.size() > 0) {
+            throw new ManagerAlreadyInitializedException();
+        }
+        
+        for (Book book : books){
+            archive.put(book.getID(), book);
+        }
+
+    }
+
 
     /**Method used to sort the books (values of the map archive) in the archive by a criteria specified by a string, if the criteria is invalid it will be sorted by ID
      * @param orderCriteria of the books in the archive

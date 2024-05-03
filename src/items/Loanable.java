@@ -4,9 +4,10 @@ import java.time.LocalDate;
 import java.util.UUID;
 
 import exceptions.InvalidAdminException;
+
 import users.Admin;
-import users.PersonManager;
 import users.User;
+import users.PersonManager;
 
 public abstract class Loanable {
 
