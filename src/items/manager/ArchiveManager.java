@@ -33,12 +33,23 @@ public class ArchiveManager {
     private Map<String, Book> archive; 
 
     
-    private static Comparator<Book> compareByAuthor = (Book b1, Book b2) -> b1.getAuthor().compareToIgnoreCase(b2.getAuthor());
-    private static Comparator<Book> compareByTitle = (Book b1, Book b2) -> b1.getTitle().compareToIgnoreCase(b2.getTitle());
-    private static Comparator<Book> compareByGenre = (Book b1, Book b2) -> b1.getGenre().compareTo(b2.getGenre());
-    private static Comparator<Book> compareByNumPages = (Book b1, Book b2) -> Integer.compare(b1.getNumPages(), b2.getNumPages());
-    private static Comparator<Book> compareByReleaseYear = (Book b1, Book b2) -> b1.getReleaseYear().compareTo(b2.getReleaseYear());
-    private static Comparator<Book> compareByID = (Book b1, Book b2) -> b1.getID().compareToIgnoreCase(b2.getID());
+    private static Comparator<Book> compareByAuthor = 
+        (Book b1, Book b2) -> b1.getAuthor().compareToIgnoreCase(b2.getAuthor());
+
+    private static Comparator<Book> compareByTitle = 
+        (Book b1, Book b2) -> b1.getTitle().compareToIgnoreCase(b2.getTitle());
+
+    private static Comparator<Book> compareByGenre = 
+        (Book b1, Book b2) -> b1.getGenre().compareTo(b2.getGenre());
+
+    private static Comparator<Book> compareByNumPages = 
+        (Book b1, Book b2) -> Integer.compare(b1.getNumPages(), b2.getNumPages());
+
+    private static Comparator<Book> compareByReleaseYear = 
+        (Book b1, Book b2) -> b1.getReleaseYear().compareTo(b2.getReleaseYear());
+
+    private static Comparator<Book> compareByID = 
+        (Book b1, Book b2) -> b1.getID().compareToIgnoreCase(b2.getID());
 
     /**Map used to store the comparators used to sort the archive Map
      */
@@ -48,7 +59,7 @@ public class ArchiveManager {
         entry("genre", compareByGenre),
         entry("num pages", compareByNumPages),
         entry("release year", compareByReleaseYear),
-        entry("ID", compareByID)
+        entry("id", compareByID)
     );
 
 
@@ -63,9 +74,10 @@ public class ArchiveManager {
         return instance;
     }
 
-    /**Initialize the archive with 
-     * @param books
-     * @throws ManagerAlreadyInitializedException
+    /**Initialize the archive with a list of books
+     * @param books to add to the archive
+     * @throws ManagerAlreadyInitializedException if the archive was already initialized, in this case
+     * you'll have to use the addBooks method to add books to the archive
      */
     public void initializeArchive(ArrayList<Book> books) throws ManagerAlreadyInitializedException {
         if (this.archive.size() > 0) {
@@ -79,8 +91,11 @@ public class ArchiveManager {
     }
 
 
-    /**Method used to sort the books (values of the map archive) in the archive by a criteria specified by a string, if the criteria is invalid it will be sorted by title
-     * @param orderCriteria of the books in the archive
+    /**Method used to sort the books (values of the map archive) in the archive by a criteria specified,
+     * if the criteria is invalid it will be sorted by title
+     * @param orderCriteria of the books in the archive, can be "title", "author", "genre", "num pages",
+     * "release year" or "id" default to title
+     * @return a list of sorted books by the specified criteria
      */
     public void sortBy(String orderCriteria){
         List<Entry<String, Book>> list = new ArrayList<>(archive.entrySet());
@@ -91,30 +106,55 @@ public class ArchiveManager {
         }
     }
 
+    /**Obtain a sorted list of the books (values of the map archive) in the archive by a criteria specified,
+     * if the criteria is invalid it will be sorted by title
+     * @param orderCriteria of the books in the archive, can be "title", "author", "genre", "num pages",
+     * "release year" or "id" default to title
+     */
     public List<Book> getSortedBooksBy(String orderCriteria) {
         List<Book> list = new ArrayList<>(archive.values());
         list.sort(ORDER_CRITERIAS.getOrDefault(orderCriteria.toLowerCase(), compareByTitle));
         return list;
     }
 
-
+    /**Add a book to the archive
+     * @param applicant an admin is necessary to modify the archive
+     * @param book to add to the archive
+     * @throws InvalidAdminException if the admin is not accredited
+     */
     public void addBook(Admin applicant, Book book) throws InvalidAdminException {
         if (!PersonManager.getInstance().getAdmins().contains(applicant))
             throw new InvalidAdminException(INVALID_ADMIN_MSG);
         archive.putIfAbsent(book.getID(), book);
     }
 
+    /**Add a list of books to the archive
+     * @param applicant an admin is necessary to modify the archive
+     * @param books to add to the archive
+     * @throws InvalidAdminException if the admin is not accredited
+     */
     public void addBooks(Admin applicant, List<Book> books) throws InvalidAdminException {
         for (Book book : books) {
             addBook(applicant, book);
         }
     }
 
+    /**Remove a book from the archive, if possible
+     * @param applicant an admin is necessary to modify the archive
+     * @param book to remove from the archive
+     * @throws InvalidAdminException if the admin is not accredited
+     * @throws NotInArchiveException if the book is on loan to someone
+     */
     public void removeBook(Admin applicant, Book book) throws InvalidAdminException, NotInArchiveException {
         removeBook(applicant, book.getID());
     }
 
-
+    /**Remove a book from the archive, if possible
+     * @param applicant an admin is necessary to modify the archive
+     * @param id of the book to remove from the archive
+     * @throws InvalidAdminException if the admin is not accredited
+     * @throws NotInArchiveException if the book is on loan to someone
+     */
     public void removeBook(Admin applicant, String id) throws InvalidAdminException, NotInArchiveException {
         if (!PersonManager.getInstance().getAdmins().contains(applicant)){
             throw new InvalidAdminException(INVALID_ADMIN_MSG);
@@ -129,7 +169,8 @@ public class ArchiveManager {
     }
     
     /**Search books in the archive whose attributes match generic query 
-     * @param searchQuery can be the book ID (the list will be of one element if present), title, author name, genre, release date (in ISO 8601 format)
+     * @param searchQuery can be the book ID (the list will be of one element if present), 
+     * title, author name, genre, release year (in ISO 8601 format)
      * @return a list of books which attributes match the query
      */
     public ArrayList<Book> searchBook(String searchQuery) {

@@ -34,12 +34,16 @@ public class LoanRequestsManager {
     private static Comparator<LoanRequest> compareByObjectName = 
         (LoanRequest r1, LoanRequest r2) -> r1.getRequested().getName().compareTo(r2.getRequested().getName());
 
-    /**Map used to store the comparators used to sort the archive Map
+    private static Comparator<LoanRequest> compareByID = 
+        (LoanRequest r1, LoanRequest r2) -> r1.getRequested().getID().compareToIgnoreCase(r2.getRequested().getID());
+
+    /**Map used to store the comparators used to sort the loan requests
      */
     private static final Map<String, Comparator<LoanRequest>> ORDER_CRITERIAS = Map.ofEntries(
         entry("applicant", compareByApplicant),
         entry("date", compareByDateOfRequest),
-        entry("name", compareByObjectName)
+        entry("name", compareByObjectName),
+        entry("id", compareByID)
     );
     
     private static LoanRequestsManager instance;
@@ -57,6 +61,11 @@ public class LoanRequestsManager {
         return instance;
     }
 
+    /**Initialize the request manager with a list of loan requests
+     * @param requests to add to the list
+     * @throws ManagerAlreadyInitializedException if the requests were already initialized, in this case
+     * you'll have to use the makeRequest method to add requests to the list
+     */
     public void initializeRequests(ArrayList<LoanRequest> requests) throws ManagerAlreadyInitializedException {
         if (this.requests.size() > 0) {
             throw new ManagerAlreadyInitializedException();
@@ -67,7 +76,8 @@ public class LoanRequestsManager {
     }
 
 
-    /**File a request for a book on loan with the date of today, if one with same applicant and book request was already filed
+    /**File a request for a book on loan with the date of today, if one with same applicant and book request
+     * was already filed
      * @param applicant the user who wants to borrow a book
      * @param book the requested book
      * @throws InvalidUserException if the user is not accredited
@@ -127,8 +137,13 @@ public class LoanRequestsManager {
         requests.remove(request);
     }
 
+    /**Acces a list of requests sorted by the specified criteria
+     * @param criteria used to sort the requests, can be "applicant", "date" (of request), "name" (of the object)
+     * or "id", default to "date"
+     * @return the list of requests sorted by the specified criteria
+     */
     public List<LoanRequest> getSortedRequestsBy(String criteria){
-        requests.sort(ORDER_CRITERIAS.getOrDefault(criteria, compareByDateOfRequest));
+        requests.sort(ORDER_CRITERIAS.getOrDefault(criteria.toLowerCase(), compareByDateOfRequest));
         return requests;
     }
     

@@ -55,6 +55,7 @@ public class LoanRequest {
     /**The loan request is accepted: the loanable object will be borrowed by the applicant
      * @param admin an admin is necessary to accept loan requests
      * @throws InvalidAdminException if admin is not accredited
+     * @throws NotInArchiveException if the object is not available to borrow
      */
     public void accept(Admin admin) throws InvalidAdminException, NotInArchiveException {
         if (!PersonManager.getInstance().getAdmins().contains(admin)) {
