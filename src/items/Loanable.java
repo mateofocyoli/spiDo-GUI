@@ -22,12 +22,14 @@ public abstract class Loanable {
         RUINED
     }
 
+    private String name;
     private LoanState state;
     private LocalDate dueDate;
     private final String ID;
     private User borrower;
     
-    public Loanable(LoanState state, LocalDate dueDate) {
+    public Loanable(String name, LoanState state, LocalDate dueDate) {
+        this.name = name;
         this.state = state;
         this.dueDate = dueDate;
         this.ID = createID();
@@ -87,6 +89,11 @@ public abstract class Loanable {
         this.state = LoanState.RUINED;
     }
 
+    
+
+    public String getName() {
+        return name;
+    }
 
     public LoanState getState() {
         return state;

@@ -2,7 +2,10 @@ package items.manager;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
+import static java.util.Map.entry;
 
 import exceptions.NotInArchiveException;
 import exceptions.InvalidAdminException;
@@ -22,6 +25,22 @@ public class LoanRequestsManager {
 
     private static final String BOOK_NOT_AVAILABLE_MSG = "The request cannot be accepted, this book is currently unavailable";
 
+    private static Comparator<LoanRequest> compareByApplicant = 
+        (LoanRequest r1, LoanRequest r2) -> r1.getApplicant().compareTo(r2.getApplicant().getCredentials());
+
+    private static Comparator<LoanRequest> compareByDateOfRequest = 
+        (LoanRequest r1, LoanRequest r2) -> r1.getDateOfRequest().compareTo(r2.getDateOfRequest());
+
+    private static Comparator<LoanRequest> compareByObjectName = 
+        (LoanRequest r1, LoanRequest r2) -> r1.getRequested().getName().compareTo(r2.getRequested().getName());
+
+    /**Map used to store the comparators used to sort the archive Map
+     */
+    private static final Map<String, Comparator<LoanRequest>> ORDER_CRITERIAS = Map.ofEntries(
+        entry("applicant", compareByApplicant),
+        entry("date", compareByDateOfRequest),
+        entry("name", compareByObjectName)
+    );
     
     private static LoanRequestsManager instance;
 
@@ -106,6 +125,11 @@ public class LoanRequestsManager {
             throw new RequestNotPresentException();
         }
         requests.remove(request);
+    }
+
+    public List<LoanRequest> getSortedRequestsBy(String criteria){
+        requests.sort(ORDER_CRITERIAS.getOrDefault(criteria, compareByDateOfRequest));
+        return requests;
     }
     
 }

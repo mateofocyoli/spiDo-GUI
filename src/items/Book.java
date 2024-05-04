@@ -38,7 +38,7 @@ public class Book extends Loanable{
 	public Book(String title, String author,
 				Genre genre, Year releaseYear, 
 				int numPages, Image coverImage){
-		super(LoanState.IN_ARCHIVE, LocalDate.now());
+		super(title, LoanState.IN_ARCHIVE, LocalDate.now());
 		this.title = title;
 		this.author = author;
 		this.genre = genre;
@@ -57,7 +57,7 @@ public class Book extends Loanable{
 	public Book(String title, String author,
 				Genre genre, Year releaseYear, 
 				int numPages){
-		super(LoanState.IN_ARCHIVE, LocalDate.now());
+		super(title, LoanState.IN_ARCHIVE, LocalDate.now());
 		this.title = title;
 		this.author = author;
 		this.genre = genre;
@@ -70,7 +70,7 @@ public class Book extends Loanable{
 				Genre genre, Year releaseYear, 
 				int numPages, Image coverImage, 
 				LoanState loanState, LocalDate dueDate){
-		super(loanState, dueDate);
+		super(title, loanState, dueDate);
 		this.title = title;
 		this.author = author;
 		this.genre = genre;
@@ -92,7 +92,7 @@ public class Book extends Loanable{
 				Genre genre, Year releaseYear, 
 				int numPages, 
 				LoanState loanState, LocalDate dueDate){
-		super(loanState, dueDate);
+		super(title, loanState, dueDate);
 		this.title = title;
 		this.author = author;
 		this.genre = genre;
