@@ -2,15 +2,15 @@ package exceptions;
 
 import java.util.NoSuchElementException;
 
-public class BookNotInArchiveException extends NoSuchElementException {
+public class NotInArchiveException extends NoSuchElementException {
     
     public static final String DEFAULT_MESSAGE = "Impossible! Perhaps the archives are incomplete";
 
-    public BookNotInArchiveException(String message){
+    public NotInArchiveException(String message){
         super(message);
     }
 
-    public BookNotInArchiveException(){
+    public NotInArchiveException(){
         super(DEFAULT_MESSAGE);
     }
 

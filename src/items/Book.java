@@ -23,7 +23,7 @@ public class Book extends Loanable{
 	private String title;
 	private String author;
 	private Genre genre;
-	private Year releaseDate;
+	private Year releaseYear;
 	private int numPages;
 	private Image coverImage;
 
@@ -31,18 +31,18 @@ public class Book extends Loanable{
 	 * @param title
 	 * @param author
 	 * @param genre
-	 * @param releaseDate
+	 * @param releaseYear
 	 * @param numPages
 	 * @param coverImage
 	 */
 	public Book(String title, String author,
-				Genre genre, Year releaseDate, 
+				Genre genre, Year releaseYear, 
 				int numPages, Image coverImage){
 		super(LoanState.IN_ARCHIVE, LocalDate.now());
 		this.title = title;
 		this.author = author;
 		this.genre = genre;
-		this.releaseDate = releaseDate;
+		this.releaseYear = releaseYear;
 		this.numPages = numPages;
 		this.coverImage = coverImage;
 	}
@@ -51,30 +51,30 @@ public class Book extends Loanable{
 	 * @param title
 	 * @param author
 	 * @param genre
-	 * @param releaseDate
+	 * @param releaseYear
 	 * @param numPages
 	 */
 	public Book(String title, String author,
-				Genre genre, Year releaseDate, 
+				Genre genre, Year releaseYear, 
 				int numPages){
 		super(LoanState.IN_ARCHIVE, LocalDate.now());
 		this.title = title;
 		this.author = author;
 		this.genre = genre;
-		this.releaseDate = releaseDate;
+		this.releaseYear = releaseYear;
 		this.numPages = numPages;
 		this.coverImage = null;
 	}
 
 	public Book(String title, String author, 
-				Genre genre, Year releaseDate, 
+				Genre genre, Year releaseYear, 
 				int numPages, Image coverImage, 
 				LoanState loanState, LocalDate dueDate){
 		super(loanState, dueDate);
 		this.title = title;
 		this.author = author;
 		this.genre = genre;
-		this.releaseDate = releaseDate;
+		this.releaseYear = releaseYear;
 		this.numPages = numPages;
 		this.coverImage = coverImage;
 	}
@@ -83,20 +83,20 @@ public class Book extends Loanable{
 	 * @param title
 	 * @param author
 	 * @param genre
-	 * @param releaseDate
+	 * @param releaseYear
 	 * @param numPages
 	 * @param loanState
 	 * @param dueDate
 	 */
 	public Book(String title, String author, 
-				Genre genre, Year releaseDate, 
+				Genre genre, Year releaseYear, 
 				int numPages, 
 				LoanState loanState, LocalDate dueDate){
 		super(loanState, dueDate);
 		this.title = title;
 		this.author = author;
 		this.genre = genre;
-		this.releaseDate = releaseDate;
+		this.releaseYear = releaseYear;
 		this.numPages = numPages;
 		this.coverImage = null;
 	}
@@ -109,7 +109,7 @@ public class Book extends Loanable{
 			   this.title.equalsIgnoreCase(other.title) &&
 			   this.author.equalsIgnoreCase(other.author) &&
 			   this.genre.equals(other.genre) &&
-			   this.releaseDate.equals(other.releaseDate) &&
+			   this.releaseYear.equals(other.releaseYear) &&
 			   this.numPages == other.numPages;*/
 	}
 
@@ -140,8 +140,8 @@ public class Book extends Loanable{
 	}
 
 
-	public Year getReleaseDate() {
-		return releaseDate;
+	public Year getReleaseYear() {
+		return releaseYear;
 	}
 
 
@@ -157,7 +157,7 @@ public class Book extends Loanable{
 
 	@Override
 	public String toString() {
-		return "Book [title=" + title + ", author=" + author + ", genre=" + genre + ", releaseDate=" + releaseDate
+		return "Book [title=" + title + ", author=" + author + ", genre=" + genre + ", releaseYear=" + releaseYear
 				+ ", numPages=" + numPages + "]";
 	}
 

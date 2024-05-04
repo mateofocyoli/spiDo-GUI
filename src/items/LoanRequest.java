@@ -3,12 +3,14 @@ package items;
 import java.time.LocalDate;
 
 import exceptions.InvalidAdminException;
-
+import exceptions.NotInArchiveException;
 import users.Admin;
 import users.User;
 import users.PersonManager;
 
 public class LoanRequest {
+
+    private static final String OBJ_NOT_AVAILABLE_MSG = "The request cannot be accepted, this object is currently unavailable";
 
     private static final String INVALID_ADMIN_MSG = "Permission Denied! Only an admin can accept or deny requests";
 
@@ -54,9 +56,12 @@ public class LoanRequest {
      * @param admin an admin is necessary to accept loan requests
      * @throws InvalidAdminException if admin is not accredited
      */
-    public void accept(Admin admin) throws InvalidAdminException {
+    public void accept(Admin admin) throws InvalidAdminException, NotInArchiveException {
         if (!PersonManager.getInstance().getAdmins().contains(admin)) {
             throw new InvalidAdminException(INVALID_ADMIN_MSG);
+        }
+        if (!this.requested.getState().equals(Loanable.LoanState.IN_ARCHIVE)){
+            throw new NotInArchiveException(OBJ_NOT_AVAILABLE_MSG);
         }
 
         this.accepted = true;

@@ -38,7 +38,7 @@ public abstract class Loanable {
         return UUID.randomUUID().toString();
     }
     
-    /**Sets the loanable object state on loan to borrower for one month starting from the moment this method is called
+    /**Sets the loanable object state to ON_LOAN to borrower for one month starting from the moment this method is called
      * @param applicant an admin is necessary to modify loan states
      * @param borrower the user that will have on loan the object
      * @throws InvalidAdminException if the admin is not accredited
@@ -52,7 +52,7 @@ public abstract class Loanable {
         this.borrower = borrower;
     }
 
-    /**Sets the loanable object to in archive, so it will be available for other borrowers, sets the borrower to null
+    /**Sets the loanable object to IN_ARCHIVE, so it will be available for other borrowers, sets the borrower to null
      * @param applicant an admin is necessary to modify loan states
      * @throws InvalidAdminException if the admin is not accredited
      */

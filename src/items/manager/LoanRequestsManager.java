@@ -4,7 +4,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-import exceptions.BookNotInArchiveException;
+import exceptions.NotInArchiveException;
 import exceptions.InvalidAdminException;
 import exceptions.InvalidUserException;
 import exceptions.ManagerAlreadyInitializedException;
@@ -20,6 +20,7 @@ import users.User;
 
 public class LoanRequestsManager {
 
+    private static final String BOOK_NOT_AVAILABLE_MSG = "The request cannot be accepted, this book is currently unavailable";
 
     
     private static LoanRequestsManager instance;
@@ -51,22 +52,22 @@ public class LoanRequestsManager {
      * @param applicant the user who wants to borrow a book
      * @param book the requested book
      * @throws InvalidUserException if the user is not accredited
-     * @throws BookNotInArchiveException if the book is not available to loan (e.g. already borrowed, lost or ruined)
+     * @throws NotInArchiveException if the book is not available to loan (e.g. already borrowed, lost or ruined)
      */
-    public LoanRequest makeBookRequest(User applicant, Book book) throws InvalidUserException, BookNotInArchiveException {
+    public LoanRequest makeBookRequest(User applicant, Book book) throws InvalidUserException, NotInArchiveException {
 
         if (!PersonManager.getInstance().getUsers().contains(applicant)){
             throw new InvalidUserException();
         }
         if (!ArchiveManager.getInstance().isBookPresent(book)){ 
-            throw new BookNotInArchiveException();
+            throw new NotInArchiveException(BOOK_NOT_AVAILABLE_MSG);
         }
         if (!ArchiveManager.getInstance().searchBook(book.getID()).get(0).getState().equals(Loanable.LoanState.IN_ARCHIVE)) {
-            throw new BookNotInArchiveException();
+            throw new NotInArchiveException(BOOK_NOT_AVAILABLE_MSG);
         }
         
         for (LoanRequest request : requests){
-            //if there is already a pending request, it won't be added
+            //if there is already a pending request of the requested book by the same applicant, it won't be added
             if (request.getApplicant().equals(applicant) && request.getRequested().equals(book))
                 return request;
         }

@@ -5,14 +5,13 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.NoSuchElementException;
 import java.util.Map.Entry;
 
 import static java.util.Map.entry;
 
 import java.time.Year;
 
-import exceptions.BookNotInArchiveException;
+import exceptions.NotInArchiveException;
 import exceptions.InvalidAdminException;
 import exceptions.ManagerAlreadyInitializedException;
 
@@ -20,9 +19,12 @@ import users.Admin;
 import users.PersonManager;
 
 import items.Book;
+import items.Loanable;
 
 
 public class ArchiveManager {
+
+    private static final String BOOK_ON_LOAN_MSG = "The book is currently on loan, you cannot remove it";
 
     private static final String INVALID_ADMIN_MSG = "Permission Denied! Only an admin can modify the archive";
 
@@ -35,7 +37,7 @@ public class ArchiveManager {
     private static Comparator<Book> compareByTitle = (Book b1, Book b2) -> b1.getTitle().compareToIgnoreCase(b2.getTitle());
     private static Comparator<Book> compareByGenre = (Book b1, Book b2) -> b1.getGenre().compareTo(b2.getGenre());
     private static Comparator<Book> compareByNumPages = (Book b1, Book b2) -> Integer.compare(b1.getNumPages(), b2.getNumPages());
-    private static Comparator<Book> compareByReleaseDate = (Book b1, Book b2) -> b1.getReleaseDate().compareTo(b2.getReleaseDate());
+    private static Comparator<Book> compareByReleaseYear = (Book b1, Book b2) -> b1.getReleaseYear().compareTo(b2.getReleaseYear());
     private static Comparator<Book> compareByID = (Book b1, Book b2) -> b1.getID().compareToIgnoreCase(b2.getID());
 
     /**Map used to store the comparators used to sort the archive Map
@@ -44,8 +46,8 @@ public class ArchiveManager {
         entry("author", compareByAuthor),
         entry("title", compareByTitle),
         entry("genre", compareByGenre),
-        entry("numPages", compareByNumPages),
-        entry("releaseDate", compareByReleaseDate),
+        entry("num pages", compareByNumPages),
+        entry("release year", compareByReleaseYear),
         entry("ID", compareByID)
     );
 
@@ -77,12 +79,12 @@ public class ArchiveManager {
     }
 
 
-    /**Method used to sort the books (values of the map archive) in the archive by a criteria specified by a string, if the criteria is invalid it will be sorted by ID
+    /**Method used to sort the books (values of the map archive) in the archive by a criteria specified by a string, if the criteria is invalid it will be sorted by title
      * @param orderCriteria of the books in the archive
      */
     public void sortBy(String orderCriteria){
         List<Entry<String, Book>> list = new ArrayList<>(archive.entrySet());
-        list.sort(Entry.comparingByValue(ORDER_CRITERIAS.getOrDefault(orderCriteria, compareByID)));
+        list.sort(Entry.comparingByValue(ORDER_CRITERIAS.getOrDefault(orderCriteria.toLowerCase(), compareByTitle)));
         archive.clear();
         for (Entry<String, Book> entry : list) {
             archive.put(entry.getKey(), entry.getValue());
@@ -91,7 +93,7 @@ public class ArchiveManager {
 
     public List<Book> getSortedBooksBy(String orderCriteria) {
         List<Book> list = new ArrayList<>(archive.values());
-        list.sort(ORDER_CRITERIAS.getOrDefault(orderCriteria, compareByID));
+        list.sort(ORDER_CRITERIAS.getOrDefault(orderCriteria.toLowerCase(), compareByTitle));
         return list;
     }
 
@@ -108,30 +110,27 @@ public class ArchiveManager {
         }
     }
 
-    public void removeBook(Admin applicant, Book book) throws InvalidAdminException, NoSuchElementException {
-        if (!PersonManager.getInstance().getAdmins().contains(applicant)){
-            throw new InvalidAdminException(INVALID_ADMIN_MSG);
-        }
-        if (!archive.containsKey(book.getID())){
-            throw new NoSuchElementException();
-        }
-        archive.remove(book.getID());
+    public void removeBook(Admin applicant, Book book) throws InvalidAdminException, NotInArchiveException {
+        removeBook(applicant, book.getID());
     }
 
 
-    public void removeBook(Admin applicant, String id) throws InvalidAdminException, BookNotInArchiveException {
+    public void removeBook(Admin applicant, String id) throws InvalidAdminException, NotInArchiveException {
         if (!PersonManager.getInstance().getAdmins().contains(applicant)){
             throw new InvalidAdminException(INVALID_ADMIN_MSG);
         }
         if (!archive.containsKey(id)){
-            throw new BookNotInArchiveException();
+            throw new NotInArchiveException();
+        }
+        if (!archive.get(id).getState().equals(Loanable.LoanState.ON_LOAN)){
+            throw new NotInArchiveException(BOOK_ON_LOAN_MSG);
         }
         archive.remove(id);
     }
     
     /**Search books in the archive whose attributes match generic query 
      * @param searchQuery can be the book ID (the list will be of one element if present), title, author name, genre, release date (in ISO 8601 format)
-     * @return a list of books whose attributes match the query
+     * @return a list of books which attributes match the query
      */
     public ArrayList<Book> searchBook(String searchQuery) {
         ArrayList<Book> booksFound= new ArrayList<>();
@@ -143,7 +142,7 @@ public class ArchiveManager {
             if (temp.getAuthor().equalsIgnoreCase(searchQuery) ||
                 temp.getTitle().equalsIgnoreCase(searchQuery) ||
                 temp.getGenre().name().equalsIgnoreCase(searchQuery) ||
-                temp.getReleaseDate().equals(Year.parse(searchQuery)) 
+                temp.getReleaseYear().equals(Year.parse(searchQuery)) 
                 ) {
                     booksFound.add(temp);
                 }
