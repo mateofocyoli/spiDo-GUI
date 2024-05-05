@@ -23,6 +23,16 @@ import users.User;
 
 public class LoanRequestsManager {
 
+    public static final String LOAN_STATE_TAG = "loan state";
+
+    public static final String OBJ_ID_TAG = "id";
+
+    public static final String OBJ_NAME_TAG = "name";
+
+    public static final String APPLICANT_TAG = "applicant";
+
+    public static final String DATE_OF_REQ_TAG = "date";
+
     private static final String FILTER_NOT_COHERENT_MSG = "Criteria and argument are not coherent";
 
     private static final String BOOK_NOT_AVAILABLE_MSG = "The request cannot be accepted, this book is currently unavailable";
@@ -42,10 +52,10 @@ public class LoanRequestsManager {
     /**Map used to store the comparators used to sort the loan requests
      */
     private static final Map<String, Comparator<LoanRequest>> ORDER_CRITERIAS = Map.ofEntries(
-        entry("applicant", compareByApplicant),
-        entry("date", compareByDateOfRequest),
-        entry("name", compareByObjectName),
-        entry("id", compareByID)
+        entry(APPLICANT_TAG, compareByApplicant),
+        entry(DATE_OF_REQ_TAG, compareByDateOfRequest),
+        entry(OBJ_NAME_TAG, compareByObjectName),
+        entry(OBJ_ID_TAG, compareByID)
     );
 
     private static LoanRequestFilter<String> filterByRequestedName = 
@@ -63,10 +73,10 @@ public class LoanRequestsManager {
 
 
     private static final Map<String, LoanRequestFilter<?>> FILTER_CRITERIAS = Map.ofEntries(
-        entry("name", filterByRequestedName),
-        entry("applicant", filterByApplicant),
-        entry("date of request", filterByDateOfRequest),
-        entry("loan state", filterByRequestedLoanState)
+        entry(OBJ_NAME_TAG, filterByRequestedName),
+        entry(APPLICANT_TAG, filterByApplicant),
+        entry(DATE_OF_REQ_TAG, filterByDateOfRequest),
+        entry(LOAN_STATE_TAG, filterByRequestedLoanState)
     );
     
     private static LoanRequestsManager instance;
@@ -89,7 +99,7 @@ public class LoanRequestsManager {
      * @throws ManagerAlreadyInitializedException if the requests were already initialized, in this case
      * you'll have to use the makeRequest method to add requests to the list
      */
-    public void initializeRequests(ArrayList<LoanRequest> requests) throws ManagerAlreadyInitializedException {
+    public void initializeRequests(List<LoanRequest> requests) throws ManagerAlreadyInitializedException {
         if (this.requests.size() > 0) {
             throw new ManagerAlreadyInitializedException();
         }
@@ -170,12 +180,17 @@ public class LoanRequestsManager {
         return requests;
     }
 
+    /**Get a filtered list of pending loan requests by the specified criteria and argument
+     * @param <T> the type of argument
+     * @param criteria to filter the list of requests by
+     * @param argument that has to match the specified criteria
+     * @return a list of loan requests filtered by the specified criteria and argument
+     * @throws ClassCastException
+     */
     public <T> List<LoanRequest> filterBy(String criteria, T argument) throws ClassCastException {
         List<LoanRequest> newList = new ArrayList<>();
-        //da testare se funziona come metodo
         try {
             LoanRequestFilter<T> filter = (LoanRequestFilter<T>) FILTER_CRITERIAS.getOrDefault(criteria, filterByRequestedName);
-                //if (argument instanceof ){}
             for(LoanRequest element : requests) {
                 if (filter.test(element, argument))
                     newList.add(element);

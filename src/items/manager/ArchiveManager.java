@@ -24,6 +24,8 @@ import items.Loanable;
 
 public class ArchiveManager {
 
+    private static final String FILTER_NOT_COHERENT_MSG = "Criteria and argument are not coherent";
+
     private static final String BOOK_ON_LOAN_MSG = "The book is currently on loan, you cannot remove it";
 
     private static final String INVALID_ADMIN_MSG = "Permission Denied! Only an admin can modify the archive";
@@ -103,7 +105,7 @@ public class ArchiveManager {
      * @throws ManagerAlreadyInitializedException if the archive was already initialized, in this case
      * you'll have to use the addBooks method to add books to the archive
      */
-    public void initializeArchive(ArrayList<Book> books) throws ManagerAlreadyInitializedException {
+    public void initializeArchive(List<Book> books) throws ManagerAlreadyInitializedException {
         if (this.archive.size() > 0) {
             throw new ManagerAlreadyInitializedException();
         }
@@ -217,5 +219,28 @@ public class ArchiveManager {
 
     public boolean isBookPresent(Book book) {
         return archive.containsKey(book.getID());
+    }
+
+
+    /**Get a filtered list of pending loan requests by the specified criteria and argument
+     * @param <T> the type of argument
+     * @param criteria to filter the list of requests by
+     * @param argument that has to match the specified criteria
+     * @return a list of loan requests filtered by the specified criteria and argument
+     * @throws ClassCastException
+     */
+    public <T> List<Book> filterBy(String criteria, T argument) throws ClassCastException {
+        List<Book> newList = new ArrayList<>();
+        try {
+            BookFilter<T> filter = (BookFilter<T>) FILTER_CRITERIAS.getOrDefault(criteria, filterByTitle);
+            for(Book element : archive.values()) {
+                if (filter.test(element, argument))
+                    newList.add(element);
+            }
+        } catch (Exception e) {
+            throw new ClassCastException(FILTER_NOT_COHERENT_MSG);
+        }
+        
+        return newList;
     }
 }
