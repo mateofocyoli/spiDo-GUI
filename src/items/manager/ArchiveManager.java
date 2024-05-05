@@ -62,6 +62,30 @@ public class ArchiveManager {
         entry("id", compareByID)
     );
 
+    private static BookFilter<String> filterByTitle = 
+        (Book b, String title) -> b.getTitle().compareToIgnoreCase(title) == 0;
+
+    private static BookFilter<String> filterByAuthor = 
+        (Book b, String author) -> b.getAuthor().compareToIgnoreCase(author) == 0;
+
+    private static BookFilter<Book.Genre> filterByGenre = 
+        (Book b, Book.Genre genre) -> b.getGenre().compareTo(genre) == 0;
+
+    private static BookFilter<Year> filterByYear = 
+        (Book b, Year releaseYear) -> b.getReleaseYear().compareTo(releaseYear) == 0;
+
+    private static BookFilter<Loanable.LoanState> filterByLoanState = 
+        (Book b, Loanable.LoanState loanState) -> b.getState().compareTo(loanState) == 0;
+
+
+    private static final Map<String, BookFilter<?>> FILTER_CRITERIAS = Map.ofEntries(
+        entry("title", filterByTitle),
+        entry("author", filterByAuthor),
+        entry("genre", filterByGenre),
+        entry("year", filterByYear),
+        entry("loan state", filterByLoanState)
+    );
+
 
     private ArchiveManager(){
         archive = new HashMap<String, Book>();

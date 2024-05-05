@@ -23,6 +23,8 @@ import users.User;
 
 public class LoanRequestsManager {
 
+    private static final String FILTER_NOT_COHERENT_MSG = "Criteria and argument are not coherent";
+
     private static final String BOOK_NOT_AVAILABLE_MSG = "The request cannot be accepted, this book is currently unavailable";
 
     private static Comparator<LoanRequest> compareByApplicant = 
@@ -44,6 +46,27 @@ public class LoanRequestsManager {
         entry("date", compareByDateOfRequest),
         entry("name", compareByObjectName),
         entry("id", compareByID)
+    );
+
+    private static LoanRequestFilter<String> filterByRequestedName = 
+        (LoanRequest r, String name) -> r.getRequested().getName().compareToIgnoreCase(name) == 0;
+
+    private static LoanRequestFilter<User> filterByApplicant = 
+        (LoanRequest r, User applicant) -> r.getApplicant().compareTo(applicant.getCredentials()) == 0;
+
+    private static LoanRequestFilter<LocalDate> filterByDateOfRequest = 
+        (LoanRequest r, LocalDate DateOfRequest) -> r.getDateOfRequest().compareTo(DateOfRequest) == 0;
+
+
+    private static LoanRequestFilter<Loanable.LoanState> filterByRequestedLoanState = 
+        (LoanRequest r, Loanable.LoanState loanState) -> r.getRequested().getState().compareTo(loanState) == 0;
+
+
+    private static final Map<String, LoanRequestFilter<?>> FILTER_CRITERIAS = Map.ofEntries(
+        entry("name", filterByRequestedName),
+        entry("applicant", filterByApplicant),
+        entry("date of request", filterByDateOfRequest),
+        entry("loan state", filterByRequestedLoanState)
     );
     
     private static LoanRequestsManager instance;
@@ -145,6 +168,23 @@ public class LoanRequestsManager {
     public List<LoanRequest> getSortedRequestsBy(String criteria){
         requests.sort(ORDER_CRITERIAS.getOrDefault(criteria.toLowerCase(), compareByDateOfRequest));
         return requests;
+    }
+
+    public <T> List<LoanRequest> filterBy(String criteria, T argument) throws ClassCastException {
+        List<LoanRequest> newList = new ArrayList<>();
+        //da testare se funziona come metodo
+        try {
+            LoanRequestFilter<T> filter = (LoanRequestFilter<T>) FILTER_CRITERIAS.getOrDefault(criteria, filterByRequestedName);
+                //if (argument instanceof ){}
+            for(LoanRequest element : requests) {
+                if (filter.test(element, argument))
+                    newList.add(element);
+            }
+        } catch (Exception e) {
+            throw new ClassCastException(FILTER_NOT_COHERENT_MSG);
+        }
+        
+        return newList;
     }
     
 }
