@@ -154,15 +154,13 @@ public class Book extends Loanable{
 		return coverImage;
 	}
 
-
 	@Override
 	public String toString() {
 		return "Book [title=" + title + ", author=" + author + ", genre=" + genre + ", releaseYear=" + releaseYear
-				+ ", numPages=" + numPages + "]";
+				+ ", numPages=" + numPages + ", getState()=" + getState() + ", getDueDate()=" + getDueDate()
+				+ ", getBorrower()=" + getBorrower() + "]";
 	}
 
-	
-	
 	
 	
 }

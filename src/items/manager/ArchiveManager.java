@@ -24,6 +24,20 @@ import items.Loanable;
 
 public class ArchiveManager {
 
+    public static final String LOAN_STATE_TAG = "loan state";
+
+    public static final String ID_TAG = "id";
+
+    public static final String RELEASE_YEAR_TAG = "year";
+
+    public static final String NUM_PAGES_TAG = "num pages";
+
+    public static final String GENRE_TAG = "genre";
+
+    public static final String AUTHOR_TAG = "author";
+
+    public static final String TITLE_TAG = "title";
+
     private static final String FILTER_NOT_COHERENT_MSG = "Criteria and argument are not coherent";
 
     private static final String BOOK_ON_LOAN_MSG = "The book is currently on loan, you cannot remove it";
@@ -56,12 +70,12 @@ public class ArchiveManager {
     /**Map used to store the comparators used to sort the archive Map
      */
     private static final Map<String, Comparator<Book>> ORDER_CRITERIAS = Map.ofEntries(
-        entry("author", compareByAuthor),
-        entry("title", compareByTitle),
-        entry("genre", compareByGenre),
-        entry("num pages", compareByNumPages),
-        entry("release year", compareByReleaseYear),
-        entry("id", compareByID)
+        entry(TITLE_TAG, compareByTitle),
+        entry(AUTHOR_TAG, compareByAuthor),
+        entry(GENRE_TAG, compareByGenre),
+        entry(NUM_PAGES_TAG, compareByNumPages),
+        entry(RELEASE_YEAR_TAG, compareByReleaseYear),
+        entry(ID_TAG, compareByID)
     );
 
     private static BookFilter<String> filterByTitle = 
@@ -81,11 +95,11 @@ public class ArchiveManager {
 
 
     private static final Map<String, BookFilter<?>> FILTER_CRITERIAS = Map.ofEntries(
-        entry("title", filterByTitle),
-        entry("author", filterByAuthor),
-        entry("genre", filterByGenre),
-        entry("year", filterByYear),
-        entry("loan state", filterByLoanState)
+        entry(TITLE_TAG, filterByTitle),
+        entry(AUTHOR_TAG, filterByAuthor),
+        entry(GENRE_TAG, filterByGenre),
+        entry(RELEASE_YEAR_TAG, filterByYear),
+        entry(LOAN_STATE_TAG, filterByLoanState)
     );
 
 

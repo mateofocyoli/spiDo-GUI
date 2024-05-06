@@ -185,7 +185,7 @@ public class LoanRequestsManager {
      * @param criteria to filter the list of requests by
      * @param argument that has to match the specified criteria
      * @return a list of loan requests filtered by the specified criteria and argument
-     * @throws ClassCastException
+     * @throws ClassCastException if the criteria specified and the type of argument passed are not coherent
      */
     public <T> List<LoanRequest> filterBy(String criteria, T argument) throws ClassCastException {
         List<LoanRequest> newList = new ArrayList<>();
