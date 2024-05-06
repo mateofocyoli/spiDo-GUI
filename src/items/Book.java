@@ -3,6 +3,8 @@ import java.awt.Image;
 import java.time.LocalDate;
 import java.time.Year;
 
+import com.google.gson.annotations.Expose;
+
 public class Book extends Loanable{
 
 	public static enum Genre{
@@ -20,12 +22,18 @@ public class Book extends Loanable{
 		CHILDREN
 	}
 	
+    @Expose
 	private String title;
+    @Expose
 	private String author;
+    @Expose
 	private Genre genre;
+    @Expose
 	private Year releaseYear;
+    @Expose
 	private int numPages;
-	private Image coverImage;
+
+	transient private Image coverImage;
 
 	/**Contructor with default loan state IN_ARCHIVE
 	 * @param title

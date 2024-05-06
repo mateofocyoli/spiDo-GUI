@@ -3,6 +3,7 @@ import java.time.Year;
 import java.util.ArrayList;
 import java.util.List;
 
+import database.FileManager;
 import exceptions.NotInArchiveException;
 import items.*;
 import items.manager.ArchiveManager;
@@ -96,6 +97,8 @@ public class MarcoMain {
             e.printStackTrace();
             
         }
+
+        FileManager.writeRequestsJSON();
 
 
     }
