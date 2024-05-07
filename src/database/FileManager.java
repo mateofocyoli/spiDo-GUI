@@ -16,7 +16,6 @@ import com.google.gson.reflect.TypeToken;
 
 import items.Book;
 import items.LoanRequest;
-import users.Admin;
 import users.Credentials;
 import users.Person;
 import users.User;
@@ -42,12 +41,13 @@ public class FileManager {
         }
     }
 
-    public static void writeRequestsJSON() {
+    public static void writeRequestsJSON() throws JsonIOException, IOException {
     String filename = "assets/loanRequests.json";
     Gson gson = new GsonBuilder().setPrettyPrinting().registerTypeAdapter(
                     LocalDate.class, new LocalDateTypeAdapter()).registerTypeAdapter(
                     Year.class, new YearTypeAdapter()).registerTypeAdapter(
-                    User.class, new UserTypeAdapter()).create();
+                    User.class, new UserTypeAdapter()).registerTypeAdapter(
+                    Book.class, new BookTypeAdapter()).create();
     User[] users = { new User("Alessandro", "Muscio", LocalDate.now(), "Brescia", Person.Sex.MALE, new Credentials("kibo", "culo")), 
                      new User("Irene", "Treccani", LocalDate.now(), "Brescia", Person.Sex.FEMALE, new Credentials("merdina", "cacca")) 
                    };
@@ -73,9 +73,25 @@ public class FileManager {
     try (FileWriter writer = new FileWriter(filename)) {
       gson.toJson(requests, writer);
     } catch (JsonIOException | IOException e) {
-      System.out.println("Error in initializing the writer:");
-      System.out.println(e.getMessage());
+      throw e;
     }
   }
+
+
+  public static void writeArchiveJSON(ArrayList<Book> archive) throws JsonIOException, IOException{
+    String filename = "assets/archive.json";
+    Gson gson = new GsonBuilder().serializeNulls().setPrettyPrinting().registerTypeAdapter(
+                    LocalDate.class, new LocalDateTypeAdapter()).registerTypeAdapter(
+                    Year.class, new YearTypeAdapter()).registerTypeAdapter(
+                    User.class, new UserTypeAdapter()).create();
+     
+
+    try (FileWriter writer = new FileWriter(filename)) {
+      gson.toJson(archive, writer);
+    } catch (JsonIOException | IOException e) {
+      throw e;
+    }
+  }
+
 
 }

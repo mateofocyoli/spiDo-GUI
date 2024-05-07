@@ -7,8 +7,8 @@ package database;
 
 import java.lang.reflect.Type;
 
-import users.PersonManager;
-import users.User;
+import items.Book;
+import items.manager.ArchiveManager;
 
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
@@ -18,19 +18,19 @@ import com.google.gson.JsonPrimitive;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
 
-public class UserTypeAdapter implements JsonSerializer<User>, JsonDeserializer<User> {
+public class BookTypeAdapter implements JsonSerializer<Book>, JsonDeserializer<Book> {
 
 
     @Override
-    public JsonElement serialize(final User user, final Type typeOfSrc,
+    public JsonElement serialize(final Book book, final Type typeOfSrc,
             final JsonSerializationContext context) {
-        return new JsonPrimitive(user.getCredentials().getUsername());
+        return new JsonPrimitive(book.getID());
     }
 
     @Override
-    public User deserialize(final JsonElement json, final Type typeOfT,
+    public Book deserialize(final JsonElement json, final Type typeOfT,
             final JsonDeserializationContext context) throws JsonParseException {
-        PersonManager pm = PersonManager.getInstance();
-        return PersonManager.filterBy(pm.getUsers(), "Username", json.getAsString()).get(0);
+        ArchiveManager am = ArchiveManager.getInstance();
+        return am.searchBook(json.getAsString()).get(0);
     }
 }
