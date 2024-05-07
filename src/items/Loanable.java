@@ -2,6 +2,7 @@ package items;
 
 import java.time.LocalDate;
 import java.util.UUID;
+import java.util.regex.Pattern;
 
 import exceptions.InvalidAdminException;
 
@@ -22,17 +23,36 @@ public abstract class Loanable {
         RUINED
     }
 
+    private static final Pattern UUID_REGEX =
+      Pattern.compile("^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$");
+
     private String name;
     private LoanState state;
     private LocalDate dueDate;
     private final String ID;
     private User borrower;
     
-    public Loanable(String name, LoanState state, LocalDate dueDate) {
+    /**Constructor
+     * @param name of the object
+     * @param state of its loan
+     * @param dueDate of its loan
+     * @param id of the object, if not valid a new valid id will be generated
+     */
+    public Loanable(String name, LoanState state, User borrower, LocalDate dueDate, String id) {
         this.name = name;
         this.state = state;
         this.dueDate = dueDate;
-        this.ID = createID();
+        id = id.strip();
+        this.ID = UUID_REGEX.matcher(id).matches() ? id : createID();
+        this.borrower = borrower;
+    }
+
+    public Loanable(String name, String id) {
+        this.name = name;
+        this.state = LoanState.IN_ARCHIVE;
+        this.dueDate = LocalDate.now();
+        id = id.strip();
+        this.ID = UUID_REGEX.matcher(id).matches() ? id : createID();
         this.borrower = null;
     }
 

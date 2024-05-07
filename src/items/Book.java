@@ -5,6 +5,8 @@ import java.time.Year;
 
 import com.google.gson.annotations.Expose;
 
+import users.User;
+
 public class Book extends Loanable{
 
 	public static enum Genre{
@@ -45,8 +47,8 @@ public class Book extends Loanable{
 	 */
 	public Book(String title, String author,
 				Genre genre, Year releaseYear, 
-				int numPages, Image coverImage){
-		super(title, LoanState.IN_ARCHIVE, LocalDate.now());
+				int numPages, Image coverImage, String id){
+		super(title, id);
 		this.title = title;
 		this.author = author;
 		this.genre = genre;
@@ -64,8 +66,8 @@ public class Book extends Loanable{
 	 */
 	public Book(String title, String author,
 				Genre genre, Year releaseYear, 
-				int numPages){
-		super(title, LoanState.IN_ARCHIVE, LocalDate.now());
+				int numPages, String id){
+		super(title, id);
 		this.title = title;
 		this.author = author;
 		this.genre = genre;
@@ -76,9 +78,10 @@ public class Book extends Loanable{
 
 	public Book(String title, String author, 
 				Genre genre, Year releaseYear, 
-				int numPages, Image coverImage, 
-				LoanState loanState, LocalDate dueDate){
-		super(title, loanState, dueDate);
+				int numPages, Image coverImage,
+				LoanState loanState, String id,
+				User borrower, LocalDate dueDate){
+		super(title, loanState, borrower, dueDate, id);
 		this.title = title;
 		this.author = author;
 		this.genre = genre;
@@ -99,8 +102,9 @@ public class Book extends Loanable{
 	public Book(String title, String author, 
 				Genre genre, Year releaseYear, 
 				int numPages, 
-				LoanState loanState, LocalDate dueDate){
-		super(title, loanState, dueDate);
+				LoanState loanState, String id,
+				User borrower, LocalDate dueDate){
+		super(title, loanState, borrower, dueDate, id);
 		this.title = title;
 		this.author = author;
 		this.genre = genre;
