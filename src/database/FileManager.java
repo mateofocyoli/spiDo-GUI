@@ -16,70 +16,95 @@ import com.google.gson.reflect.TypeToken;
 
 import items.Book;
 import items.LoanRequest;
-import users.Credentials;
-import users.Person;
+import items.Loanable;
 import users.User;
 
 public class FileManager {
 
 
 
-    public void readRequestsJSON() {
-        String filename = "assets/loanRequests.json";
-        Type requestType = new TypeToken<ArrayList<LoanRequest>>() {
-        }.getType();
-        Gson gson = new Gson();
+    public static final String DEFAULT_LOAN_REQ_FILENAME = "assets/loanRequests.json";
+    public static final String DEFAULT_ARCHIVE_FILENAME = "assets/archive.json";
 
-        try (FileReader reader = new FileReader(filename)) {
+
+    public static ArrayList<LoanRequest> readRequestsJSON(String filename) throws JsonIOException, JsonSyntaxException, IOException {
+      Type requestType = new TypeToken<ArrayList<LoanRequest>>() {
+      }.getType();
+      Gson gson = new GsonBuilder().registerTypeAdapter(
+                  LocalDate.class, new LocalDateTypeAdapter()).registerTypeAdapter(
+                  User.class, new UserTypeAdapter()).registerTypeAdapter(
+                  Loanable.class, new BookTypeAdapter()).create();
+
+      try (FileReader reader = new FileReader(filename)) {
+
         ArrayList<LoanRequest> requests = gson.fromJson(reader, requestType);
+        return requests;
 
-        for (LoanRequest req : requests)
-            System.out.println(req);
-        } catch (JsonIOException | JsonSyntaxException | IOException e) {
-        System.out.println("Error in initializing the reader:");
-        System.out.println(e.getMessage());
-        }
+      } 
+      catch (JsonIOException | JsonSyntaxException | IOException e) {
+        throw e;
+      }
     }
 
-    public static void writeRequestsJSON() throws JsonIOException, IOException {
-    String filename = "assets/loanRequests.json";
-    Gson gson = new GsonBuilder().setPrettyPrinting().registerTypeAdapter(
+    public static ArrayList<Book> readArchiveJSON(String filename) throws JsonIOException, JsonSyntaxException, IOException {
+      Type bookType = new TypeToken<ArrayList<Book>>() {
+      }.getType();
+      Gson gson = new GsonBuilder().registerTypeAdapter(
                     LocalDate.class, new LocalDateTypeAdapter()).registerTypeAdapter(
                     Year.class, new YearTypeAdapter()).registerTypeAdapter(
-                    User.class, new UserTypeAdapter()).registerTypeAdapter(
-                    Book.class, new BookTypeAdapter()).create();
-    User[] users = { new User("Alessandro", "Muscio", LocalDate.now(), "Brescia", Person.Sex.MALE, new Credentials("kibo", "culo")), 
-                     new User("Irene", "Treccani", LocalDate.now(), "Brescia", Person.Sex.FEMALE, new Credentials("merdina", "cacca")) 
-                   };
-                    
-    Book[] books = { new Book("La mia vita di merda", "Phoenix", Book.Genre.COMEDY, Year.now(), 7) , 
-                     new Book("Bibbia", "jesoo", Book.Genre.FANTASY, Year.now(), 7) 
-                   };
+                    User.class, new UserTypeAdapter()).create();
 
-    LoanRequest[] requs = {
-        new LoanRequest(users[0], books[0], LocalDate.now()),
-        new LoanRequest(users[1], books[1], LocalDate.now())
-    };
+      try (FileReader reader = new FileReader(filename)) {
 
-    ArrayList<LoanRequest> requests = new ArrayList<LoanRequest>();
-
-    //ArrayList<LoanRequest> requests = new ArrayList<>();
-
-    for (int i = 0; i < requs.length; i++){
-        requests.add(requs[i]);
-    }
+        ArrayList<Book> archive = gson.fromJson(reader, bookType);
+        return archive;
 
 
-    try (FileWriter writer = new FileWriter(filename)) {
-      gson.toJson(requests, writer);
-    } catch (JsonIOException | IOException e) {
-      throw e;
-    }
+      } 
+      catch (JsonIOException | JsonSyntaxException | IOException e) {
+        throw e;
+      }
+  }
+
+    public static void writeRequestsJSON(ArrayList<LoanRequest> requests, String filename) throws JsonIOException, IOException {
+      Gson gson = new GsonBuilder().setPrettyPrinting().registerTypeAdapter(
+                      LocalDate.class, new LocalDateTypeAdapter()).registerTypeAdapter(
+                      User.class, new UserTypeAdapter()).registerTypeAdapter(
+                      Book.class, new BookTypeAdapter()).create();
+                      
+      /*TODO: remove in production
+      User[] users = { new User("Alessandro", "Muscio", LocalDate.now(), "Brescia", Person.Sex.MALE, new Credentials("kibo", "culo")), 
+                      new User("Irene", "Treccani", LocalDate.now(), "Brescia", Person.Sex.FEMALE, new Credentials("merdina", "cacca")) 
+                    };
+                      
+      Book[] books = { new Book("La mia vita di merda", "Phoenix", Book.Genre.COMEDY, Year.now(), 7) , 
+                      new Book("Bibbia", "jesoo", Book.Genre.FANTASY, Year.now(), 7) 
+                    };
+
+      LoanRequest[] requs = {
+          new LoanRequest(users[0], books[0], LocalDate.now()),
+          new LoanRequest(users[1], books[1], LocalDate.now())
+      };
+
+      ArrayList<LoanRequest> requests = new ArrayList<LoanRequest>();
+
+      //ArrayList<LoanRequest> requests = new ArrayList<>();
+
+      for (int i = 0; i < requs.length; i++){
+          requests.add(requs[i]);
+      }*/
+
+
+      try (FileWriter writer = new FileWriter(filename)) {
+        gson.toJson(requests, writer);
+      } 
+      catch (JsonIOException | IOException e) {
+        throw e;
+      }
   }
 
 
-  public static void writeArchiveJSON(ArrayList<Book> archive) throws JsonIOException, IOException{
-    String filename = "assets/archive.json";
+  public static void writeArchiveJSON(ArrayList<Book> archive, String filename) throws JsonIOException, IOException{
     Gson gson = new GsonBuilder().serializeNulls().setPrettyPrinting().registerTypeAdapter(
                     LocalDate.class, new LocalDateTypeAdapter()).registerTypeAdapter(
                     Year.class, new YearTypeAdapter()).registerTypeAdapter(

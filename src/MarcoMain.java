@@ -1,10 +1,7 @@
 import java.time.LocalDate;
-import java.time.Year;
 import java.util.ArrayList;
-import java.util.List;
 
 import database.FileManager;
-import exceptions.NotInArchiveException;
 import items.*;
 import items.manager.ArchiveManager;
 import items.manager.LoanRequestsManager;
@@ -14,34 +11,45 @@ import users.Person.Sex;
 
 public class MarcoMain {
     public static void main(String args[]) {
-        List<LoanRequest> req = new ArrayList<>();
+
         LoanRequestsManager lrm = LoanRequestsManager.getInstance();
 
         User user = new User("Alessandro", "Muscio", LocalDate.now(), "Brescia", Sex.MALE, new Credentials("Kibo", "Siuum"));
-        Admin admin = new Admin("Treccani", "Irene", LocalDate.now(), "Brescia", Sex.FEMALE, new Credentials("Admin", "merdina"));
+        User admin = new User("Treccani", "Irene", LocalDate.now(), "Brescia", Sex.FEMALE, new Credentials("merdina", "cacca"));
         PersonManager pm = PersonManager.getInstance();
         pm.add(user);
         pm.add(admin);
 
-        Book b = new Book("La mia vita di merda", "Phoenix", Book.Genre.COMEDY, Year.now(), 7);
         ArchiveManager am = ArchiveManager.getInstance();
-        List<Book> books = new ArrayList<>();
-        books.add(b);
-        am.initializeArchive(books);
 
-        req.add(new LoanRequest(user, b, LocalDate.now().plusDays(0)));
 
-        lrm.initializeRequests(req);
 
-        for (LoanRequest lr : lrm.filterBy("date", LocalDate.now())) {
+        ArrayList<Book> archive = new ArrayList<>();
+        ArrayList<LoanRequest> requests = new ArrayList<>();
+
+        try {
+            archive = FileManager.readArchiveJSON(FileManager.DEFAULT_ARCHIVE_FILENAME);
+            requests = FileManager.readRequestsJSON(FileManager.DEFAULT_LOAN_REQ_FILENAME);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        am.initializeArchive(archive);
+        lrm.initializeRequests(requests);
+
+
+
+
+
+        
+        for (LoanRequest lr : lrm.getSortedRequestsBy("")) {
             System.out.println(lr.getRequested().toString());
         }
 
-        for (Book book : am.filterBy("title", "La mia vita di merda")) {
+        for (Book book : am.getSortedBooksBy("")) {
             System.out.println(book.toString());
         }
         System.out.println();
-
+        /*
         Book b2 = new Book("La bibbia", "Gesù", Book.Genre.FANTASY, Year.now(), 7);
 
         try {
@@ -99,7 +107,7 @@ public class MarcoMain {
         }
 
         //FileManager.writeArchiveJSON();
-
+        */
 
     }
 }
