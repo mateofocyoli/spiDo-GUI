@@ -7,6 +7,7 @@ import java.awt.event.ActionListener;
 import java.security.InvalidParameterException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 
 import javax.swing.*;
 
@@ -24,9 +25,9 @@ public class SignupFrame extends JFrame implements ActionListener {
 	//User credentials
 	String name;
 	String surname;
-	Date birthDate;
-	int day;
-	int month;
+	LocalDate birthDate;
+	String day;
+	String month;
 	int year;
 	String birthDateString;
 	String cityOfBirth;
@@ -121,10 +122,8 @@ public class SignupFrame extends JFrame implements ActionListener {
 		centerPanel.add(p31);
 		
 		//date combo box setup
-		String[] months = {"January","February","March","April","May","June","July","August","September","October","November","December"};
-		
 		dayComboBox = new JComboBox();
-		monthComboBox = new JComboBox(months);
+		monthComboBox = new JComboBox();
 		yearComboBox = new JComboBox();
 
 		dayComboBox.addActionListener(this);
@@ -134,6 +133,10 @@ public class SignupFrame extends JFrame implements ActionListener {
 		//filling yearComboBox with years from 1900 to 2024
 		for(int i=1900; i<2024; i++) {
 			yearComboBox.addItem(i);
+		}
+		//filling monthComboBox with months from 1 to 12
+		for(int i=1; i<13; i++) {
+			monthComboBox.addItem(i);
 		}
 		
 		//adding the three combo boxes all together in the panel
@@ -208,6 +211,11 @@ public class SignupFrame extends JFrame implements ActionListener {
 		signupButton.addActionListener(this);
 		
 		
+		//east panel added purely for graphic reasons
+		//it adds a little bit of an edge to the left
+		JPanel eastPanel = new JPanel();
+		this.add(eastPanel, BorderLayout.EAST);
+		
 	}
 	
 	
@@ -219,15 +227,15 @@ public class SignupFrame extends JFrame implements ActionListener {
 	}
 	
 	
-	public int hasDays(String month, int year) {
+	public int hasDays(int month, int year) {
 		
-		if(month.equals("February")) {
+		if(month==2) {
 			if(isLeap(year)) {
 				return 29;
 			} else return 28;
 		}
-		if(month.equals("April") || month.equals("June") || month.equals("September") || month.equals("November")) return 30;
-		else return 31;
+		if(month==4 || month==6 || month==9 || month==11) return 30;
+		return 31;
 	}
 	
 	
@@ -242,15 +250,25 @@ public class SignupFrame extends JFrame implements ActionListener {
 			
 			
 			//date of birth
-			day = (int) dayComboBox.getSelectedItem();
-			month = monthComboBox.getSelectedIndex() + 1;
-			year = (int) yearComboBox.getSelectedItem();
-			birthDateString = day + "/" + month + "/" + year;
-			try {
-				birthDate = new SimpleDateFormat("dd/MM/yyyy").parse(birthDateString);
-			} catch (ParseException e1) {
-				e1.printStackTrace();
+			if(isSingleDigit((int) dayComboBox.getSelectedItem())) {
+				day = "0" + dayComboBox.getSelectedItem();
 			}
+			else {
+				day = (String) dayComboBox.getSelectedItem();
+			}
+			
+			if(isSingleDigit((int) monthComboBox.getSelectedItem())) {
+				month = "0" + monthComboBox.getSelectedItem();
+			}
+			else {
+				month = (String) monthComboBox.getSelectedItem();
+			}
+			
+			
+			year = (int) yearComboBox.getSelectedItem();
+			
+			birthDateString = year + "-" + month + "-" + day;
+			birthDate = LocalDate.parse(birthDateString);
 			
 			cityOfBirth = cityTextField.getText();
 			
@@ -265,8 +283,6 @@ public class SignupFrame extends JFrame implements ActionListener {
 				JOptionPane.showMessageDialog(null, "Username and password cannot be empty", "Error", JOptionPane.ERROR_MESSAGE);
 			}
 			
-				
-			
 			
 			Person person = new User(name, surname, birthDate, cityOfBirth, sex, credentials);
 			PersonManager pm = PersonManager.getInstance();
@@ -275,19 +291,34 @@ public class SignupFrame extends JFrame implements ActionListener {
 			else {
 				this.dispose();
 				new LoginFrame();
+				pm.save();
 			}
 			
 		}
 		//if month or year is changed, update the number of days in the month
 		if(e.getSource()==monthComboBox || e.getSource()==yearComboBox) {
 			dayComboBox.removeAllItems();
-			for(int i=1; i<=hasDays((String) monthComboBox.getSelectedItem(), (int) yearComboBox.getSelectedItem()); i++) {
+			for(int i=1; i<=hasDays(monthComboBox.getSelectedItem(), yearComboBox.getSelectedItem()); i++) {
 				dayComboBox.addItem(i);
 			}
 			dayComboBox.setSelectedIndex(0);
-			
 		}
 		
+	}
+	
+	public boolean isSingleDigit(int x) {
+		switch(x) {
+		case 1: return true;
+		case 2: return true;
+		case 3: return true;
+		case 4: return true;
+		case 5: return true;
+		case 6: return true;
+		case 7: return true;
+		case 8: return true;
+		case 9: return true;
+		default: return false;
+		}
 	}
 	
 	

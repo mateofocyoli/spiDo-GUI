@@ -3,7 +3,6 @@ package GUI;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Date;
 import javax.swing.*;
 
 import users.*;
@@ -13,7 +12,7 @@ public class LoginFrame extends JFrame implements ActionListener {
 	JButton loginButton, signupButton;
 	JTextField usernameTextField, passwordTextField;
 	
-	LoginFrame() {
+	public LoginFrame() {
 		
 		//frame setup
 		this.setSize(500, 400);
@@ -25,7 +24,7 @@ public class LoginFrame extends JFrame implements ActionListener {
 		this.setLayout(new BorderLayout());
 		
 		//*DA SOSTITUIRE CON LOGO UNIBS*
-		ImageIcon frameIcon = new ImageIcon("assets\\ambrogio.jpg");
+		ImageIcon frameIcon = new ImageIcon("assets\\spidogui.png");
 		this.setIconImage(frameIcon.getImage());
 		
 		JPanel centerPanel = new JPanel();
@@ -89,7 +88,6 @@ public class LoginFrame extends JFrame implements ActionListener {
 		southPanel.add(signupButton);
 		signupButton.addActionListener(this);
 		
-		
 		this.validate();
 	}
 	
@@ -105,6 +103,7 @@ public class LoginFrame extends JFrame implements ActionListener {
 		if(e.getSource()==loginButton) {
 			
 			PersonManager pm = PersonManager.getInstance();
+			pm.load();
 			
 			String username = usernameTextField.getText();
 			String password = passwordTextField.getText();
@@ -112,7 +111,7 @@ public class LoginFrame extends JFrame implements ActionListener {
 			
 			//checks if person logging in is admin or user
 			if(person == null) {
-				JOptionPane.showMessageDialog(null, "Username not found", "Error", JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(null, "Incorrect credentials", "Error", JOptionPane.ERROR_MESSAGE);
 			}
 			else if(person instanceof Admin) {
 				new AdminFrame();
