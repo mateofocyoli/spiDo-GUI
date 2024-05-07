@@ -6,21 +6,34 @@ import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonParseException;
+import com.google.gson.JsonSyntaxException;
 import com.google.gson.annotations.Expose;
+import com.google.gson.reflect.TypeToken;
 
+import database.LocalDateTypeAdapter;
+import database.RuntimeTypeAdapterFactory;
 import users.sanctions.Sanction;
 
 import static java.util.Map.entry;
 
+import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.PrintWriter;
 import java.time.LocalDate;
 
 public class PersonManager {
 
     private static final String INVALID_ADMIN_MSG = "Permission Denied! Only an admin can can change the loan terms";
-    private static final String FILE_PATH = "./data/PersonManager.data";
+    private static final String DIR_PATH = "./assets/savefiles/";
+    private static final String FILE_NAME = "accounts";
 
     private static Comparator<Person> compareByName = (Person p1, Person p2) -> p1.getName().compareToIgnoreCase(p2.getName());
     private static Comparator<Person> compareBySurname = (Person p1, Person p2) -> p1.getSurname().compareToIgnoreCase(p2.getSurname());
@@ -58,26 +71,22 @@ public class PersonManager {
         entry("Type", filterByType)
     );
 
+    private static final Gson parser = new GsonBuilder()
+                                            .registerTypeAdapter(LocalDate.class, new LocalDateTypeAdapter())
+                                            .registerTypeAdapterFactory(RuntimeTypeAdapterFactory
+                                                                            .of(Person.class, "type")
+                                                                            .registerSubtype(User.class, "user")
+                                                                            .registerSubtype(Admin.class, "admin"))
+                                            .excludeFieldsWithoutExposeAnnotation()
+                                            .create();
+
     private static PersonManager instance;
 
     @Expose
     private List<Person> people;
 
     private PersonManager() {
-        File file = new File(FILE_PATH);
-        try (Scanner fileScanner = new Scanner(file)) {
-            StringBuilder sb = new StringBuilder();
-            while(fileScanner.hasNext()) {
-                sb.append(fileScanner.nextLine());
-                sb.append("\n");
-            }
-            String fileContent = sb.toString();
-            System.out.println(fileContent);
-        } catch (FileNotFoundException e) {
-            // No file is found, start from zero
-            System.out.println("No file found for PersonManager. Creating one from scratch.");
-            people = new ArrayList<>();
-        }
+        load();
     }
 
     /**
@@ -267,5 +276,55 @@ public class PersonManager {
             throw new IllegalAccessException(INVALID_ADMIN_MSG);
         
         return victim.removeSanction(s);
+    }
+
+    /**
+     * Saves the instance to the file.
+     * @return {@code true} if the saving was successfull
+     */
+    public boolean save() {
+        File dir = new File(DIR_PATH);
+        File file = new File(DIR_PATH, FILE_NAME);
+        try {
+            dir.mkdir();            // Make the directory if it doesn't exist
+            file.createNewFile();   // Create a file if it doesn't exist
+        } catch (IOException | SecurityException e) {
+            e.printStackTrace();
+            return false;
+        }
+
+        // This will clear the file and write to it ex-novo
+        try (PrintWriter pw = new PrintWriter(new FileWriter(file))) {
+            for (Person p : people)
+                pw.println(parser.toJson(p, Person.class));
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Loads the content of the savefile
+     * @return {@code true} if all of the accounts saved were loaded successfully
+     */
+    public boolean load() {
+        File file = new File(DIR_PATH, FILE_NAME);
+        TypeToken<Person> personTypeToken = new TypeToken<>() {};
+        people = new ArrayList<>();
+
+        try (Scanner fileScanner = new Scanner(file)) {
+            while(fileScanner.hasNext()) {
+                Person p = parser.fromJson(fileScanner.nextLine(), personTypeToken);
+                people.add(p);
+            }
+        } catch (FileNotFoundException | JsonSyntaxException e) {
+            // No file is found or parsing went wrong, start from zero
+            System.out.println("No file found for PersonManager. Creating one from scratch.");
+            return false;
+        }
+
+        return true;
     }
 }
