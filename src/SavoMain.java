@@ -1,4 +1,6 @@
 import java.text.SimpleDateFormat;
+import java.io.File;
+import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -17,12 +19,13 @@ import java.time.format.DateTimeFormatter;
 import com.google.gson.*;
 import com.google.gson.reflect.TypeToken;
 
+import database.FileManager;
 import database.LocalDateTypeAdapter;
 import database.RuntimeTypeAdapterFactory;
 
 public class SavoMain {
 
-    public static void main(String args[]) throws ParseException {
+    public static void main(String args[]) throws ParseException, JsonIOException, IOException {
         
         PersonManager pm = PersonManager.getInstance();
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");
@@ -57,11 +60,9 @@ public class SavoMain {
         System.out.println();
         System.out.println(p1);
 
-        pm.save();
-        pm.add(p);
-        System.out.println(pm.getList().size());
-        pm.load();
-        System.out.println(pm.getList().size());
+        FileManager.writePeopleJSON(pm.getList(), "./assets/savefiles/accounts");
+
+        showList(FileManager.readPeopleJSON("./assets/savefiles/accounts"));
 
         /* List<Person> list = pm.sortBy("Sex");
         showList(list);

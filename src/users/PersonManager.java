@@ -4,34 +4,22 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
-import java.util.Scanner;
-
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.JsonParseException;
-import com.google.gson.JsonSyntaxException;
 import com.google.gson.annotations.Expose;
-import com.google.gson.reflect.TypeToken;
-
 import database.LocalDateTypeAdapter;
 import database.RuntimeTypeAdapterFactory;
+import exceptions.ManagerAlreadyInitializedException;
 import users.sanctions.Sanction;
 
 import static java.util.Map.entry;
 
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.io.PrintWriter;
 import java.time.LocalDate;
 
 public class PersonManager {
 
     private static final String INVALID_ADMIN_MSG = "Permission Denied! Only an admin can can change the loan terms";
+    private static final String FILTER_NOT_COHERENT_MSG = "Criteria and argument are not coherent";
     private static final String DIR_PATH = "./assets/savefiles/";
     private static final String FILE_NAME = "accounts";
 
@@ -86,7 +74,7 @@ public class PersonManager {
     private List<Person> people;
 
     private PersonManager() {
-        load();
+        this.people = new ArrayList<>();
     }
 
     /**
@@ -236,15 +224,20 @@ public class PersonManager {
      * @param criteria A String representing the filter criteria
      * @param argument The object that represents the criteria to be met
      * @return A list containing the objects that met the criteria
+     * @throws ClassCastException when argument and criteria don't match
      */
-    @SuppressWarnings("unchecked")
-    public static <T, E extends Person> List<E> filterBy(List<E> list, String criteria, T argument) {
-        PersonFilter<T> filter = (PersonFilter<T>) FILTER_CRITERIAS.get(criteria);
+    public static <T, E extends Person> List<E> filterBy(List<E> list, String criteria, T argument) throws ClassCastException {
         List<E> newList = new ArrayList<>();
-        for(E element : list) {
-            if (filter.test(element, argument))
-                newList.add((E) element);
+        try {
+            PersonFilter<T> filter = (PersonFilter<T>) FILTER_CRITERIAS.get(criteria);
+            for(E element : list) {
+                if (filter.test(element, argument))
+                    newList.add((E) element);
+            }
+        } catch (Exception e) {
+            throw new ClassCastException(FILTER_NOT_COHERENT_MSG);
         }
+
         return newList;
     }
 
@@ -279,52 +272,14 @@ public class PersonManager {
     }
 
     /**
-     * Saves the instance to the file.
-     * @return {@code true} if the saving was successfull
+     * Initialize person manager with a list of people.
+     * @param personList a list of people to be added to the manager's list
+     * @throws ManagerAlreadyInitializedException when the manager was already been initialized
      */
-    public boolean save() {
-        File dir = new File(DIR_PATH);
-        File file = new File(DIR_PATH, FILE_NAME);
-        try {
-            dir.mkdir();            // Make the directory if it doesn't exist
-            file.createNewFile();   // Create a file if it doesn't exist
-        } catch (IOException | SecurityException e) {
-            e.printStackTrace();
-            return false;
-        }
-
-        // This will clear the file and write to it ex-novo
-        try (PrintWriter pw = new PrintWriter(new FileWriter(file))) {
-            for (Person p : people)
-                pw.println(parser.toJson(p, Person.class));
-        } catch (IOException e) {
-            e.printStackTrace();
-            return false;
-        }
-
-        return true;
-    }
-
-    /**
-     * Loads the content of the savefile
-     * @return {@code true} if all of the accounts saved were loaded successfully
-     */
-    public boolean load() {
-        File file = new File(DIR_PATH, FILE_NAME);
-        TypeToken<Person> personTypeToken = new TypeToken<>() {};
-        people = new ArrayList<>();
-
-        try (Scanner fileScanner = new Scanner(file)) {
-            while(fileScanner.hasNext()) {
-                Person p = parser.fromJson(fileScanner.nextLine(), personTypeToken);
-                people.add(p);
-            }
-        } catch (FileNotFoundException | JsonSyntaxException e) {
-            // No file is found or parsing went wrong, start from zero
-            System.out.println("No file found for PersonManager. Creating one from scratch.");
-            return false;
-        }
-
-        return true;
+    public void initializePeopleList(List<Person> personList) {
+        if(this.people.size() > 0)
+            throw new ManagerAlreadyInitializedException();
+            
+        people.addAll(personList);
     }
 }
