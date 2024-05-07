@@ -298,7 +298,7 @@ public class SignupFrame extends JFrame implements ActionListener {
 		//if month or year is changed, update the number of days in the month
 		if(e.getSource()==monthComboBox || e.getSource()==yearComboBox) {
 			dayComboBox.removeAllItems();
-			for(int i=1; i<=hasDays(monthComboBox.getSelectedItem(), yearComboBox.getSelectedItem()); i++) {
+			for(int i=1; i<=hasDays((int)monthComboBox.getSelectedItem(), (int)yearComboBox.getSelectedItem()); i++) {
 				dayComboBox.addItem(i);
 			}
 			dayComboBox.setSelectedIndex(0);
