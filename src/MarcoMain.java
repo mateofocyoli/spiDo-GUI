@@ -1,5 +1,4 @@
 import java.time.LocalDate;
-import java.time.Year;
 import java.util.ArrayList;
 
 import database.FileManager;
@@ -7,6 +6,7 @@ import items.*;
 import items.managers.ArchiveManager;
 import items.managers.LoanRequestsManager;
 import users.*;
+import users.managers.PersonManager;
 
 
 public class MarcoMain {

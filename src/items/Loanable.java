@@ -8,7 +8,7 @@ import exceptions.InvalidAdminException;
 
 import users.Admin;
 import users.User;
-import users.PersonManager;
+import users.managers.PersonManager;
 
 public abstract class Loanable {
 

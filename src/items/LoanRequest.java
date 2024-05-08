@@ -6,7 +6,7 @@ import exceptions.InvalidAdminException;
 import exceptions.NotInArchiveException;
 import users.Admin;
 import users.User;
-import users.PersonManager;
+import users.managers.PersonManager;
 
 public class LoanRequest {
 

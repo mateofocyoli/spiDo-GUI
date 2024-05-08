@@ -5,8 +5,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.*;
 
-import main.AppCloser;
+import app.AppCloser;
 import users.*;
+import users.managers.PersonManager;
 
 public class LoginFrame extends JFrame implements ActionListener {
 	

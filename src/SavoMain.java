@@ -9,9 +9,9 @@ import java.util.Scanner;
 
 import users.Credentials;
 import users.Person;
-import users.PersonManager;
 import users.User;
 import users.Person.Sex;
+import users.managers.PersonManager;
 import users.Admin;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;

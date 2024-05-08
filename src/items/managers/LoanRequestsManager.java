@@ -18,8 +18,8 @@ import items.LoanRequest;
 import items.Loanable;
 import items.filters.LoanRequestFilter;
 import users.Admin;
-import users.PersonManager;
 import users.User;
+import users.managers.PersonManager;
 
 public class LoanRequestsManager {
 

@@ -17,8 +17,7 @@ import exceptions.InvalidBookException;
 import exceptions.ManagerAlreadyInitializedException;
 
 import users.Admin;
-import users.PersonManager;
-
+import users.managers.PersonManager;
 import items.Book;
 import items.Loanable;
 import items.filters.BookFilter;

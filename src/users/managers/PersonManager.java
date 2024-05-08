@@ -1,4 +1,4 @@
-package users;
+package users.managers;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Map;
 import exceptions.ManagerAlreadyInitializedException;
 import users.sanctions.Sanction;
+import users.*;
+import users.filters.*;
 
 import static java.util.Map.entry;
 

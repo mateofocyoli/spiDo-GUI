@@ -1,4 +1,4 @@
-package main;
+package app;
 import java.io.IOException;
 
 import com.google.gson.JsonIOException;
@@ -6,7 +6,10 @@ import com.google.gson.JsonSyntaxException;
 
 import GUI.LoginFrame;
 import database.FileManager;
-import users.PersonManager;
+import items.LoanRequest;
+import items.managers.ArchiveManager;
+import items.managers.LoanRequestsManager;
+import users.managers.PersonManager;
 
 /**
  * Main file
@@ -25,6 +28,14 @@ public class Library {
         // Initilize PersonManager
         PersonManager pm = PersonManager.getInstance();
         pm.initializePeopleList(FileManager.readPeopleJSON(SAVEFILES_DIR_NAME + ACCOUNTS_FILE_NAME));
+
+        //Initialize ArchiveManager
+        ArchiveManager arcMgr = ArchiveManager.getInstance();
+        arcMgr.initializeArchive(FileManager.readArchiveJSON(FileManager.DEFAULT_ARCHIVE_FILENAME));
+
+        //Initialize LoanRequestsManager
+        LoanRequestsManager lnReqMgr = LoanRequestsManager.getInstance();
+        lnReqMgr.initializeRequests(FileManager.readRequestsJSON(FileManager.DEFAULT_LOAN_REQ_FILENAME));
 
         // Start the app
         new LoginFrame();

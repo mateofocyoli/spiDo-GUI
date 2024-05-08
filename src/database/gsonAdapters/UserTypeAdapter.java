@@ -7,8 +7,8 @@ package database.gsonAdapters;
 
 import java.lang.reflect.Type;
 
-import users.PersonManager;
 import users.User;
+import users.managers.PersonManager;
 
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;

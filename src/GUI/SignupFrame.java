@@ -8,8 +8,9 @@ import java.time.LocalDate;
 
 import javax.swing.*;
 
-import main.AppCloser;
+import app.AppCloser;
 import users.Person.Sex;
+import users.managers.PersonManager;
 import users.*;
 
 public class SignupFrame extends JFrame implements ActionListener {
