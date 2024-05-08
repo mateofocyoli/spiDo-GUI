@@ -71,7 +71,8 @@ public class LoanRequestsManager {
     private static LoanRequestFilter<Loanable.LoanState> filterByRequestedLoanState = 
         (LoanRequest r, Loanable.LoanState loanState) -> r.getRequested().getState().compareTo(loanState) == 0;
 
-
+    /**Map used to store the filters used to get specific loan requests from the list
+     */
     private static final Map<String, LoanRequestFilter<?>> FILTER_CRITERIAS = Map.ofEntries(
         entry(OBJ_NAME_TAG, filterByRequestedName),
         entry(APPLICANT_TAG, filterByApplicant),

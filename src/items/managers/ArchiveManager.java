@@ -97,7 +97,8 @@ public class ArchiveManager {
     private static BookFilter<Loanable.LoanState> filterByLoanState = 
         (Book b, Loanable.LoanState loanState) -> b.getState().compareTo(loanState) == 0;
 
-
+    /**Map used to store the filters used to get specific elements of the archive Map
+     */
     private static final Map<String, BookFilter<?>> FILTER_CRITERIAS = Map.ofEntries(
         entry(TITLE_TAG, filterByTitle),
         entry(AUTHOR_TAG, filterByAuthor),

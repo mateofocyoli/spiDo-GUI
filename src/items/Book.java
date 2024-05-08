@@ -3,12 +3,12 @@ import java.awt.Image;
 import java.time.LocalDate;
 import java.time.Year;
 
-import com.google.gson.annotations.Expose;
-
 import users.User;
 
 public class Book extends Loanable{
 
+	/**Enum representing various book genres
+	 */
 	public static enum Genre{
 		ACTION,
 		FANTASY,
@@ -24,15 +24,10 @@ public class Book extends Loanable{
 		CHILDREN
 	}
 	
-    @Expose
 	private String title;
-    @Expose
 	private String author;
-    @Expose
 	private Genre genre;
-    @Expose
 	private Year releaseYear;
-    @Expose
 	private int numPages;
 
 	transient private Image coverImage;
@@ -116,13 +111,7 @@ public class Book extends Loanable{
 	public boolean equals(Object obj){
 		if (obj == null || !(obj instanceof Book))
 			return false;
-		//Book other = (Book)obj;
-		return getID().equalsIgnoreCase(((Book)obj).getID());/* &&
-			   this.title.equalsIgnoreCase(other.title) &&
-			   this.author.equalsIgnoreCase(other.author) &&
-			   this.genre.equals(other.genre) &&
-			   this.releaseYear.equals(other.releaseYear) &&
-			   this.numPages == other.numPages;*/
+		return getID().equalsIgnoreCase(((Book)obj).getID());
 	}
 
 	

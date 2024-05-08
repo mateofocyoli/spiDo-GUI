@@ -14,7 +14,7 @@ public abstract class Loanable {
 
     private static final String INVALID_ADMIN_MSG = "Permission Denied! Only an admin can can change the loan terms";
     
-    /**State of loanable object, which can be borrowed only if it is IN_ARCHIVE
+    /**Enum representing the state of a loanable object, which can be borrowed only if it is IN_ARCHIVE
      */
     public static enum LoanState{
         ON_LOAN,

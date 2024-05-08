@@ -28,55 +28,79 @@ import users.User;
 
 public class FileManager {
 
+  public static final String DEFAULT_LOAN_REQ_FILENAME = "assets/savefiles/loanRequests.json";
+  public static final String DEFAULT_ARCHIVE_FILENAME = "assets/savefiles/archive.json";
 
+  /**Read a list of requests from a JSON file with references to applicant's id and requested object's id, an
+   * ArchiveManager and a PersonManager will be needed to obtain Person and Book objects from username and id
+   * @param filename of the JSON file
+   * @return the list of loan requests
+   * @throws JsonIOException
+   * @throws JsonSyntaxException
+   * @throws IOException
+   */
+  public static ArrayList<LoanRequest> readRequestsJSON(String filename) throws JsonIOException, JsonSyntaxException, IOException {
+    Type requestType = new TypeToken<List<LoanRequest>>() {
+    }.getType();
+    Gson gson = new GsonBuilder().registerTypeAdapter(
+                LocalDate.class, new LocalDateTypeAdapter()).registerTypeAdapter(
+                User.class, new UserTypeAdapter()).registerTypeAdapter(
+                Loanable.class, new BookTypeAdapter()).create();
 
-    public static final String DEFAULT_LOAN_REQ_FILENAME = "assets/savefiles/loanRequests.json";
-    public static final String DEFAULT_ARCHIVE_FILENAME = "assets/savefiles/archive.json";
+    FileReader reader = new FileReader(filename);
+    ArrayList<LoanRequest> requests = gson.fromJson(reader, requestType);
+    return requests;
 
+    
+  }
 
-    public static ArrayList<LoanRequest> readRequestsJSON(String filename) throws JsonIOException, JsonSyntaxException, IOException {
-      Type requestType = new TypeToken<List<LoanRequest>>() {
-      }.getType();
-      Gson gson = new GsonBuilder().registerTypeAdapter(
+  /**Read a list of books from a JSON file with references to borrower's id, a PerosnManager
+   * will be needed to obtain Person objects from username
+   * @param filename of the JSON file
+   * @return the list of loan requests
+   * @throws JsonIOException
+   * @throws JsonSyntaxException
+   * @throws IOException
+   */
+  public static ArrayList<Book> readArchiveJSON(String filename) throws JsonIOException, JsonSyntaxException, IOException {
+    Type bookType = new TypeToken<List<Book>>() {
+    }.getType();
+    Gson gson = new GsonBuilder().registerTypeAdapter(
                   LocalDate.class, new LocalDateTypeAdapter()).registerTypeAdapter(
-                  User.class, new UserTypeAdapter()).registerTypeAdapter(
-                  Loanable.class, new BookTypeAdapter()).create();
+                  Year.class, new YearTypeAdapter()).registerTypeAdapter(
+                  User.class, new UserTypeAdapter()).create();
 
-      FileReader reader = new FileReader(filename);
-      ArrayList<LoanRequest> requests = gson.fromJson(reader, requestType);
-      return requests;
+    FileReader reader = new FileReader(filename);
+    ArrayList<Book> archive = gson.fromJson(reader, bookType);
+    return archive;
 
       
-    }
+  }
 
-    public static ArrayList<Book> readArchiveJSON(String filename) throws JsonIOException, JsonSyntaxException, IOException {
-      Type bookType = new TypeToken<List<Book>>() {
-      }.getType();
-      Gson gson = new GsonBuilder().registerTypeAdapter(
+  /**Writes a list of requests to a JSON file with references to requested object's id and its applicant's username 
+   * @param requests to write to the JSON file
+   * @param filename of the JSON file
+   * @throws JsonIOException
+   * @throws IOException
+   */
+  public static void writeRequestsJSON(List<LoanRequest> requests, String filename) throws JsonIOException, IOException {
+    Gson gson = new GsonBuilder().setPrettyPrinting().registerTypeAdapter(
                     LocalDate.class, new LocalDateTypeAdapter()).registerTypeAdapter(
-                    Year.class, new YearTypeAdapter()).registerTypeAdapter(
-                    User.class, new UserTypeAdapter()).create();
-
-      FileReader reader = new FileReader(filename);
-      ArrayList<Book> archive = gson.fromJson(reader, bookType);
-      return archive;
-
-      
+                    User.class, new UserTypeAdapter()).registerTypeAdapter(
+                    Book.class, new BookTypeAdapter()).create();
+                    
+    FileWriter writer = new FileWriter(filename);
+    gson.toJson(requests, writer);
+    writer.close();
+    
   }
 
-    public static void writeRequestsJSON(List<LoanRequest> requests, String filename) throws JsonIOException, IOException {
-      Gson gson = new GsonBuilder().setPrettyPrinting().registerTypeAdapter(
-                      LocalDate.class, new LocalDateTypeAdapter()).registerTypeAdapter(
-                      User.class, new UserTypeAdapter()).registerTypeAdapter(
-                      Book.class, new BookTypeAdapter()).create();
-                      
-      FileWriter writer = new FileWriter(filename);
-      gson.toJson(requests, writer);
-      writer.close();
-      
-  }
-
-
+  /**Writes a list of boks to a JSON file with references to its borrower's username 
+   * @param requests to write to the JSON file
+   * @param filename of the JSON file
+   * @throws JsonIOException
+   * @throws IOException
+   */
   public static void writeArchiveJSON(List<Book> archive, String filename) throws JsonIOException, IOException{
     Gson gson = new GsonBuilder().serializeNulls().setPrettyPrinting().registerTypeAdapter(
                     LocalDate.class, new LocalDateTypeAdapter()).registerTypeAdapter(
