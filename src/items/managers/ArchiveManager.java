@@ -1,4 +1,4 @@
-package items.manager;
+package items.managers;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -20,6 +20,7 @@ import users.PersonManager;
 
 import items.Book;
 import items.Loanable;
+import items.filters.BookFilter;
 
 
 public class ArchiveManager {

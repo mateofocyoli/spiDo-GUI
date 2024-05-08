@@ -20,8 +20,8 @@ import com.google.gson.*;
 import com.google.gson.reflect.TypeToken;
 
 import database.FileManager;
-import database.LocalDateTypeAdapter;
-import database.RuntimeTypeAdapterFactory;
+import database.gsonAdapters.LocalDateTypeAdapter;
+import database.gsonAdapters.RuntimeTypeAdapterFactory;
 
 public class SavoMain {
 

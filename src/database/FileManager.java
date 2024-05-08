@@ -18,6 +18,7 @@ import com.google.gson.JsonIOException;
 import com.google.gson.JsonSyntaxException;
 import com.google.gson.reflect.TypeToken;
 
+import database.gsonAdapters.*;
 import items.Book;
 import items.LoanRequest;
 import items.Loanable;
@@ -29,8 +30,8 @@ public class FileManager {
 
 
 
-    public static final String DEFAULT_LOAN_REQ_FILENAME = "assets/loanRequests.json";
-    public static final String DEFAULT_ARCHIVE_FILENAME = "assets/archive.json";
+    public static final String DEFAULT_LOAN_REQ_FILENAME = "assets/savefiles/loanRequests.json";
+    public static final String DEFAULT_ARCHIVE_FILENAME = "assets/savefiles/archive.json";
 
 
     public static ArrayList<LoanRequest> readRequestsJSON(String filename) throws JsonIOException, JsonSyntaxException, IOException {

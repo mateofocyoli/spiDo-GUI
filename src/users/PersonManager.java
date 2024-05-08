@@ -7,8 +7,9 @@ import java.util.Map;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.annotations.Expose;
-import database.LocalDateTypeAdapter;
-import database.RuntimeTypeAdapterFactory;
+
+import database.gsonAdapters.LocalDateTypeAdapter;
+import database.gsonAdapters.RuntimeTypeAdapterFactory;
 import exceptions.ManagerAlreadyInitializedException;
 import users.sanctions.Sanction;
 

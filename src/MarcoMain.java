@@ -3,8 +3,8 @@ import java.util.ArrayList;
 
 import database.FileManager;
 import items.*;
-import items.manager.ArchiveManager;
-import items.manager.LoanRequestsManager;
+import items.managers.ArchiveManager;
+import items.managers.LoanRequestsManager;
 import users.*;
 import users.Person.Sex;
 

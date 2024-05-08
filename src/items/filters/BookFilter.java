@@ -1,4 +1,4 @@
-package items.manager;
+package items.filters;
 
 import items.Book;
 

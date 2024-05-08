@@ -1,4 +1,4 @@
-package database;
+package database.gsonAdapters;
 
 /**
  * This code was found on this link:
@@ -6,9 +6,7 @@ package database;
  */
 
 import java.lang.reflect.Type;
-
-import users.PersonManager;
-import users.User;
+import java.time.Year;
 
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
@@ -18,19 +16,18 @@ import com.google.gson.JsonPrimitive;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
 
-public class UserTypeAdapter implements JsonSerializer<User>, JsonDeserializer<User> {
+public class YearTypeAdapter implements JsonSerializer<Year>, JsonDeserializer<Year> {
 
 
     @Override
-    public JsonElement serialize(final User user, final Type typeOfSrc,
+    public JsonElement serialize(final Year date, final Type typeOfSrc,
             final JsonSerializationContext context) {
-        return new JsonPrimitive(user.getCredentials().getUsername());
+        return new JsonPrimitive(date.getValue());
     }
 
     @Override
-    public User deserialize(final JsonElement json, final Type typeOfT,
+    public Year deserialize(final JsonElement json, final Type typeOfT,
             final JsonDeserializationContext context) throws JsonParseException {
-        PersonManager pm = PersonManager.getInstance();
-        return PersonManager.filterBy(pm.getUsers(), "Username", json.getAsString()).get(0);
+        return Year.of(json.getAsInt());
     }
 }

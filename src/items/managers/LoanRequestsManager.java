@@ -1,4 +1,4 @@
-package items.manager;
+package items.managers;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -16,7 +16,7 @@ import exceptions.RequestNotPresentException;
 import items.Book;
 import items.LoanRequest;
 import items.Loanable;
-
+import items.filters.LoanRequestFilter;
 import users.Admin;
 import users.PersonManager;
 import users.User;

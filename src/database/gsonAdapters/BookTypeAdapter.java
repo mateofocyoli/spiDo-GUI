@@ -1,4 +1,4 @@
-package database;
+package database.gsonAdapters;
 
 /**
  * This code was found on this link:
@@ -8,7 +8,7 @@ package database;
 import java.lang.reflect.Type;
 
 import items.Book;
-import items.manager.ArchiveManager;
+import items.managers.ArchiveManager;
 
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;

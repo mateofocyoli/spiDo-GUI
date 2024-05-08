@@ -1,4 +1,4 @@
-package database;
+package database.gsonAdapters;
 
 /**
  * This code was found on this link:
