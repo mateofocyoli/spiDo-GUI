@@ -13,6 +13,7 @@ import java.time.Year;
 
 import exceptions.NotInArchiveException;
 import exceptions.InvalidAdminException;
+import exceptions.InvalidBookException;
 import exceptions.ManagerAlreadyInitializedException;
 
 import users.Admin;
@@ -24,6 +25,7 @@ import items.filters.BookFilter;
 
 
 public class ArchiveManager {
+
 
     public static final String LOAN_STATE_TAG = "loan state";
 
@@ -44,6 +46,8 @@ public class ArchiveManager {
     private static final String BOOK_ON_LOAN_MSG = "The book is currently on loan, you cannot remove it";
 
     private static final String INVALID_ADMIN_MSG = "Permission Denied! Only an admin can modify the archive";
+
+    private static final String INVALID_BOOK_MSG = "This book cannot be added to the archive";
 
     private static ArchiveManager instance;
 
@@ -126,7 +130,8 @@ public class ArchiveManager {
         }
         
         for (Book book : books){
-            archive.put(book.getID(), book);
+            if (book != null)
+                archive.put(book.getID(), book);
         }
 
     }
@@ -163,9 +168,11 @@ public class ArchiveManager {
      * @param book to add to the archive
      * @throws InvalidAdminException if the admin is not accredited
      */
-    public void addBook(Admin applicant, Book book) throws InvalidAdminException {
-        if (!PersonManager.getInstance().getAdmins().contains(applicant))
+    public void addBook(Admin applicant, Book book) throws InvalidAdminException, InvalidBookException {
+        if (applicant == null || !PersonManager.getInstance().getAdmins().contains(applicant))
             throw new InvalidAdminException(INVALID_ADMIN_MSG);
+        if (book == null)
+            throw new InvalidBookException(INVALID_BOOK_MSG);
         archive.putIfAbsent(book.getID(), book);
     }
 
@@ -174,7 +181,7 @@ public class ArchiveManager {
      * @param books to add to the archive
      * @throws InvalidAdminException if the admin is not accredited
      */
-    public void addBooks(Admin applicant, List<Book> books) throws InvalidAdminException {
+    public void addBooks(Admin applicant, List<Book> books) throws InvalidAdminException, InvalidBookException {
         for (Book book : books) {
             addBook(applicant, book);
         }

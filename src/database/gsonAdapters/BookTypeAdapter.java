@@ -18,7 +18,6 @@ import com.google.gson.JsonPrimitive;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
 
-import exceptions.NotInArchiveException;
 
 public class BookTypeAdapter implements JsonSerializer<Book>, JsonDeserializer<Book> {
 
@@ -37,7 +36,7 @@ public class BookTypeAdapter implements JsonSerializer<Book>, JsonDeserializer<B
             Book book = am.searchBook(json.getAsString()).get(0);
             return book;
         } catch (IndexOutOfBoundsException e) {
-            throw new NotInArchiveException();
+            return null;
         }
     }
 }
