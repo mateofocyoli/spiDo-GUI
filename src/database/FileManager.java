@@ -35,7 +35,7 @@ public class FileManager {
 
 
     public static ArrayList<LoanRequest> readRequestsJSON(String filename) throws JsonIOException, JsonSyntaxException, IOException {
-      Type requestType = new TypeToken<ArrayList<LoanRequest>>() {
+      Type requestType = new TypeToken<List<LoanRequest>>() {
       }.getType();
       Gson gson = new GsonBuilder().registerTypeAdapter(
                   LocalDate.class, new LocalDateTypeAdapter()).registerTypeAdapter(
@@ -50,7 +50,7 @@ public class FileManager {
     }
 
     public static ArrayList<Book> readArchiveJSON(String filename) throws JsonIOException, JsonSyntaxException, IOException {
-      Type bookType = new TypeToken<ArrayList<Book>>() {
+      Type bookType = new TypeToken<List<Book>>() {
       }.getType();
       Gson gson = new GsonBuilder().registerTypeAdapter(
                     LocalDate.class, new LocalDateTypeAdapter()).registerTypeAdapter(
@@ -64,7 +64,7 @@ public class FileManager {
       
   }
 
-    public static void writeRequestsJSON(ArrayList<LoanRequest> requests, String filename) throws JsonIOException, IOException {
+    public static void writeRequestsJSON(List<LoanRequest> requests, String filename) throws JsonIOException, IOException {
       Gson gson = new GsonBuilder().setPrettyPrinting().registerTypeAdapter(
                       LocalDate.class, new LocalDateTypeAdapter()).registerTypeAdapter(
                       User.class, new UserTypeAdapter()).registerTypeAdapter(
@@ -72,11 +72,12 @@ public class FileManager {
                       
       FileWriter writer = new FileWriter(filename);
       gson.toJson(requests, writer);
+      writer.close();
       
   }
 
 
-  public static void writeArchiveJSON(ArrayList<Book> archive, String filename) throws JsonIOException, IOException{
+  public static void writeArchiveJSON(List<Book> archive, String filename) throws JsonIOException, IOException{
     Gson gson = new GsonBuilder().serializeNulls().setPrettyPrinting().registerTypeAdapter(
                     LocalDate.class, new LocalDateTypeAdapter()).registerTypeAdapter(
                     Year.class, new YearTypeAdapter()).registerTypeAdapter(
@@ -85,6 +86,7 @@ public class FileManager {
 
     FileWriter writer = new FileWriter(filename);
     gson.toJson(archive, writer);
+    writer.close();
     
   }
 
@@ -102,7 +104,6 @@ public class FileManager {
     PrintWriter writer = new PrintWriter(filename);
     for(Person p : people)
         writer.println(parser.toJson(p, Person.class));
-    writer.flush();
     writer.close();
     
   }

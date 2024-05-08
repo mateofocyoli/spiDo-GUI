@@ -1,4 +1,5 @@
 import java.time.LocalDate;
+import java.time.Year;
 import java.util.ArrayList;
 
 import database.FileManager;
@@ -21,22 +22,13 @@ public class MarcoMain {
         for (int i = 0; i < users.length; i++){
             pm.add(users[i]);
         }
-                        
-        /*Book[] books = { new Book("La mia vita di merda", "Phoenix", Book.Genre.COMEDY, Year.now(), 7) , 
-                        new Book("Bibbia", "jesoo", Book.Genre.FANTASY, Year.now(), 7) 
-                        };
+
+        Admin admin = new Admin("Marco", "Corazzina", LocalDate.now(), "Brescia", Person.Sex.MALE, new Credentials("phoenix", "sonounamerda"));
+        pm.add(admin);           
         
-        LoanRequest[] requs = {
-            new LoanRequest(users[0], books[0], LocalDate.now()),
-            new LoanRequest(users[1], books[1], LocalDate.now())
-        };*/
 
         ArrayList<LoanRequest> requests = new ArrayList<LoanRequest>();
 
-
-        /*for (int i = 0; i < requs.length; i++){
-            requests.add(requs[i]);
-        }*/
 
         ArchiveManager am = ArchiveManager.getInstance();
 
@@ -53,6 +45,25 @@ public class MarcoMain {
             e.printStackTrace();
         }
 
+        /*Book[] books = { new Book("La mia vita di merda", "Phoenix", Book.Genre.COMEDY, Year.now(), 7, "") , 
+                        new Book("Bibbia", "jesoo", Book.Genre.FANTASY, Year.now(), 7, "") 
+                        };
+        
+        /*LoanRequest[] requs = {
+            new LoanRequest(users[0], books[0], LocalDate.now()),
+            new LoanRequest(users[1], books[1], LocalDate.now())
+        };
+
+        try {
+            am.addBook(admin, books[0]);
+            am.addBook(admin, books[1]);
+            lrm.makeBookRequest(users[0], books[0]);
+            lrm.makeBookRequest(users[1], books[1]);
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+        }*/
+
 
         for (Book book : am.getSortedBooksBy("")) {
             System.out.println(book.toString());
@@ -63,6 +74,35 @@ public class MarcoMain {
             System.out.println(lr.getRequested().toString());
         }
         System.out.println();
+
+
+        try {
+            lrm.acceptRequest(admin, lrm.filterBy(LoanRequestsManager.APPLICANT_TAG, pm.filterBy("Username", "merdina").get(0)).get(0));
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        for (Book book : am.getSortedBooksBy("")) {
+            System.out.println(book.toString());
+        }
+
+        
+        for (LoanRequest lr : lrm.getSortedRequestsBy("")) {
+            System.out.println(lr.getRequested().toString());
+        }
+        System.out.println();
+
+
+        try {
+            FileManager.writeArchiveJSON(am.getSortedBooksBy(""), FileManager.DEFAULT_ARCHIVE_FILENAME);
+            FileManager.writeRequestsJSON(lrm.getSortedRequestsBy(""), FileManager.DEFAULT_LOAN_REQ_FILENAME);
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
 
     }
 }

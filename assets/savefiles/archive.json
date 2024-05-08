@@ -1,5 +1,17 @@
 [
   {
+    "title": "Bibbia",
+    "author": "jesoo",
+    "genre": "FANTASY",
+    "releaseYear": 2024,
+    "numPages": 7,
+    "name": "Bibbia",
+    "state": "ON_LOAN",
+    "dueDate": "2024-06-08",
+    "ID": "5df49d04-eaac-445e-be48-a2a001d0b7c8",
+    "borrower": "merdina"
+  },
+  {
     "title": "La mia vita di merda",
     "author": "Phoenix",
     "genre": "COMEDY",
@@ -7,20 +19,8 @@
     "numPages": 7,
     "name": "La mia vita di merda",
     "state": "IN_ARCHIVE",
-    "dueDate": "2024-05-07",
-    "ID": "c4d0319b-3700-45a2-a584-6ea253472a5b",
-    "borrower": null
-  },
-  {
-    "title": "Bibbia",
-    "author": "jesoo",
-    "genre": "FANTASY",
-    "releaseYear": 2024,
-    "numPages": 7,
-    "name": "Bibbia",
-    "state": "IN_ARCHIVE",
-    "dueDate": "2024-05-07",
-    "ID": "86ed8295-2f82-45ff-90a6-e782647bcaa9",
+    "dueDate": "2024-05-08",
+    "ID": "1e5d1960-3216-43d8-a0d0-13c05c6114ef",
     "borrower": null
   }
 ]
