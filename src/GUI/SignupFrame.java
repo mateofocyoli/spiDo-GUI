@@ -14,10 +14,13 @@ import users.*;
 
 public class SignupFrame extends JFrame implements ActionListener {
 	
+    private static String[] MONTHS = {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
+
 	//Grafic tools for window design
 	JLabel nameLabel, surnameLabel, dateLabel, dateComboBoxLabel, cityLabel, sexLabel, usernameLabel, passwordLabel;
 	JTextField nameTextField, surnameTextField, cityTextField, usernameTextField, passwordTextField;
-	JComboBox<Integer> dayComboBox, monthComboBox, yearComboBox;
+	JComboBox<Integer> dayComboBox, yearComboBox;
+    JComboBox<String> monthComboBox;
     JComboBox<Sex> sexComboBox;
 	JButton signupButton;
 	
@@ -132,9 +135,9 @@ public class SignupFrame extends JFrame implements ActionListener {
 		for(int i=1900; i<2024; i++) {
 			yearComboBox.addItem(i);
 		}
-		//filling monthComboBox with months from 1 to 12
-		for(int i=1; i<13; i++) {
-			monthComboBox.addItem(i);
+		//filling monthComboBox with months
+		for(String m : MONTHS) {
+			monthComboBox.addItem(m);
 		}
 		
 		//adding the three combo boxes all together in the panel
@@ -246,7 +249,7 @@ public class SignupFrame extends JFrame implements ActionListener {
 			name = nameTextField.getText();
 			surname = surnameTextField.getText();
             int year = (int) yearComboBox.getSelectedItem(),
-                month = (int) monthComboBox.getSelectedItem(),
+                month = (int) monthComboBox.getSelectedIndex() + 1,
                 day = (int) dayComboBox.getSelectedItem();
 			birthDate = LocalDate.of(year, month, day);
 			
@@ -280,7 +283,7 @@ public class SignupFrame extends JFrame implements ActionListener {
                 return;
             
             dayComboBox.removeAllItems();
-			for(int i=1; i<=hasDays((int)monthComboBox.getSelectedItem(), (int)yearComboBox.getSelectedItem()); i++) {
+			for(int i=1; i<=hasDays((int)monthComboBox.getSelectedIndex() + 1, (int)yearComboBox.getSelectedItem()); i++) {
 				dayComboBox.addItem(i);
 			}
 			dayComboBox.setSelectedIndex(0);
