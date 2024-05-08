@@ -42,15 +42,11 @@ public class FileManager {
                   User.class, new UserTypeAdapter()).registerTypeAdapter(
                   Loanable.class, new BookTypeAdapter()).create();
 
-      try (FileReader reader = new FileReader(filename)) {
+      FileReader reader = new FileReader(filename);
+      ArrayList<LoanRequest> requests = gson.fromJson(reader, requestType);
+      return requests;
 
-        ArrayList<LoanRequest> requests = gson.fromJson(reader, requestType);
-        return requests;
-
-      } 
-      catch (JsonIOException | JsonSyntaxException | IOException e) {
-        throw e;
-      }
+      
     }
 
     public static ArrayList<Book> readArchiveJSON(String filename) throws JsonIOException, JsonSyntaxException, IOException {
@@ -61,16 +57,11 @@ public class FileManager {
                     Year.class, new YearTypeAdapter()).registerTypeAdapter(
                     User.class, new UserTypeAdapter()).create();
 
-      try (FileReader reader = new FileReader(filename)) {
+      FileReader reader = new FileReader(filename);
+      ArrayList<Book> archive = gson.fromJson(reader, bookType);
+      return archive;
 
-        ArrayList<Book> archive = gson.fromJson(reader, bookType);
-        return archive;
-
-
-      } 
-      catch (JsonIOException | JsonSyntaxException | IOException e) {
-        throw e;
-      }
+      
   }
 
     public static void writeRequestsJSON(ArrayList<LoanRequest> requests, String filename) throws JsonIOException, IOException {
@@ -79,35 +70,9 @@ public class FileManager {
                       User.class, new UserTypeAdapter()).registerTypeAdapter(
                       Book.class, new BookTypeAdapter()).create();
                       
-      /*TODO: remove in production
-      User[] users = { new User("Alessandro", "Muscio", LocalDate.now(), "Brescia", Person.Sex.MALE, new Credentials("kibo", "culo")), 
-                      new User("Irene", "Treccani", LocalDate.now(), "Brescia", Person.Sex.FEMALE, new Credentials("merdina", "cacca")) 
-                    };
-                      
-      Book[] books = { new Book("La mia vita di merda", "Phoenix", Book.Genre.COMEDY, Year.now(), 7) , 
-                      new Book("Bibbia", "jesoo", Book.Genre.FANTASY, Year.now(), 7) 
-                    };
-
-      LoanRequest[] requs = {
-          new LoanRequest(users[0], books[0], LocalDate.now()),
-          new LoanRequest(users[1], books[1], LocalDate.now())
-      };
-
-      ArrayList<LoanRequest> requests = new ArrayList<LoanRequest>();
-
-      //ArrayList<LoanRequest> requests = new ArrayList<>();
-
-      for (int i = 0; i < requs.length; i++){
-          requests.add(requs[i]);
-      }*/
-
-
-      try (FileWriter writer = new FileWriter(filename)) {
-        gson.toJson(requests, writer);
-      } 
-      catch (JsonIOException | IOException e) {
-        throw e;
-      }
+      FileWriter writer = new FileWriter(filename);
+      gson.toJson(requests, writer);
+      
   }
 
 
@@ -118,11 +83,9 @@ public class FileManager {
                     User.class, new UserTypeAdapter()).create();
      
 
-    try (FileWriter writer = new FileWriter(filename)) {
-      gson.toJson(archive, writer);
-    } catch (JsonIOException | IOException e) {
-      throw e;
-    }
+    FileWriter writer = new FileWriter(filename);
+    gson.toJson(archive, writer);
+    
   }
 
   public static void writePeopleJSON(List<Person> people, String filename) throws JsonIOException, IOException{
@@ -136,12 +99,12 @@ public class FileManager {
                       .create();
      
 
-    try (PrintWriter writer = new PrintWriter(filename)) {
-        for(Person p : people)
-            writer.println(parser.toJson(p, Person.class));
-    } catch (JsonIOException | IOException e) {
-      throw e;
-    }
+    PrintWriter writer = new PrintWriter(filename);
+    for(Person p : people)
+        writer.println(parser.toJson(p, Person.class));
+    writer.flush();
+    writer.close();
+    
   }
 
   public static List<Person> readPeopleJSON(String filename) throws JsonIOException, JsonSyntaxException, IOException {
@@ -162,9 +125,6 @@ public class FileManager {
       }
       return people;
     } 
-    catch (JsonIOException | JsonSyntaxException | IOException e) {
-      throw e;
-    }
   }
 
   /**

@@ -170,8 +170,10 @@ public class Book extends Loanable{
 	public String toString() {
 		return "Book [title=" + title + ", author=" + author + ", genre=" + genre + ", releaseYear=" + releaseYear
 				+ ", numPages=" + numPages + ", getState()=" + getState() + ", getDueDate()=" + getDueDate()
-				+ ", getBorrower()=" + getBorrower() + "]";
+				+ ", getBorrower()=" + getBorrower() + ", getID()=" + getID() + "]";
 	}
+
+
 
 	
 	

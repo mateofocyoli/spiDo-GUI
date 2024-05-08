@@ -6,7 +6,6 @@ import items.*;
 import items.managers.ArchiveManager;
 import items.managers.LoanRequestsManager;
 import users.*;
-import users.Person.Sex;
 
 
 public class MarcoMain {
@@ -14,100 +13,56 @@ public class MarcoMain {
 
         LoanRequestsManager lrm = LoanRequestsManager.getInstance();
 
-        User user = new User("Alessandro", "Muscio", LocalDate.now(), "Brescia", Sex.MALE, new Credentials("Kibo", "Siuum"));
-        User admin = new User("Treccani", "Irene", LocalDate.now(), "Brescia", Sex.FEMALE, new Credentials("merdina", "cacca"));
         PersonManager pm = PersonManager.getInstance();
-        pm.add(user);
-        pm.add(admin);
+        User[] users = { new User("Alessandro", "Muscio", LocalDate.now(), "Brescia", Person.Sex.MALE, new Credentials("kibo", "culo")), 
+                        new User("Irene", "Treccani", LocalDate.now(), "Brescia", Person.Sex.FEMALE, new Credentials("merdina", "cacca")) 
+                    };
+        
+        for (int i = 0; i < users.length; i++){
+            pm.add(users[i]);
+        }
+                        
+        /*Book[] books = { new Book("La mia vita di merda", "Phoenix", Book.Genre.COMEDY, Year.now(), 7) , 
+                        new Book("Bibbia", "jesoo", Book.Genre.FANTASY, Year.now(), 7) 
+                        };
+        
+        LoanRequest[] requs = {
+            new LoanRequest(users[0], books[0], LocalDate.now()),
+            new LoanRequest(users[1], books[1], LocalDate.now())
+        };*/
+
+        ArrayList<LoanRequest> requests = new ArrayList<LoanRequest>();
+
+
+        /*for (int i = 0; i < requs.length; i++){
+            requests.add(requs[i]);
+        }*/
 
         ArchiveManager am = ArchiveManager.getInstance();
 
 
 
         ArrayList<Book> archive = new ArrayList<>();
-        ArrayList<LoanRequest> requests = new ArrayList<>();
 
         try {
             archive = FileManager.readArchiveJSON(FileManager.DEFAULT_ARCHIVE_FILENAME);
+            am.initializeArchive(archive);
             requests = FileManager.readRequestsJSON(FileManager.DEFAULT_LOAN_REQ_FILENAME);
+            lrm.initializeRequests(requests);
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            e.printStackTrace();
         }
-        am.initializeArchive(archive);
-        lrm.initializeRequests(requests);
 
 
-
-
+        for (Book book : am.getSortedBooksBy("")) {
+            System.out.println(book.toString());
+        }
 
         
         for (LoanRequest lr : lrm.getSortedRequestsBy("")) {
             System.out.println(lr.getRequested().toString());
         }
-
-        for (Book book : am.getSortedBooksBy("")) {
-            System.out.println(book.toString());
-        }
         System.out.println();
-        /*
-        Book b2 = new Book("La bibbia", "Gesù", Book.Genre.FANTASY, Year.now(), 7);
-
-        try {
-            am.addBook(admin, b2);
-            lrm.makeBookRequest(user, b2);
-        } catch (IllegalAccessException | NotInArchiveException e) {
-            e.printStackTrace();
-        }
-
-        for (Book book : am.filterBy("title", "La bibbia")) {
-            System.out.println(book.toString());
-        }
-
-        for (LoanRequest lr : lrm.filterBy("date", LocalDate.now())) {
-            System.out.println(lr.getRequested().toString());
-        }
-
-        System.out.println();
-
-        try {
-            lrm.acceptRequest(admin, lrm.filterBy(LoanRequestsManager.APPLICANT_TAG, user).get(0));
-        } catch (IllegalAccessException | NotInArchiveException e) {
-            e.printStackTrace();
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-        }
-        Book loan = null;
-        try {
-            for (Book book : am.filterBy(ArchiveManager.LOAN_STATE_TAG, Loanable.LoanState.ON_LOAN)) {
-                System.out.println(book.toString());
-                loan = book;
-
-            }
-
-        }
-        catch (Exception e){
-            e.printStackTrace();
-            
-        }
-
-        System.out.println();
-
-
-        try {
-            loan.setOnArchive(admin);
-            for (Book book : am.filterBy(ArchiveManager.LOAN_STATE_TAG, Loanable.LoanState.IN_ARCHIVE)) {
-                System.out.println(book.toString());
-            }
-
-        }
-        catch (Exception e){
-            e.printStackTrace();
-            
-        }
-
-        //FileManager.writeArchiveJSON();
-        */
 
     }
 }
