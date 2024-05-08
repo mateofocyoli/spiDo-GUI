@@ -5,6 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.*;
 
+import main.AppCloser;
 import users.*;
 
 public class LoginFrame extends JFrame implements ActionListener {
@@ -18,7 +19,9 @@ public class LoginFrame extends JFrame implements ActionListener {
 		this.setSize(500, 400);
 		this.setResizable(false);
 		this.setVisible(true);
-		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        this.addWindowListener(new AppCloser());
+
 		this.setTitle("Library - Login");
 		
 		this.setLayout(new BorderLayout());
@@ -103,7 +106,6 @@ public class LoginFrame extends JFrame implements ActionListener {
 		if(e.getSource()==loginButton) {
 			
 			PersonManager pm = PersonManager.getInstance();
-			pm.load();
 			
 			String username = usernameTextField.getText();
 			String password = passwordTextField.getText();

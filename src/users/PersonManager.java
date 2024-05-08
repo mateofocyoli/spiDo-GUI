@@ -4,12 +4,6 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.annotations.Expose;
-
-import database.gsonAdapters.LocalDateTypeAdapter;
-import database.gsonAdapters.RuntimeTypeAdapterFactory;
 import exceptions.ManagerAlreadyInitializedException;
 import users.sanctions.Sanction;
 
@@ -21,8 +15,6 @@ public class PersonManager {
 
     private static final String INVALID_ADMIN_MSG = "Permission Denied! Only an admin can can change the loan terms";
     private static final String FILTER_NOT_COHERENT_MSG = "Criteria and argument are not coherent";
-    private static final String DIR_PATH = "./assets/savefiles/";
-    private static final String FILE_NAME = "accounts";
 
     private static Comparator<Person> compareByName = (Person p1, Person p2) -> p1.getName().compareToIgnoreCase(p2.getName());
     private static Comparator<Person> compareBySurname = (Person p1, Person p2) -> p1.getSurname().compareToIgnoreCase(p2.getSurname());
@@ -60,18 +52,8 @@ public class PersonManager {
         entry("Type", filterByType)
     );
 
-    private static final Gson parser = new GsonBuilder()
-                                            .registerTypeAdapter(LocalDate.class, new LocalDateTypeAdapter())
-                                            .registerTypeAdapterFactory(RuntimeTypeAdapterFactory
-                                                                            .of(Person.class, "type")
-                                                                            .registerSubtype(User.class, "user")
-                                                                            .registerSubtype(Admin.class, "admin"))
-                                            .excludeFieldsWithoutExposeAnnotation()
-                                            .create();
-
     private static PersonManager instance;
 
-    @Expose
     private List<Person> people;
 
     private PersonManager() {

@@ -1,16 +1,14 @@
 package GUI;
 
-import java.util.Date;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.security.InvalidParameterException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 
 import javax.swing.*;
 
+import main.AppCloser;
 import users.Person.Sex;
 import users.*;
 
@@ -19,16 +17,14 @@ public class SignupFrame extends JFrame implements ActionListener {
 	//Grafic tools for window design
 	JLabel nameLabel, surnameLabel, dateLabel, dateComboBoxLabel, cityLabel, sexLabel, usernameLabel, passwordLabel;
 	JTextField nameTextField, surnameTextField, cityTextField, usernameTextField, passwordTextField;
-	JComboBox dayComboBox, monthComboBox, yearComboBox, sexComboBox;
+	JComboBox<Integer> dayComboBox, monthComboBox, yearComboBox;
+    JComboBox<Sex> sexComboBox;
 	JButton signupButton;
 	
 	//User credentials
 	String name;
 	String surname;
 	LocalDate birthDate;
-	String day;
-	String month;
-	int year;
 	String birthDateString;
 	String cityOfBirth;
 	Sex sex;
@@ -44,7 +40,9 @@ public class SignupFrame extends JFrame implements ActionListener {
 		this.setSize(500, 550);
 		this.setResizable(false);
 		this.setVisible(true);
-		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        this.addWindowListener(new AppCloser());
+        
 		this.setLayout(new BorderLayout(0, 40));
 		
 		//layout frame
@@ -122,9 +120,9 @@ public class SignupFrame extends JFrame implements ActionListener {
 		centerPanel.add(p31);
 		
 		//date combo box setup
-		dayComboBox = new JComboBox();
-		monthComboBox = new JComboBox();
-		yearComboBox = new JComboBox();
+		dayComboBox = new JComboBox<>();
+		monthComboBox = new JComboBox<>();
+		yearComboBox = new JComboBox<>();
 
 		dayComboBox.addActionListener(this);
 		monthComboBox.addActionListener(this);
@@ -170,7 +168,7 @@ public class SignupFrame extends JFrame implements ActionListener {
 		
 		//sex combobox setup
 		Sex[] sexes = {Sex.MALE, Sex.FEMALE};
-		sexComboBox = new JComboBox(sexes);
+		sexComboBox = new JComboBox<>(sexes);
 		sexComboBox.setFont(new Font("Lexend", Font.PLAIN, 15));
 		p52.add(sexComboBox);
 		centerPanel.add(p52);
@@ -247,28 +245,10 @@ public class SignupFrame extends JFrame implements ActionListener {
 			//memorize all the info
 			name = nameTextField.getText();
 			surname = surnameTextField.getText();
-			
-			
-			//date of birth
-			if(isSingleDigit((int) dayComboBox.getSelectedItem())) {
-				day = "0" + dayComboBox.getSelectedItem();
-			}
-			else {
-				day = (String) dayComboBox.getSelectedItem();
-			}
-			
-			if(isSingleDigit((int) monthComboBox.getSelectedItem())) {
-				month = "0" + monthComboBox.getSelectedItem();
-			}
-			else {
-				month = (String) monthComboBox.getSelectedItem();
-			}
-			
-			
-			year = (int) yearComboBox.getSelectedItem();
-			
-			birthDateString = year + "-" + month + "-" + day;
-			birthDate = LocalDate.parse(birthDateString);
+            int year = (int) yearComboBox.getSelectedItem(),
+                month = (int) monthComboBox.getSelectedItem(),
+                day = (int) dayComboBox.getSelectedItem();
+			birthDate = LocalDate.of(year, month, day);
 			
 			cityOfBirth = cityTextField.getText();
 			
@@ -291,13 +271,15 @@ public class SignupFrame extends JFrame implements ActionListener {
 			else {
 				this.dispose();
 				new LoginFrame();
-				pm.save();
 			}
 			
 		}
 		//if month or year is changed, update the number of days in the month
 		if(e.getSource()==monthComboBox || e.getSource()==yearComboBox) {
-			dayComboBox.removeAllItems();
+			if(monthComboBox.getSelectedItem() == null || yearComboBox.getSelectedItem() == null)
+                return;
+            
+            dayComboBox.removeAllItems();
 			for(int i=1; i<=hasDays((int)monthComboBox.getSelectedItem(), (int)yearComboBox.getSelectedItem()); i++) {
 				dayComboBox.addItem(i);
 			}
@@ -305,22 +287,4 @@ public class SignupFrame extends JFrame implements ActionListener {
 		}
 		
 	}
-	
-	public boolean isSingleDigit(int x) {
-		switch(x) {
-		case 1: return true;
-		case 2: return true;
-		case 3: return true;
-		case 4: return true;
-		case 5: return true;
-		case 6: return true;
-		case 7: return true;
-		case 8: return true;
-		case 9: return true;
-		default: return false;
-		}
-	}
-	
-	
-
 }
