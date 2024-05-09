@@ -31,6 +31,10 @@ public class UserTypeAdapter implements JsonSerializer<User>, JsonDeserializer<U
     public User deserialize(final JsonElement json, final Type typeOfT,
             final JsonDeserializationContext context) throws JsonParseException {
         PersonManager pm = PersonManager.getInstance();
-        return PersonManager.filterBy(pm.getUsers(), "Username", json.getAsString()).get(0);
+        try {
+            return PersonManager.filterBy(pm.getUsers(), "Username", json.getAsString()).get(0);
+        } catch (IndexOutOfBoundsException e) {
+            return null;
+        }
     }
 }

@@ -104,8 +104,12 @@ public class LoanRequestsManager {
         if (this.requests.size() > 0) {
             throw new ManagerAlreadyInitializedException();
         }
+        for (LoanRequest lr : requests){
+            if (lr != null && lr.getApplicant() != null){
+                this.requests.add(lr);
+            }
 
-        this.requests.addAll(requests);
+        }
 
     }
 
