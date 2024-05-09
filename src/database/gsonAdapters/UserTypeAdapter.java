@@ -25,7 +25,7 @@ public class UserTypeAdapter implements JsonSerializer<User>, JsonDeserializer<U
     @Override
     public JsonElement serialize(final User user, final Type typeOfSrc,
             final JsonSerializationContext context) {
-        return new JsonPrimitive(user.getCredentials().getUsername());
+        return new JsonPrimitive(user == null ? null : user.getCredentials().getUsername());
     }
 
     @Override

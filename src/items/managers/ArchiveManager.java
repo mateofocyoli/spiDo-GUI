@@ -26,19 +26,10 @@ import items.filters.BookFilter;
 public class ArchiveManager {
 
 
-    public static final String LOAN_STATE_TAG = "loan state";
-
-    public static final String ID_TAG = "id";
-
-    public static final String RELEASE_YEAR_TAG = "year";
-
-    public static final String NUM_PAGES_TAG = "num pages";
-
-    public static final String GENRE_TAG = "genre";
-
-    public static final String AUTHOR_TAG = "author";
-
-    public static final String TITLE_TAG = "title";
+  
+    public static enum Criteria {
+        LOAN_STATE, ID, RELEASE_YEAR, NUM_PAGES, GENRE, AUTHOR, TITLE
+    }
 
     private static final String FILTER_NOT_COHERENT_MSG = "Criteria and argument are not coherent";
 
@@ -73,13 +64,13 @@ public class ArchiveManager {
 
     /**Map used to store the comparators used to sort the archive Map
      */
-    private static final Map<String, Comparator<Book>> ORDER_CRITERIAS = Map.ofEntries(
-        entry(TITLE_TAG, compareByTitle),
-        entry(AUTHOR_TAG, compareByAuthor),
-        entry(GENRE_TAG, compareByGenre),
-        entry(NUM_PAGES_TAG, compareByNumPages),
-        entry(RELEASE_YEAR_TAG, compareByReleaseYear),
-        entry(ID_TAG, compareByID)
+    private static final Map<Criteria, Comparator<Book>> ORDER_CRITERIAS = Map.ofEntries(
+        entry(Criteria.TITLE, compareByTitle),
+        entry(Criteria.AUTHOR, compareByAuthor),
+        entry(Criteria.GENRE, compareByGenre),
+        entry(Criteria.NUM_PAGES, compareByNumPages),
+        entry(Criteria.RELEASE_YEAR, compareByReleaseYear),
+        entry(Criteria.ID, compareByID)
     );
 
     private static BookFilter<String> filterByTitle = 
@@ -99,12 +90,12 @@ public class ArchiveManager {
 
     /**Map used to store the filters used to get specific elements of the archive Map
      */
-    private static final Map<String, BookFilter<?>> FILTER_CRITERIAS = Map.ofEntries(
-        entry(TITLE_TAG, filterByTitle),
-        entry(AUTHOR_TAG, filterByAuthor),
-        entry(GENRE_TAG, filterByGenre),
-        entry(RELEASE_YEAR_TAG, filterByYear),
-        entry(LOAN_STATE_TAG, filterByLoanState)
+    private static final Map<Criteria, BookFilter<?>> FILTER_CRITERIAS = Map.ofEntries(
+        entry(Criteria.TITLE, filterByTitle),
+        entry(Criteria.AUTHOR, filterByAuthor),
+        entry(Criteria.GENRE, filterByGenre),
+        entry(Criteria.RELEASE_YEAR, filterByYear),
+        entry(Criteria.LOAN_STATE, filterByLoanState)
     );
 
 
@@ -143,9 +134,9 @@ public class ArchiveManager {
      * "release year" or "id" default to title
      * @return a list of sorted books by the specified criteria
      */
-    public void sortBy(String orderCriteria){
+    public void sortBy(Criteria orderCriteria){
         List<Entry<String, Book>> list = new ArrayList<>(archive.entrySet());
-        list.sort(Entry.comparingByValue(ORDER_CRITERIAS.getOrDefault(orderCriteria.toLowerCase(), compareByTitle)));
+        list.sort(Entry.comparingByValue(ORDER_CRITERIAS.getOrDefault(orderCriteria, compareByTitle)));
         archive.clear();
         for (Entry<String, Book> entry : list) {
             archive.put(entry.getKey(), entry.getValue());
@@ -154,12 +145,11 @@ public class ArchiveManager {
 
     /**Obtain a sorted list of the books (values of the map archive) in the archive by a criteria specified,
      * if the criteria is invalid it will be sorted by title
-     * @param orderCriteria of the books in the archive, can be "title", "author", "genre", "num pages",
-     * "release year" or "id" default to title
+     * @param orderCriteria of the books in the archive, the options offered are in the static Criteria enum in this class
      */
-    public List<Book> getSortedBooksBy(String orderCriteria) {
+    public List<Book> getSortedBooksBy(Criteria orderCriteria) {
         List<Book> list = new ArrayList<>(archive.values());
-        list.sort(ORDER_CRITERIAS.getOrDefault(orderCriteria.toLowerCase(), compareByTitle));
+        list.sort(ORDER_CRITERIAS.getOrDefault(orderCriteria, compareByTitle));
         return list;
     }
 
@@ -246,12 +236,12 @@ public class ArchiveManager {
 
     /**Get a filtered list of pending loan requests by the specified criteria and argument
      * @param <T> the type of argument
-     * @param criteria to filter the list of requests by
+     * @param criteria to filter the list of requests by, the options offered are in the static Criteria enum in this class
      * @param argument that has to match the specified criteria
      * @return a list of loan requests filtered by the specified criteria and argument
      * @throws ClassCastException
      */
-    public <T> List<Book> filterBy(String criteria, T argument) throws ClassCastException {
+    public <T> List<Book> filterBy(Criteria criteria, T argument) throws ClassCastException {
         List<Book> newList = new ArrayList<>();
         try {
             BookFilter<T> filter = (BookFilter<T>) FILTER_CRITERIAS.getOrDefault(criteria, filterByTitle);

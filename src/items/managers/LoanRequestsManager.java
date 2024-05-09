@@ -23,19 +23,13 @@ import users.managers.PersonManager;
 
 public class LoanRequestsManager {
 
-    public static final String LOAN_STATE_TAG = "loan state";
-
-    public static final String OBJ_ID_TAG = "id";
-
-    public static final String OBJ_NAME_TAG = "name";
-
-    public static final String APPLICANT_TAG = "applicant";
-
-    public static final String DATE_OF_REQ_TAG = "date";
-
     private static final String FILTER_NOT_COHERENT_MSG = "Criteria and argument are not coherent";
 
     private static final String BOOK_NOT_AVAILABLE_MSG = "The request cannot be accepted, this book is currently unavailable";
+
+    public static enum Criteria{
+        OBJ_ID, OBJ_NAME, APPLICANT, DATE_OF_REQ, LOAN_STATE
+    }
 
     private static Comparator<LoanRequest> compareByApplicant = 
         (LoanRequest r1, LoanRequest r2) -> r1.getApplicant().compareTo(r2.getApplicant().getCredentials());
@@ -51,11 +45,11 @@ public class LoanRequestsManager {
 
     /**Map used to store the comparators used to sort the loan requests
      */
-    private static final Map<String, Comparator<LoanRequest>> ORDER_CRITERIAS = Map.ofEntries(
-        entry(APPLICANT_TAG, compareByApplicant),
-        entry(DATE_OF_REQ_TAG, compareByDateOfRequest),
-        entry(OBJ_NAME_TAG, compareByObjectName),
-        entry(OBJ_ID_TAG, compareByID)
+    private static final Map<Criteria, Comparator<LoanRequest>> ORDER_CRITERIAS = Map.ofEntries(
+        entry(Criteria.APPLICANT, compareByApplicant),
+        entry(Criteria.DATE_OF_REQ, compareByDateOfRequest),
+        entry(Criteria.OBJ_NAME, compareByObjectName),
+        entry(Criteria.OBJ_ID, compareByID)
     );
 
     private static LoanRequestFilter<String> filterByRequestedName = 
@@ -73,11 +67,11 @@ public class LoanRequestsManager {
 
     /**Map used to store the filters used to get specific loan requests from the list
      */
-    private static final Map<String, LoanRequestFilter<?>> FILTER_CRITERIAS = Map.ofEntries(
-        entry(OBJ_NAME_TAG, filterByRequestedName),
-        entry(APPLICANT_TAG, filterByApplicant),
-        entry(DATE_OF_REQ_TAG, filterByDateOfRequest),
-        entry(LOAN_STATE_TAG, filterByRequestedLoanState)
+    private static final Map<Criteria, LoanRequestFilter<?>> FILTER_CRITERIAS = Map.ofEntries(
+        entry(Criteria.OBJ_NAME, filterByRequestedName),
+        entry(Criteria.APPLICANT, filterByApplicant),
+        entry(Criteria.DATE_OF_REQ, filterByDateOfRequest),
+        entry(Criteria.LOAN_STATE, filterByRequestedLoanState)
     );
     
     private static LoanRequestsManager instance;
@@ -176,23 +170,22 @@ public class LoanRequestsManager {
     }
 
     /**Acces a list of requests sorted by the specified criteria
-     * @param criteria used to sort the requests, can be "applicant", "date" (of request), "name" (of the object)
-     * or "id", default to "date"
+     * @param criteria used to sort the requests, the options offered are in the static Criteria enum in this class
      * @return the list of requests sorted by the specified criteria
      */
-    public List<LoanRequest> getSortedRequestsBy(String criteria){
-        requests.sort(ORDER_CRITERIAS.getOrDefault(criteria.toLowerCase(), compareByDateOfRequest));
+    public List<LoanRequest> getSortedRequestsBy(Criteria criteria){
+        requests.sort(ORDER_CRITERIAS.getOrDefault(criteria, compareByDateOfRequest));
         return requests;
     }
 
     /**Get a filtered list of pending loan requests by the specified criteria and argument
      * @param <T> the type of argument
-     * @param criteria to filter the list of requests by
+     * @param criteria to filter the list of requests by, the options offered are in the static Criteria enum in this class
      * @param argument that has to match the specified criteria
      * @return a list of loan requests filtered by the specified criteria and argument
      * @throws ClassCastException if the criteria specified and the type of argument passed are not coherent
      */
-    public <T> List<LoanRequest> filterBy(String criteria, T argument) throws ClassCastException {
+    public <T> List<LoanRequest> filterBy(Criteria criteria, T argument) throws ClassCastException {
         List<LoanRequest> newList = new ArrayList<>();
         try {
             LoanRequestFilter<T> filter = (LoanRequestFilter<T>) FILTER_CRITERIAS.getOrDefault(criteria, filterByRequestedName);

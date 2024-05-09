@@ -65,38 +65,38 @@ public class MarcoMain {
         }*/
 
 
-        for (Book book : am.getSortedBooksBy("")) {
+        for (Book book : am.getSortedBooksBy(null)) {
             System.out.println(book.toString());
         }
 
         
-        for (LoanRequest lr : lrm.getSortedRequestsBy("")) {
+        for (LoanRequest lr : lrm.getSortedRequestsBy(null)) {
             System.out.println(lr.getRequested().toString());
         }
         System.out.println();
 
 
         try {
-            lrm.acceptRequest(admin, lrm.filterBy(LoanRequestsManager.APPLICANT_TAG, pm.filterBy("Username", "merdina").get(0)).get(0));
+            lrm.acceptRequest(admin, lrm.filterBy(LoanRequestsManager.Criteria.APPLICANT, pm.filterBy(PersonManager.Criteria.USERNAME, "merdina").get(0)).get(0));
             
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        for (Book book : am.getSortedBooksBy("")) {
+        for (Book book : am.getSortedBooksBy(null)) {
             System.out.println(book.toString());
         }
 
         
-        for (LoanRequest lr : lrm.getSortedRequestsBy("")) {
+        for (LoanRequest lr : lrm.getSortedRequestsBy(null)) {
             System.out.println(lr.getRequested().toString());
         }
         System.out.println();
 
 
         try {
-            FileManager.writeArchiveJSON(am.getSortedBooksBy(""), FileManager.DEFAULT_ARCHIVE_FILENAME);
-            FileManager.writeRequestsJSON(lrm.getSortedRequestsBy(""), FileManager.DEFAULT_LOAN_REQ_FILENAME);
+            FileManager.writeArchiveJSON(am.getSortedBooksBy(null), FileManager.DEFAULT_ARCHIVE_FILENAME);
+            FileManager.writeRequestsJSON(lrm.getSortedRequestsBy(null), FileManager.DEFAULT_LOAN_REQ_FILENAME);
             
         } catch (Exception e) {
             e.printStackTrace();
