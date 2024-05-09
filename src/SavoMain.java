@@ -1,12 +1,6 @@
-import java.text.SimpleDateFormat;
-import java.io.File;
 import java.io.IOException;
 import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.Scanner;
-
 import users.Credentials;
 import users.Person;
 import users.User;

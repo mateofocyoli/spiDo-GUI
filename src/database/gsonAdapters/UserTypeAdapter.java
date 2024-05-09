@@ -9,6 +9,7 @@ import java.lang.reflect.Type;
 
 import users.User;
 import users.managers.PersonManager;
+import users.managers.PersonManager.Criteria;
 
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
@@ -32,7 +33,7 @@ public class UserTypeAdapter implements JsonSerializer<User>, JsonDeserializer<U
             final JsonDeserializationContext context) throws JsonParseException {
         PersonManager pm = PersonManager.getInstance();
         try {
-            return PersonManager.filterBy(pm.getUsers(), "Username", json.getAsString()).get(0);
+            return PersonManager.filterBy(pm.getUsers(), Criteria.USERNAME, json.getAsString()).get(0);
         } catch (IndexOutOfBoundsException e) {
             return null;
         }
