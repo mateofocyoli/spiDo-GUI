@@ -12,6 +12,8 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
+import app.AppCloser;
+
 public class AdminFrame extends JFrame implements ActionListener {
 
 	JMenuBar menuBar;
@@ -27,7 +29,8 @@ public class AdminFrame extends JFrame implements ActionListener {
 		this.setTitle("Admin frame");
 		this.setSize(750, 500);
 		this.setVisible(true);
-		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        this.addWindowListener(new AppCloser());
 		
 		//MENU BAR SETUP
 		//addition of the menu bar at the top of the frame

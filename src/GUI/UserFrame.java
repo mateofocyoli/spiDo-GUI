@@ -4,9 +4,9 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
-
 import javax.swing.*;
 
+import app.AppCloser;
 import users.Person;
 
 public class UserFrame extends JFrame implements ActionListener {
@@ -24,7 +24,8 @@ public class UserFrame extends JFrame implements ActionListener {
 		this.setTitle("User frame");
 		this.setSize(750, 500);
 		this.setVisible(true);
-		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        this.addWindowListener(new AppCloser());
 //		this.setLayout(new GridLayout());
 		
 		
@@ -112,9 +113,12 @@ public class UserFrame extends JFrame implements ActionListener {
 		this.add(s);
 		
 		//temporary//bottoni a cazzo
-		for(int i=1; i<100; i++) {
-			index = new JButton(""+i);
-			backgroundPanel.add(index);
+		for(int i=1; i<10; i++) {
+//			index = new JButton(""+i);
+//			backgroundPanel.add(index);
+			BookPanel x = new BookPanel();
+			backgroundPanel.add(x);
+			
 		}
 		
 		

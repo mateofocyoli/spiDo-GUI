@@ -3,6 +3,8 @@ package GUI;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.nio.file.Path;
+
 import javax.swing.*;
 
 import app.AppCloser;
@@ -28,7 +30,7 @@ public class LoginFrame extends JFrame implements ActionListener {
 		this.setLayout(new BorderLayout());
 		
 		//*DA SOSTITUIRE CON LOGO UNIBS*
-		ImageIcon frameIcon = new ImageIcon("assets\\spidogui.png");
+		ImageIcon frameIcon = new ImageIcon(Path.of("assets", "spidogui.png").toString());
 		this.setIconImage(frameIcon.getImage());
 		
 		JPanel centerPanel = new JPanel();
@@ -52,7 +54,7 @@ public class LoginFrame extends JFrame implements ActionListener {
 		
 		//north panel setup
 		JLabel unibsLogoContainer = new JLabel();
-		ImageIcon unibsLogo = new ImageIcon(new ImageIcon("assets\\unibsLogo.jpg").getImage().getScaledInstance(450, -1, Image.SCALE_SMOOTH));
+		ImageIcon unibsLogo = new ImageIcon(new ImageIcon(Path.of("assets", "unibsLogo.jpg").toString()).getImage().getScaledInstance(450, -1, Image.SCALE_SMOOTH));
 		//if second measure is -1 it autoscales
 		unibsLogoContainer.setIcon(unibsLogo);
 		
@@ -93,11 +95,6 @@ public class LoginFrame extends JFrame implements ActionListener {
 		signupButton.addActionListener(this);
 		
 		this.validate();
-	}
-	
-	
-	public static void main(String[] args) {
-		new LoginFrame();
 	}
 	
 	
