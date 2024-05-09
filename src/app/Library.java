@@ -91,6 +91,10 @@ public class Library {
             PersonManager pm = PersonManager.getInstance();
             // Save the list
             FileManager.writePeopleJSON(pm.getList(), ACCOUNTS_FILE_PATH.toString());
+
+            FileManager.writeArchiveJSON(ArchiveManager.getInstance().getSortedBooksBy(ArchiveManager.Criteria.TITLE), BOOKS_FILE_PATH.toString());
+            
+            FileManager.writeRequestsJSON(LoanRequestsManager.getInstance().getSortedRequestsBy(LoanRequestsManager.Criteria.DATE_OF_REQ), LOAN_REQUESTS_FILE_PATH.toString());
         } catch (SecurityException e) {
             // The program could not access the files because it has not the right privilege to write on that directory
             JOptionPane.showMessageDialog(null, 

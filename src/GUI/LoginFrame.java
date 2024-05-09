@@ -8,6 +8,7 @@ import java.nio.file.Path;
 import javax.swing.*;
 
 import app.AppCloser;
+import exceptions.InvalidAdminException;
 import users.*;
 import users.managers.PersonManager;
 
@@ -114,7 +115,12 @@ public class LoginFrame extends JFrame implements ActionListener {
 				JOptionPane.showMessageDialog(null, "Incorrect credentials", "Error", JOptionPane.ERROR_MESSAGE);
 			}
 			else if(person instanceof Admin) {
-				new AdminFrame();
+				try {
+                    new AdminFrame((Admin) person);
+                } catch (InvalidAdminException e1) {
+                    // This should never be thrown
+                    e1.printStackTrace();
+                }
 				this.dispose();
 			}
 			else if(person instanceof User) {

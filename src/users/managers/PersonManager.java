@@ -62,7 +62,7 @@ public class PersonManager {
     private static final Admin DEFAULT_ADMIN = new Admin("admin", "acccount",
                                                         LocalDate.of(1970, 1, 1),
                                                         "java-town", Sex.FEMALE,
-                                                        new Credentials("admin", "password"));
+                                                        new Credentials("a", "p"));
 
     private static PersonManager instance;
 
