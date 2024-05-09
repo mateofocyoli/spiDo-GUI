@@ -21,7 +21,7 @@ public class Library {
     private static final String ASSETS_DIR_NAME = "assets";
     private static final String SAVEFILES_DIR_NAME = "savefiles";
     private static final String ACCOUNTS_FILE_NAME = "accounts.json";
-    private static final String BOOKS_FILE_NAME = "books.json";
+    private static final String BOOKS_FILE_NAME = "archive.json";
     private static final String LOAN_REQUESTS_FILE_NAME = "loanRequests.json";
     private static final Path SAVEFILES_DIR_PATH = Path.of(ASSETS_DIR_NAME, SAVEFILES_DIR_NAME);
     private static final Path ACCOUNTS_FILE_PATH = Path.of(SAVEFILES_DIR_PATH.toString(), ACCOUNTS_FILE_NAME);
