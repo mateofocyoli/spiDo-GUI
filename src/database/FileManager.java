@@ -50,7 +50,7 @@ public class FileManager {
 
     FileReader reader = new FileReader(filename);
     ArrayList<LoanRequest> requests = gson.fromJson(reader, requestType);
-    return requests;
+    return requests == null ? new ArrayList<LoanRequest>() : requests;
 
     
   }
@@ -73,7 +73,7 @@ public class FileManager {
 
     FileReader reader = new FileReader(filename);
     ArrayList<Book> archive = gson.fromJson(reader, bookType);
-    return archive;
+    return archive == null ? new ArrayList<Book>() : archive;
 
       
   }
