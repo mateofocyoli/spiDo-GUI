@@ -6,6 +6,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.lang.reflect.Type;
+import java.nio.file.Path;
 import java.time.LocalDate;
 import java.time.Year;
 import java.util.ArrayList;
@@ -160,8 +161,8 @@ public class FileManager {
    * @throws IOException if an IO error occurs
    * @throws SecurityException if this app can not write on the path specified
    */
-  public static void assertFileExistency(String dirPath, String[] files) throws IOException, SecurityException {
-    File dir = new File(dirPath);
+  public static void assertFileExistency(Path dirPath, String[] files) throws IOException, SecurityException {
+    File dir = new File(dirPath.toString());
     dir.mkdir();            // Make the directory if it doesn't exist
     for(String fileName : files) {
         File file = new File(dir, fileName);
