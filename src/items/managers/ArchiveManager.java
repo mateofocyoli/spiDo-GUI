@@ -212,6 +212,14 @@ public class ArchiveManager {
      * @return a list of books which attributes match the query
      */
     public ArrayList<Book> searchBook(String searchQuery) {
+        searchQuery = searchQuery.trim();
+        boolean isYear = false;
+        try {
+            Year.parse(searchQuery);
+            isYear = true;
+        } catch (Exception e) {
+            isYear = false;
+        }
         ArrayList<Book> booksFound= new ArrayList<>();
         Book temp = archive.get(searchQuery);
         if (temp != null)
@@ -221,7 +229,7 @@ public class ArchiveManager {
             if (temp.getAuthor().equalsIgnoreCase(searchQuery) ||
                 temp.getTitle().equalsIgnoreCase(searchQuery) ||
                 temp.getGenre().name().equalsIgnoreCase(searchQuery) ||
-                temp.getReleaseYear().equals(Year.parse(searchQuery)) 
+                (isYear && temp.getReleaseYear().equals(Year.parse(searchQuery)) )
                 ) {
                     booksFound.add(temp);
                 }

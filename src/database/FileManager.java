@@ -29,9 +29,6 @@ import users.User;
 
 public class FileManager {
 
-  public static final String DEFAULT_LOAN_REQ_FILENAME = "assets/savefiles/loanRequests.json";
-  public static final String DEFAULT_ARCHIVE_FILENAME = "assets/savefiles/archive.json";
-
   /**Read a list of requests from a JSON file with references to applicant's id and requested object's id, an
    * ArchiveManager and a PersonManager will be needed to obtain Person and Book objects from username and id
    * @param filename of the JSON file

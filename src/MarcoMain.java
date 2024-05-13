@@ -10,6 +10,9 @@ import users.managers.PersonManager;
 
 
 public class MarcoMain {
+    private static final String DEFAULT_LOAN_REQ_FILENAME = "assets/savefiles/loanRequests.json";
+    private static final String DEFAULT_ARCHIVE_FILENAME = "assets/savefiles/archive.json";
+
     public static void main(String args[]) {
 
         LoanRequestsManager lrm = LoanRequestsManager.getInstance();
@@ -37,9 +40,9 @@ public class MarcoMain {
         ArrayList<Book> archive = new ArrayList<>();
 
         try {
-            archive = FileManager.readArchiveJSON(FileManager.DEFAULT_ARCHIVE_FILENAME);
+            archive = FileManager.readArchiveJSON(DEFAULT_ARCHIVE_FILENAME);
             am.initializeArchive(archive);
-            requests = FileManager.readRequestsJSON(FileManager.DEFAULT_LOAN_REQ_FILENAME);
+            requests = FileManager.readRequestsJSON(DEFAULT_LOAN_REQ_FILENAME);
             lrm.initializeRequests(requests);
         } catch (Exception e) {
             e.printStackTrace();
@@ -95,8 +98,8 @@ public class MarcoMain {
 
 
         try {
-            FileManager.writeArchiveJSON(am.getSortedBooksBy(null), FileManager.DEFAULT_ARCHIVE_FILENAME);
-            FileManager.writeRequestsJSON(lrm.getSortedRequestsBy(null), FileManager.DEFAULT_LOAN_REQ_FILENAME);
+            FileManager.writeArchiveJSON(am.getSortedBooksBy(ArchiveManager.Criteria.TITLE), DEFAULT_ARCHIVE_FILENAME);
+            FileManager.writeRequestsJSON(lrm.getSortedRequestsBy(LoanRequestsManager.Criteria.DATE_OF_REQ), DEFAULT_LOAN_REQ_FILENAME);
             
         } catch (Exception e) {
             e.printStackTrace();
