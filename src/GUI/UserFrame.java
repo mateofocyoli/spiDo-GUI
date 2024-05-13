@@ -4,19 +4,33 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.time.Year;
+import java.util.List;
+
 import javax.swing.*;
+import javax.swing.border.Border;
 
 import app.AppCloser;
+import database.FileManager;
+import items.Book;
+import items.Book.Genre;
+import items.managers.ArchiveManager;
+import items.managers.LoanRequestsManager;
 import users.Person;
 
 public class UserFrame extends JFrame implements ActionListener {
 	
-	JMenuBar menuBar;
-	JMenu sortBy, filterBy, search;
-	JMenuItem sortByTitle, sortByAuthor, sortByYear, sortByPages, sortByGenre;
-	JMenuItem filterByTitle, filterByAuthor, filterByYear, filterByPages, filterByGenre;
-	JMenuItem searche;
-	JButton index;
+	private JMenuBar menuBar;
+	private JMenu sortBy, filterBy, search;
+	private JMenu filterByGenre;
+	private JMenuItem sortByTitle, sortByAuthor, sortByYear, sortByPages, sortByGenre;
+	private JMenuItem filterByTitle, filterByAuthor, filterByYear, filterByPages;
+	private JMenuItem searche;
+	private JMenuItem actionFilter, fantasyFilter, adventureFilter, romanceFilter, comedyFilter, scifiFilter, mysteryFilter, thrillerFilter, historicalFilter, comicFilter, mangaFilter, childrenFilter;
+	private JButton index;
+	private JPanel backgroundPanel;
+	private ArchiveManager am;
+	private LoanRequestsManager lrm;
 	
 	UserFrame(Person person) {
 		
@@ -26,6 +40,8 @@ public class UserFrame extends JFrame implements ActionListener {
 		this.setVisible(true);
 		this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         this.addWindowListener(new AppCloser());
+        this.am = ArchiveManager.getInstance();
+        this.lrm = LoanRequestsManager.getInstance();
 //		this.setLayout(new GridLayout());
 		
 		
@@ -41,6 +57,7 @@ public class UserFrame extends JFrame implements ActionListener {
 		sortByYear = new JMenuItem("Year");
 		sortByPages = new JMenuItem("Number of pages");
 		sortByGenre = new JMenuItem("Genre");
+		
 		//addition of the voices to the sort menu
 		sortBy.add(sortByTitle);
 		sortBy.add(sortByAuthor);
@@ -55,7 +72,33 @@ public class UserFrame extends JFrame implements ActionListener {
 		filterByAuthor = new JMenuItem("Author");
 		filterByYear = new JMenuItem("Year");
 		filterByPages = new JMenuItem("Number of pages");
-		filterByGenre = new JMenuItem("Genre");
+		filterByGenre = new JMenu("Genre");
+		//criteria for filter
+		actionFilter = new JMenuItem("Action");
+		fantasyFilter = new JMenuItem("Fantasy");
+		adventureFilter = new JMenuItem("Adventure");
+		romanceFilter = new JMenuItem("Romance");
+		comedyFilter = new JMenuItem("Comedy");
+		scifiFilter = new JMenuItem("Scifi");
+		mysteryFilter = new JMenuItem("Mystery");
+		thrillerFilter = new JMenuItem("Thriller");
+		historicalFilter = new JMenuItem("Historical");
+		comicFilter = new JMenuItem("Comic");
+		mangaFilter = new JMenuItem("Manga");
+		childrenFilter = new JMenuItem("Children");
+		//add
+		filterByGenre.add(actionFilter);
+		filterByGenre.add(fantasyFilter);
+		filterByGenre.add(adventureFilter);
+		filterByGenre.add(romanceFilter);
+		filterByGenre.add(comedyFilter);
+		filterByGenre.add(scifiFilter);
+		filterByGenre.add(mysteryFilter);
+		filterByGenre.add(thrillerFilter);
+		filterByGenre.add(historicalFilter);
+		filterByGenre.add(comicFilter);
+		filterByGenre.add(mangaFilter);
+		filterByGenre.add(childrenFilter);
 		//addition of the voices to the sort menu
 		filterBy.add(filterByTitle);
 		filterBy.add(filterByAuthor);
@@ -97,6 +140,19 @@ public class UserFrame extends JFrame implements ActionListener {
 		filterByGenre.addActionListener(this);
 		searche.addActionListener(this);
 		
+		actionFilter.addActionListener(this);
+		fantasyFilter.addActionListener(this);
+		adventureFilter.addActionListener(this);
+		romanceFilter.addActionListener(this);
+		comedyFilter.addActionListener(this);
+		scifiFilter.addActionListener(this);
+		mysteryFilter.addActionListener(this);
+		thrillerFilter.addActionListener(this);
+		historicalFilter.addActionListener(this);
+		comicFilter.addActionListener(this);
+		mangaFilter.addActionListener(this);
+		childrenFilter.addActionListener(this);
+		
 		//addition of the three voices to the menu bar
 		menuBar.add(sortBy);
 		menuBar.add(filterBy);
@@ -106,73 +162,154 @@ public class UserFrame extends JFrame implements ActionListener {
 		
 		
 		//scroll bar setup
-		JPanel backgroundPanel = new JPanel();
-		backgroundPanel.setLayout(new GridLayout(0, 1));
+		this.backgroundPanel = new JPanel();
+		this.backgroundPanel.setLayout(new GridLayout(0, 2));
 		this.add(backgroundPanel);
 		JScrollPane s = new JScrollPane(backgroundPanel, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		this.add(s);
 		
+		List<Book> bookList = am.getSortedBooksBy(ArchiveManager.Criteria.TITLE);
 		//temporary//bottoni a cazzo
-		for(int i=1; i<10; i++) {
-//			index = new JButton(""+i);
-//			backgroundPanel.add(index);
-			BookPanel x = new BookPanel();
-			backgroundPanel.add(x);
-			
+		for(Book b : bookList) {		
+			BookPanelUser bookPanel = new BookPanelUser(b);
+			backgroundPanel.add(bookPanel);
 		}
 		
-		
+		this.pack();
 		
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		//ACTION PERMORMED WHEN A VOICE OF THE MENUBAR IS SELECTED
-		//------------------da sostituire con i metodi di Marco penso------------------
 		//if sort by title
 		if(e.getSource()==sortByTitle) {
-			System.out.println("sortByTitle");
+			this.setBooksInFrame(am.getSortedBooksBy(ArchiveManager.Criteria.TITLE));
 		}
 		//if sort by author
 		if(e.getSource()==sortByAuthor) {
-			System.out.println("sortByAuthor");
+			this.setBooksInFrame(am.getSortedBooksBy(ArchiveManager.Criteria.AUTHOR));
 		}
 		//if sort by year
 		if(e.getSource()==sortByYear) {
-			System.out.println("sortByYear");
+			this.setBooksInFrame(am.getSortedBooksBy(ArchiveManager.Criteria.RELEASE_YEAR));
 		}
 		//if sort by number fo pages
 		if(e.getSource()==sortByPages) {
-			System.out.println("sortByPages");
+			this.setBooksInFrame(am.getSortedBooksBy(ArchiveManager.Criteria.NUM_PAGES));
 		}
 		//if sort by genre
 		if(e.getSource()==sortByGenre) {
-			System.out.println("sortByGenre");
+			this.setBooksInFrame(am.getSortedBooksBy(ArchiveManager.Criteria.GENRE));
 		}
 		//if filter by title
 		if(e.getSource()==filterByTitle) {
-			System.out.println("filterByTitle");
+			String title = JOptionPane.showInputDialog("Title filter");
+			this.setBooksInFrame(am.filterBy(ArchiveManager.Criteria.TITLE, title));
 		}
 		//if filter by author
 		if(e.getSource()==filterByAuthor) {
-			System.out.println("filterByAuthor");
+			String author = JOptionPane.showInputDialog("Author filter");
+			this.setBooksInFrame(am.filterBy(ArchiveManager.Criteria.AUTHOR, author));
 		}
 		//if filter by year
 		if(e.getSource()==filterByYear) {
-			System.out.println("filterByYear");
+			Year year;
+			try {
+				year = Year.parse(JOptionPane.showInputDialog("Year filter").trim());
+				this.setBooksInFrame(am.filterBy(ArchiveManager.Criteria.RELEASE_YEAR, year));
+			} catch(Exception eParseYear) {
+				JOptionPane.showMessageDialog(null, "Input is not a valid year", "Error", JOptionPane.ERROR_MESSAGE);
+			}
 		}
 		//if filter by number of pages
 		if(e.getSource()==filterByPages) {
-			System.out.println("filterByPages");
+			try {
+				int nPages = Integer.parseInt(JOptionPane.showInputDialog("Number of pages filter"));
+				this.setBooksInFrame(am.filterBy(ArchiveManager.Criteria.NUM_PAGES, nPages));
+			} catch(Exception eParsePages) {
+				JOptionPane.showMessageDialog(null, "Input is not a valid number of pages", "Error", JOptionPane.ERROR_MESSAGE);
+			}
 		}
-		//if filter by genre
-		if(e.getSource()==filterByGenre) {
-			System.out.println("filterByGenre");
+		
+		//filter by genre
+		
+		//filter genre action
+		if(e.getSource()==actionFilter) {
+			this.setBooksInFrame(am.filterBy(ArchiveManager.Criteria.GENRE, Book.Genre.ACTION));
 		}
+		
+		//filter genre fantasy
+		if(e.getSource()==fantasyFilter) {
+			this.setBooksInFrame(am.filterBy(ArchiveManager.Criteria.GENRE, Book.Genre.FANTASY));
+		}
+		
+		//filter genre adventure
+		if(e.getSource()==adventureFilter) {
+			this.setBooksInFrame(am.filterBy(ArchiveManager.Criteria.GENRE, Book.Genre.ADVENTURE));
+		}
+		
+		//filter genre romance
+		if(e.getSource()==romanceFilter) {
+			this.setBooksInFrame(am.filterBy(ArchiveManager.Criteria.GENRE, Book.Genre.ROMANCE));
+		}
+		
+		//filter genre comedy
+		if(e.getSource()==comedyFilter) {
+			this.setBooksInFrame(am.filterBy(ArchiveManager.Criteria.GENRE, Book.Genre.COMEDY));
+		}
+		
+		//filter genre scifi
+		if(e.getSource()==scifiFilter) {
+			this.setBooksInFrame(am.filterBy(ArchiveManager.Criteria.GENRE, Book.Genre.SCIFI));
+		}
+		
+		//filter genre mystery
+		if(e.getSource()==mysteryFilter) {
+			this.setBooksInFrame(am.filterBy(ArchiveManager.Criteria.GENRE, Book.Genre.MYSTERY));
+		}
+		
+		//filter genre thriller
+		if(e.getSource()==thrillerFilter) {
+			this.setBooksInFrame(am.filterBy(ArchiveManager.Criteria.GENRE, Book.Genre.THRILLER));
+		}
+		
+		//filter genre historical
+		if(e.getSource()==historicalFilter) {
+			this.setBooksInFrame(am.filterBy(ArchiveManager.Criteria.GENRE, Book.Genre.HISTORICAL));
+		}
+		
+		//filter genre comic
+		if(e.getSource()==comicFilter) {
+			this.setBooksInFrame(am.filterBy(ArchiveManager.Criteria.GENRE, Book.Genre.COMIC));
+		}
+		
+		//filter genre manga
+		if(e.getSource()==mangaFilter) {
+			this.setBooksInFrame(am.filterBy(ArchiveManager.Criteria.GENRE, Book.Genre.MANGA));
+		}
+		
+		//filter genre children
+		if(e.getSource()==childrenFilter) {
+			this.setBooksInFrame(am.filterBy(ArchiveManager.Criteria.GENRE, Book.Genre.CHILDREN));
+		}
+		
+		
 		//if search
 		if(e.getSource()==searche) {
-			System.out.println("search");
+			String string = JOptionPane.showInputDialog("What do you want to search?");
+			am.searchBook(string);
 		}
+	}
+	
+	private void setBooksInFrame(List<Book> books) {
+		this.backgroundPanel.removeAll();
+		for(Book b : books) {		
+			BookPanelUser bookPanel = new BookPanelUser(b);
+			this.backgroundPanel.add(bookPanel);
+		}
+		this.revalidate();
+		this.repaint();
 	}
 
 }

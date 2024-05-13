@@ -147,8 +147,7 @@ public class AdminFrame extends JFrame implements ActionListener {
         JPanel backgroundPanel = new JPanel();
         backgroundPanel.setLayout(new GridLayout(0, 1));
         this.add(backgroundPanel);
-        JScrollPane s = new JScrollPane(backgroundPanel, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
-                JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        JScrollPane s = new JScrollPane(backgroundPanel, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         this.add(s);
 
         // temporary//bottoni a cazzo
