@@ -14,8 +14,8 @@ import users.managers.PersonManager;
 
 public class LoginFrame extends JFrame implements ActionListener {
 	
-	JButton loginButton, signupButton;
-	JTextField usernameTextField, passwordTextField;
+	private JButton loginButton, signupButton;
+	private JTextField usernameTextField; JPasswordField passwordTextField;
 	
 	public LoginFrame() {
 		
@@ -30,10 +30,11 @@ public class LoginFrame extends JFrame implements ActionListener {
 		
 		this.setLayout(new BorderLayout());
 		
-		//*DA SOSTITUIRE CON LOGO UNIBS*
+		//sets the icon of the LoginFrame
 		ImageIcon frameIcon = new ImageIcon(Path.of("assets", "spidogui.png").toString());
 		this.setIconImage(frameIcon.getImage());
 		
+		//divides the frame into different panels
 		JPanel centerPanel = new JPanel();
 		JPanel northPanel = new JPanel();
 		JPanel westPanel = new JPanel();
@@ -55,7 +56,7 @@ public class LoginFrame extends JFrame implements ActionListener {
 		
 		//north panel setup
 		JLabel unibsLogoContainer = new JLabel();
-		ImageIcon unibsLogo = new ImageIcon(new ImageIcon(Path.of("assets", "unibsLogo.jpg").toString()).getImage().getScaledInstance(450, -1, Image.SCALE_SMOOTH));
+		ImageIcon unibsLogo = new ImageIcon(new ImageIcon(Path.of("assets", "spiDoGUI_libreria.png").toString()).getImage().getScaledInstance(400, -1, Image.SCALE_SMOOTH));
 		//if second measure is -1 it autoscales
 		unibsLogoContainer.setIcon(unibsLogo);
 		
@@ -69,7 +70,7 @@ public class LoginFrame extends JFrame implements ActionListener {
 		passwordLabel.setFont(new Font("Lexend", Font.BOLD, 20));
 
 		usernameTextField = new JTextField();
-		passwordTextField = new JTextField();
+		passwordTextField = new JPasswordField();
 		
 		usernameTextField.setFont(new Font("Lexend", Font.PLAIN, 20));
 		passwordTextField.setFont(new Font("Lexend", Font.PLAIN, 20));

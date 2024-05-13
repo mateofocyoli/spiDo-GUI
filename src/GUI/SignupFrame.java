@@ -18,23 +18,23 @@ public class SignupFrame extends JFrame implements ActionListener {
     private static String[] MONTHS = {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
 
 	//Grafic tools for window design
-	JLabel nameLabel, surnameLabel, dateLabel, dateComboBoxLabel, cityLabel, sexLabel, usernameLabel, passwordLabel;
-	JTextField nameTextField, surnameTextField, cityTextField, usernameTextField, passwordTextField;
-	JComboBox<Integer> dayComboBox, yearComboBox;
-    JComboBox<String> monthComboBox;
-    JComboBox<Sex> sexComboBox;
-	JButton signupButton;
+	private JLabel nameLabel, surnameLabel, dateLabel, dateComboBoxLabel, cityLabel, sexLabel, usernameLabel, passwordLabel;
+	private JTextField nameTextField, surnameTextField, cityTextField, usernameTextField, passwordTextField;
+	private JComboBox<Integer> dayComboBox, yearComboBox;
+	private JComboBox<String> monthComboBox;
+	private JComboBox<Sex> sexComboBox;
+	private JButton signupButton;
 	
 	//User credentials
-	String name;
-	String surname;
-	LocalDate birthDate;
-	String birthDateString;
-	String cityOfBirth;
-	Sex sex;
-	Credentials credentials;
-	String username;
-	String password;
+	private String name;
+	private String surname;
+	private LocalDate birthDate;
+	private String birthDateString;
+	private String cityOfBirth;
+	private Sex sex;
+	private Credentials credentials;
+	private String username;
+	private String password;
 	
 	
 	SignupFrame() {

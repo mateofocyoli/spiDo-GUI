@@ -27,7 +27,6 @@ public class UserFrame extends JFrame implements ActionListener {
 	private JMenuItem filterByTitle, filterByAuthor, filterByYear, filterByPages;
 	private JMenuItem searche;
 	private JMenuItem actionFilter, fantasyFilter, adventureFilter, romanceFilter, comedyFilter, scifiFilter, mysteryFilter, thrillerFilter, historicalFilter, comicFilter, mangaFilter, childrenFilter;
-	private JButton index;
 	private JPanel backgroundPanel;
 	private ArchiveManager am;
 	private LoanRequestsManager lrm;

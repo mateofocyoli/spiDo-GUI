@@ -9,11 +9,11 @@ import javax.swing.border.Border;
 
 import items.Book;
 
-public class BookPanelUser extends JPanel implements ActionListener {
+public class BookPanelAdmin extends JPanel implements ActionListener {
 	
 	private JButton button;
 	
-	public BookPanelUser(Book book) {
+	BookPanelAdmin(Book book) {
 		
 		//the dataPanel will contain the book data
 		JPanel dataPanel = new JPanel();
@@ -48,7 +48,7 @@ public class BookPanelUser extends JPanel implements ActionListener {
 		//the buttonPanel will contain the button
 		JPanel buttonPanel = new JPanel();
 		
-		button = new JButton("Borrow");
+		button = new JButton("Show info");
 		button.setFocusable(false);
 		button.setForeground(Color.BLACK);
 		buttonPanel.add(button);
@@ -75,13 +75,21 @@ public class BookPanelUser extends JPanel implements ActionListener {
 		case LOST: state.setForeground(Color.GRAY);
 		break;
 		}
-		
-		
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
+		
+		if(e.getSource()==button) {
+//			new InfoFrame();
+		}
+		
+		//when deleting a book
+//		if(e.getSource()==deleteButton) {
+//			String[] responses = {"Confirm", "Cancel"};
+//			JOptionPane.showOptionDialog(null, "Are you sure you want to selete this book?", "Confirm deletion", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE, null, responses , 0);
+//			
+//		}
 		
 	}
 
