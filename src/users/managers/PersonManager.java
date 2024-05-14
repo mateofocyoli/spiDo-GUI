@@ -59,7 +59,7 @@ public class PersonManager {
         entry(Criteria.TYPE, filterByType)
     );
 
-    private static final Admin DEFAULT_ADMIN = new Admin("admin", "acccount",
+    private static final Admin DEFAULT_ADMIN = new Admin("admin", "account",
                                                         LocalDate.of(1970, 1, 1),
                                                         "java-town", Sex.FEMALE,
                                                         new Credentials("a", "p"));
@@ -140,7 +140,7 @@ public class PersonManager {
         
         // Find an account with the same username and return false if one is found
         String username = p.getCredentials().getUsername();
-        if(!filterBy(people, Criteria.USERNAME, username).isEmpty())
+        if(!validUsername(username))
             return false;
 
         return people.add(p);
@@ -285,11 +285,30 @@ public class PersonManager {
             String username = p.getCredentials().getUsername();
 
             // Add the account only if there are no accounts with the same username
-            if(filterBy(people, Criteria.USERNAME, username).isEmpty())
+            if(validUsername(username))
                 people.add(p);
         }
 
         if(getAdmins().isEmpty())
             people.add(DEFAULT_ADMIN);
+    }
+
+    /**
+     * Checks if the string passed is a valid username.
+     * A valid username is one that is not blank (composed of only blank symbols)
+     * @param username
+     * @return
+     */
+    public boolean validUsername(String username) {
+        if(username == null)
+            return false;
+
+        if(username.isBlank())
+            return false;
+        
+        if(username.compareTo(DEFAULT_ADMIN.getCredentials().getUsername()) == 0)
+            return false;
+        
+        return filterBy(Criteria.USERNAME, username).isEmpty();
     }
 }
