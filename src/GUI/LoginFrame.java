@@ -125,7 +125,7 @@ public class LoginFrame extends JFrame implements ActionListener {
 				this.dispose();
 			}
 			else if(person instanceof User) {
-				new UserFrame(person);
+				new UserFrame((User) person);
 				this.dispose();
 			}
 			else {

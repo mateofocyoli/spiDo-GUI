@@ -4,6 +4,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.nio.file.Path;
 import java.time.Year;
 import java.util.List;
 
@@ -17,21 +18,25 @@ import items.Book.Genre;
 import items.managers.ArchiveManager;
 import items.managers.LoanRequestsManager;
 import users.Person;
+import users.User;
 
 public class UserFrame extends JFrame implements ActionListener {
 	
 	private JMenuBar menuBar;
-	private JMenu sortBy, filterBy, search;
+	private JMenu sortBy, filterBy, view;
 	private JMenu filterByGenre;
 	private JMenuItem sortByTitle, sortByAuthor, sortByYear, sortByPages, sortByGenre;
 	private JMenuItem filterByTitle, filterByAuthor, filterByYear, filterByPages;
-	private JMenuItem searche;
+	private JMenuItem loans;
 	private JMenuItem actionFilter, fantasyFilter, adventureFilter, romanceFilter, comedyFilter, scifiFilter, mysteryFilter, thrillerFilter, historicalFilter, comicFilter, mangaFilter, childrenFilter;
 	private JPanel backgroundPanel;
 	private ArchiveManager am;
 	private LoanRequestsManager lrm;
+	private User user;
 	
-	UserFrame(Person person) {
+	UserFrame(User user) {
+		
+		this.user = user;
 		
 		//FRAME INITIALIZATION
 		this.setTitle("User frame");
@@ -41,7 +46,10 @@ public class UserFrame extends JFrame implements ActionListener {
         this.addWindowListener(new AppCloser());
         this.am = ArchiveManager.getInstance();
         this.lrm = LoanRequestsManager.getInstance();
-//		this.setLayout(new GridLayout());
+        
+        //sets the icon of the LoginFrame
+        ImageIcon frameIcon = new ImageIcon(Path.of("assets", "spidogui.png").toString());
+        this.setIconImage(frameIcon.getImage());
 		
 		
 		//MENU BAR SETUP
@@ -105,15 +113,16 @@ public class UserFrame extends JFrame implements ActionListener {
 		filterBy.add(filterByPages);
 		filterBy.add(filterByGenre);
 		
-		//the third voice on the menu will be search by
-		search = new JMenu("Search");
-		searche = new JMenuItem("Search");
-		search.add(searche);
+		//the third voice on the menu bar will be view
+		view = new JMenu("View");
+		//possibilities to chose what to view
+		loans = new JMenuItem("Loans");
+		view.add(loans);
 		
 		//set keyboard shortcuts
 		sortBy.setMnemonic(KeyEvent.VK_S);		//Alt+S for sortMenu
 		filterBy.setMnemonic(KeyEvent.VK_F);	//Alt+F for filterMenu
-		search.setMnemonic(KeyEvent.VK_C);		//Alt+C for searchMenu
+		view.setMnemonic(KeyEvent.VK_V);		//Alt+V for view
 		sortByTitle.setMnemonic(KeyEvent.VK_T);		//T for title
 		filterByTitle.setMnemonic(KeyEvent.VK_T);
 		sortByAuthor.setMnemonic(KeyEvent.VK_A);	//A for author
@@ -124,7 +133,7 @@ public class UserFrame extends JFrame implements ActionListener {
 		filterByPages.setMnemonic(KeyEvent.VK_N);
 		sortByGenre.setMnemonic(KeyEvent.VK_G);		//G for genre
 		filterByGenre.setMnemonic(KeyEvent.VK_G);
-		searche.setMnemonic(KeyEvent.VK_C);			//C for search
+		loans.setMnemonic(KeyEvent.VK_L);			//L for loans
 		
 		//addiction of the action listeners to perform methods when pressed
 		sortByTitle.addActionListener(this);
@@ -137,8 +146,7 @@ public class UserFrame extends JFrame implements ActionListener {
 		filterByYear.addActionListener(this);
 		filterByPages.addActionListener(this);
 		filterByGenre.addActionListener(this);
-		searche.addActionListener(this);
-		
+		loans.addActionListener(this);
 		actionFilter.addActionListener(this);
 		fantasyFilter.addActionListener(this);
 		adventureFilter.addActionListener(this);
@@ -155,7 +163,7 @@ public class UserFrame extends JFrame implements ActionListener {
 		//addition of the three voices to the menu bar
 		menuBar.add(sortBy);
 		menuBar.add(filterBy);
-		menuBar.add(search);
+		menuBar.add(view);
 		//set of the menu bar in the frame
 		this.setJMenuBar(menuBar);
 		
@@ -170,7 +178,7 @@ public class UserFrame extends JFrame implements ActionListener {
 		List<Book> bookList = am.getSortedBooksBy(ArchiveManager.Criteria.TITLE);
 		//temporary//bottoni a cazzo
 		for(Book b : bookList) {		
-			BookPanelUser bookPanel = new BookPanelUser(b);
+			BookPanelUser bookPanel = new BookPanelUser(user, b);
 			backgroundPanel.add(bookPanel);
 		}
 		
@@ -295,16 +303,15 @@ public class UserFrame extends JFrame implements ActionListener {
 		
 		
 		//if search
-		if(e.getSource()==searche) {
-			String string = JOptionPane.showInputDialog("What do you want to search?");
-			am.searchBook(string);
+		if(e.getSource()==loans) {
+			System.out.println("view loans");
 		}
 	}
 	
 	private void setBooksInFrame(List<Book> books) {
 		this.backgroundPanel.removeAll();
 		for(Book b : books) {		
-			BookPanelUser bookPanel = new BookPanelUser(b);
+			BookPanelUser bookPanel = new BookPanelUser(user, b);
 			this.backgroundPanel.add(bookPanel);
 		}
 		this.revalidate();

@@ -7,13 +7,23 @@ import java.awt.event.ActionListener;
 import javax.swing.*;
 import javax.swing.border.Border;
 
+import exceptions.InvalidUserException;
+import exceptions.NotInArchiveException;
+import items.managers.LoanRequestsManager;
+import users.User;
 import items.Book;
 
 public class BookPanelUser extends JPanel implements ActionListener {
 	
 	private JButton button;
+	private LoanRequestsManager lrm;
+	private Book book;
+	private User user;
 	
-	public BookPanelUser(Book book) {
+	public BookPanelUser(User user, Book book) {
+		
+		this.book = book;
+		this.user = user;
 		
 		//the dataPanel will contain the book data
 		JPanel dataPanel = new JPanel();
@@ -51,7 +61,10 @@ public class BookPanelUser extends JPanel implements ActionListener {
 		button = new JButton("Borrow");
 		button.setFocusable(false);
 		button.setForeground(Color.BLACK);
-		buttonPanel.add(button);
+		button.addActionListener(this);
+		
+		
+		
 		
 		
 		//added the two panels tho the main panel
@@ -67,10 +80,12 @@ public class BookPanelUser extends JPanel implements ActionListener {
 		//changes the color of state label based on state
 		switch(book.getState()) {
 		case IN_ARCHIVE: state.setForeground(Color.GREEN);
+						 buttonPanel.add(button);
 		break;
 		case ON_LOAN: state.setForeground(Color.RED);
 		break;
 		case RUINED: state.setForeground(Color.ORANGE);
+					 buttonPanel.add(button);
 		break;
 		case LOST: state.setForeground(Color.GRAY);
 		break;
@@ -81,7 +96,20 @@ public class BookPanelUser extends JPanel implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
+		if(e.getSource()==button) {
+			lrm = LoanRequestsManager.getInstance();
+			try {
+				lrm.makeBookRequest(user, book);
+			} catch (InvalidUserException e1) {
+				JOptionPane.showMessageDialog(this, "An error has occured", "Error", JOptionPane.ERROR_MESSAGE);
+				e1.printStackTrace();
+			} catch (NotInArchiveException e1) {
+				JOptionPane.showMessageDialog(this, "An error has occured", "Error", JOptionPane.ERROR_MESSAGE);
+				e1.printStackTrace();
+			}
+			this.validate();
+			System.out.println("dio");
+		}
 		
 	}
 
