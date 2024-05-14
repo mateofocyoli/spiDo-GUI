@@ -15,7 +15,8 @@ import users.managers.PersonManager;
 public class LoginFrame extends JFrame implements ActionListener {
 	
 	private JButton loginButton, signupButton;
-	private JTextField usernameTextField; JPasswordField passwordTextField;
+	private JTextField usernameTextField;
+	private JPasswordField passwordTextField;
 	
 	public LoginFrame() {
 		
@@ -27,7 +28,6 @@ public class LoginFrame extends JFrame implements ActionListener {
         this.addWindowListener(new AppCloser());
 
 		this.setTitle("Library - Login");
-		
 		this.setLayout(new BorderLayout());
 		
 		//sets the icon of the LoginFrame
