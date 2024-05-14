@@ -4,6 +4,7 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -15,6 +16,8 @@ import javax.swing.JScrollPane;
 
 import app.AppCloser;
 import exceptions.InvalidAdminException;
+import items.Book;
+import items.managers.ArchiveManager;
 import users.Admin;
 
 public class AdminFrame extends JFrame implements ActionListener {
@@ -22,13 +25,11 @@ public class AdminFrame extends JFrame implements ActionListener {
     private static final String FRAME_TITLE = "Admin - ";
 
     private JMenuBar menuBar;
-    private JMenu sortBy, filterBy, search, edit, view;
+    private JMenu sortBy, filterBy, edit, view;
     private JMenuItem sortByTitle, sortByAuthor, sortByYear, sortByPages, sortByGenre;
     private JMenuItem filterByTitle, filterByAuthor, filterByYear, filterByPages, filterByGenre;
-    private JMenuItem searche;
-    private JMenuItem add, remove;
-    private JMenuItem loans;
-    private JButton index;
+    private JMenuItem add;
+    private JMenuItem loans, requests, people;
 
     private Admin admin;
 
@@ -38,7 +39,7 @@ public class AdminFrame extends JFrame implements ActionListener {
         this.admin = admin;
 
         this.setTitle(FRAME_TITLE + admin.getCredentials().getUsername());
-        this.setSize(750, 500);
+        this.setSize(950, 500);
         this.setVisible(true);
         this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         this.addWindowListener(new AppCloser());
@@ -77,36 +78,31 @@ public class AdminFrame extends JFrame implements ActionListener {
         filterBy.add(filterByPages);
         filterBy.add(filterByGenre);
 
-        // the third voice on the menu will be search by
-        search = new JMenu("Search");
-        searche = new JMenuItem("Search");
-        search.add(searche);
-
         // the fourth voice on the menu will be edit
         edit = new JMenu("Edit");
         // possibilities to chose what to filter by
         add = new JMenuItem("Add book");
-        remove = new JMenuItem("Remove book");
         edit.add(add);
-        edit.add(remove);
 
         // the fifth voice on the menu will be view loans
         view = new JMenu("View");
         // possibilities to chose what to view
         loans = new JMenuItem("View loans");
+        requests = new JMenuItem("View requests");
+        people = new JMenuItem("View accounts");
         view.add(loans);
+        view.add(requests);
+        view.add(people);
 
         // addition of the five voices to the menu bar
         menuBar.add(sortBy);
         menuBar.add(filterBy);
-        menuBar.add(search);
         menuBar.add(edit);
         menuBar.add(view);
 
         // set keyboard shortcuts
         sortBy.setMnemonic(KeyEvent.VK_S); // Alt+S for sortMenu
         filterBy.setMnemonic(KeyEvent.VK_F); // Alt+F for filterMenu
-        search.setMnemonic(KeyEvent.VK_C); // Alt+C for searchMenu
         edit.setMnemonic(KeyEvent.VK_E); // Alt+E for edit
         view.setMnemonic(KeyEvent.VK_V); // Alt+V for view
         sortByTitle.setMnemonic(KeyEvent.VK_T); // T for title
@@ -119,10 +115,10 @@ public class AdminFrame extends JFrame implements ActionListener {
         filterByPages.setMnemonic(KeyEvent.VK_N);
         sortByGenre.setMnemonic(KeyEvent.VK_G); // G for genre
         filterByGenre.setMnemonic(KeyEvent.VK_G);
-        searche.setMnemonic(KeyEvent.VK_C); // C for search
         add.setMnemonic(KeyEvent.VK_A); // A for add
-        remove.setMnemonic(KeyEvent.VK_R); // R for add
         loans.setMnemonic(KeyEvent.VK_V); // V for view
+        requests.setMnemonic(KeyEvent.VK_R); // R for requests
+        people.setMnemonic(KeyEvent.VK_P); // P for people
 
         // addiction of the action listeners to perform methods when pressed
         sortByTitle.addActionListener(this);
@@ -135,26 +131,26 @@ public class AdminFrame extends JFrame implements ActionListener {
         filterByYear.addActionListener(this);
         filterByPages.addActionListener(this);
         filterByGenre.addActionListener(this);
-        searche.addActionListener(this);
         add.addActionListener(this);
-        remove.addActionListener(this);
         loans.addActionListener(this);
+        requests.addActionListener(this);
+        people.addActionListener(this);
 
         // set of the menu bar in the frame
         this.setJMenuBar(menuBar);
 
         // scroll bar setup
         JPanel backgroundPanel = new JPanel();
-        backgroundPanel.setLayout(new GridLayout(0, 1));
+        backgroundPanel.setLayout(new GridLayout(0, 2));
         this.add(backgroundPanel);
         JScrollPane s = new JScrollPane(backgroundPanel, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         this.add(s);
 
-        // temporary//bottoni a cazzo
-        for (int i = 1; i < 100; i++) {
-            index = new JButton("" + i);
-            backgroundPanel.add(index);
-        }
+        List<Book> bookList = ArchiveManager.getInstance().getSortedBooksBy(ArchiveManager.Criteria.TITLE);
+		for(Book b : bookList) {		
+			BookPanelAdmin bookPanel = new BookPanelAdmin(admin, b, this);
+			backgroundPanel.add(bookPanel);
+		}
 
     }
 
@@ -202,10 +198,6 @@ public class AdminFrame extends JFrame implements ActionListener {
         if (e.getSource() == filterByGenre) {
             System.out.println("filterByGenre");
         }
-        // if search
-        if (e.getSource() == searche) {
-            System.out.println("search");
-        }
         // if add
         if (e.getSource() == add) {
             try {
@@ -216,13 +208,37 @@ public class AdminFrame extends JFrame implements ActionListener {
                 System.exit(ABORT);
             }
         }
-        // if remove
-        if (e.getSource() == remove) {
-            System.out.println("remove");
-        }
         // if view loans
         if (e.getSource() == loans) {
             System.out.println("view loans");
+        }
+        if(e.getSource() == requests) {
+            try {
+                this.dispose();
+                new LoanViewerFrameAdmin(admin);
+            } catch (InvalidAdminException e1) {
+                e1.printStackTrace();
+                System.exit(ABORT);
+            }
+        }
+        if(e.getSource() == people) {
+            try {
+                this.dispose();
+                new PersonViewerFrame(admin);
+            } catch (InvalidAdminException e1) {
+                e1.printStackTrace();
+                System.exit(ABORT);
+            }
+        }
+    }
+
+    public void redraw() {
+        this.dispose();
+        try {
+            new AdminFrame(admin);
+        } catch (InvalidAdminException e) {
+            e.printStackTrace();
+            System.exit(ABORT);
         }
     }
 

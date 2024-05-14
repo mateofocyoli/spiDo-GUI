@@ -200,7 +200,7 @@ public class ArchiveManager {
         if (!archive.containsKey(id)){
             throw new NotInArchiveException();
         }
-        if (!archive.get(id).getState().equals(Loanable.LoanState.ON_LOAN)){
+        if (archive.get(id).getState().equals(Loanable.LoanState.ON_LOAN)){
             throw new NotInArchiveException(BOOK_ON_LOAN_MSG);
         }
         archive.remove(id);

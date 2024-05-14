@@ -47,8 +47,6 @@ public class RequestedBookPanelUser extends JPanel implements ActionListener {
 		nameLabel.setFont(new Font("Lexend", Font.PLAIN, 12));
 		dateLabel.setFont(new Font("Lexend", Font.ITALIC, 12));
 		
-		nameLabel.setPreferredSize(new Dimension(100, 10));
-		
 		dataPanel.add(nameLabel);
 		dataPanel.add(dateLabel);
 		

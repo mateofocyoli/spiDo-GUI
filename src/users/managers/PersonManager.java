@@ -295,9 +295,10 @@ public class PersonManager {
 
     /**
      * Checks if the string passed is a valid username.
-     * A valid username is one that is not blank (composed of only blank symbols)
-     * @param username
-     * @return
+     * A valid username is one that is not blank (composed of only blank symbols), has not the same
+     * username as the default admin and the username is univoke.
+     * @param username The string to check against the archive.
+     * @return {@code true} if the username can be used for a new account.
      */
     public boolean validUsername(String username) {
         if(username == null)
