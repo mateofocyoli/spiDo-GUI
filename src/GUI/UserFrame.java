@@ -302,9 +302,15 @@ public class UserFrame extends JFrame implements ActionListener {
 		}
 		
 		
-		//if search
+		//if view loans
 		if(e.getSource()==loans) {
-			System.out.println("view loans");
+			new LoanViewerUser(user);
+			this.dispose();
+			
+			
+			
+			
+			
 		}
 	}
 	

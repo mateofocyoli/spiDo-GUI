@@ -9,7 +9,19 @@
     "state": "ON_LOAN",
     "dueDate": "2024-06-08",
     "ID": "5df49d04-eaac-445e-be48-a2a001d0b7c8",
-    "borrower": "merdina"
+    "borrower": null
+  },
+  {
+    "title": "La Costituzione Italiana",
+    "author": "Mussolini",
+    "genre": "HISTORICAL",
+    "releaseYear": 1923,
+    "numPages": 69,
+    "name": "La Costituzione Italiana",
+    "state": "IN_ARCHIVE",
+    "dueDate": "2024-05-14",
+    "ID": "e18308af-0b45-4101-8694-a801ea5cf63d",
+    "borrower": null
   },
   {
     "title": "La mia vita di merda",
@@ -21,6 +33,78 @@
     "state": "IN_ARCHIVE",
     "dueDate": "2024-05-08",
     "ID": "1e5d1960-3216-43d8-a0d0-13c05c6114ef",
+    "borrower": null
+  },
+  {
+    "title": "Lo Spirito ANZAC",
+    "author": "Anna Foccoli",
+    "genre": "ROMANCE",
+    "releaseYear": 2023,
+    "numPages": 330,
+    "name": "Lo Spirito ANZAC",
+    "state": "IN_ARCHIVE",
+    "dueDate": "2024-05-14",
+    "ID": "dded1514-a187-46c5-abb5-871170253e32",
+    "borrower": null
+  },
+  {
+    "title": "Manuale Java",
+    "author": "Andrea Loreggia",
+    "genre": "COMEDY",
+    "releaseYear": 1990,
+    "numPages": 2,
+    "name": "Manuale Java",
+    "state": "IN_ARCHIVE",
+    "dueDate": "2024-05-14",
+    "ID": "5c0671fe-e08d-4adf-9df9-e952c4d7cf39",
+    "borrower": null
+  },
+  {
+    "title": "Meglio Tardi",
+    "author": "Fantafobal",
+    "genre": "COMIC",
+    "releaseYear": 2024,
+    "numPages": 32,
+    "name": "Meglio Tardi",
+    "state": "IN_ARCHIVE",
+    "dueDate": "2024-05-14",
+    "ID": "d39b43fa-25ab-4d4c-814c-aee00dec70f6",
+    "borrower": null
+  },
+  {
+    "title": "Mein Kampf",
+    "author": "Adolf Hitler",
+    "genre": "MANGA",
+    "releaseYear": 1925,
+    "numPages": 420,
+    "name": "Mein Kampf",
+    "state": "IN_ARCHIVE",
+    "dueDate": "2024-05-14",
+    "ID": "c1f4e0fe-2f18-406d-868c-b53c9626ce42",
+    "borrower": null
+  },
+  {
+    "title": "Teoria dei Circuiti",
+    "author": "Antonino Sommariva",
+    "genre": "MYSTERY",
+    "releaseYear": 1428,
+    "numPages": 74523,
+    "name": "Teoria dei Circuiti",
+    "state": "IN_ARCHIVE",
+    "dueDate": "2024-05-14",
+    "ID": "6b40349e-e26c-4460-aca4-cd9516c550f1",
+    "borrower": null
+  },
+  {
+    "title": "Two girls one cup",
+    "author": "Johnny Sins",
+    "genre": "MANGA",
+    "releaseYear": 2005,
+    "numPages": 15,
+    "name": "Two girls one cup",
+    "state": "IN_ARCHIVE",
+    "dueDate": "2024-05-14",
+    "ID": "cf88efd7-1df5-46e2-a53a-21a6032f4a40",
     "borrower": null
   }
 ]

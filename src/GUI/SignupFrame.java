@@ -3,6 +3,7 @@ package GUI;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.nio.file.Path;
 import java.security.InvalidParameterException;
 import java.time.LocalDate;
 
@@ -48,6 +49,10 @@ public class SignupFrame extends JFrame implements ActionListener {
         this.addWindowListener(new AppCloser());
         
 		this.setLayout(new BorderLayout(0, 40));
+		
+		//sets the icon of the LoginFrame
+        ImageIcon frameIcon = new ImageIcon(Path.of("assets", "spidogui.png").toString());
+        this.setIconImage(frameIcon.getImage());
 		
 		//layout frame
 		//top panel will have the title
