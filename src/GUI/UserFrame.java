@@ -9,15 +9,9 @@ import java.time.Year;
 import java.util.List;
 
 import javax.swing.*;
-import javax.swing.border.Border;
-
 import app.AppCloser;
-import database.FileManager;
 import items.Book;
-import items.Book.Genre;
 import items.managers.ArchiveManager;
-import items.managers.LoanRequestsManager;
-import users.Person;
 import users.User;
 
 public class UserFrame extends JFrame implements ActionListener {
@@ -31,7 +25,6 @@ public class UserFrame extends JFrame implements ActionListener {
 	private JMenuItem actionFilter, fantasyFilter, adventureFilter, romanceFilter, comedyFilter, scifiFilter, mysteryFilter, thrillerFilter, historicalFilter, comicFilter, mangaFilter, childrenFilter;
 	private JPanel backgroundPanel;
 	private ArchiveManager am;
-	private LoanRequestsManager lrm;
 	private User user;
 	
 	UserFrame(User user) {
@@ -45,7 +38,6 @@ public class UserFrame extends JFrame implements ActionListener {
 		this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         this.addWindowListener(new AppCloser());
         this.am = ArchiveManager.getInstance();
-        this.lrm = LoanRequestsManager.getInstance();
         
         //sets the icon of the LoginFrame
         ImageIcon frameIcon = new ImageIcon(Path.of("assets", "spidogui.png").toString());
@@ -304,7 +296,7 @@ public class UserFrame extends JFrame implements ActionListener {
 		
 		//if view loans
 		if(e.getSource()==loans) {
-			new LoanViewerUser(user);
+			new LoanViewerFrameUser(user);
 			this.dispose();
 			
 			

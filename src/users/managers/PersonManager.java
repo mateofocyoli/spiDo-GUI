@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
+
+import exceptions.InvalidAdminException;
 import exceptions.ManagerAlreadyInitializedException;
 import users.sanctions.Sanction;
 import users.*;
@@ -152,11 +154,11 @@ public class PersonManager {
      * @param applicant The admin requesting the action.
      * @param p The person who is to be removed from the system
      * @return {@code true} if the system did contain the person removed.
-     * @throws IllegalAccessException
+     * @throws InvalidAdminException
      */
-    public boolean remove(Admin applicant, Person p) throws IllegalAccessException {
+    public boolean remove(Admin applicant, Person p) throws InvalidAdminException {
         if(applicant == null)
-            throw new IllegalAccessException(INVALID_ADMIN_MSG);
+            throw new InvalidAdminException(INVALID_ADMIN_MSG);
         
         if(applicant.equals(p))
             return false;
@@ -246,11 +248,11 @@ public class PersonManager {
      * @param victim
      * @param s
      * @return
-     * @throws IllegalAccessException
+     * @throws InvalidAdminException
      */
-    public boolean sanction(Admin applicant, User victim, Sanction s) throws IllegalAccessException {
+    public boolean sanction(Admin applicant, User victim, Sanction s) throws InvalidAdminException {
         if(applicant == null)
-            throw new IllegalAccessException(INVALID_ADMIN_MSG);
+            throw new InvalidAdminException(INVALID_ADMIN_MSG);
         
         return victim.addSanction(s);
     }
@@ -261,11 +263,11 @@ public class PersonManager {
      * @param victim
      * @param s
      * @return
-     * @throws IllegalAccessException
+     * @throws InvalidAdminException
      */
-    public boolean pardon(Admin applicant, User victim, Sanction s) throws IllegalAccessException {
+    public boolean pardon(Admin applicant, User victim, Sanction s) throws InvalidAdminException {
         if(applicant == null)
-            throw new IllegalAccessException(INVALID_ADMIN_MSG);
+            throw new InvalidAdminException(INVALID_ADMIN_MSG);
         
         return victim.removeSanction(s);
     }

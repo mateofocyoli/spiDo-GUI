@@ -1,30 +1,17 @@
 package GUI;
 
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
 import javax.swing.*;
 import javax.swing.border.Border;
 
-import exceptions.InvalidUserException;
-import exceptions.NotInArchiveException;
-import items.managers.LoanRequestsManager;
 import users.User;
-import items.Book;
 import items.LoanRequest;
 import items.Loanable;
 
 public class BorrowedBookPanelUser extends JPanel {
 	
-	private LoanRequest lr;
-	private User user;
-	
 	public BorrowedBookPanelUser(User user, LoanRequest lr) {
-		
-		this.user = user;
-		this.lr = lr;
-		
+        
 		this.setLayout(new GridLayout(0, 1));
 		Loanable item = lr.getRequested();
 		
@@ -45,12 +32,6 @@ public class BorrowedBookPanelUser extends JPanel {
 		//set the border for the bookPanel
 		Border border = BorderFactory.createLineBorder(new Color(0xA9A9A9), 5);
 		this.setBorder(border);
-		
-		
-		
-		
-		
 	}
-
 
 }

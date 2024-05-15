@@ -105,7 +105,6 @@ public class BookPanelAdmin extends JPanel implements ActionListener {
                 } catch (InvalidAdminException e1) {
                     JOptionPane.showMessageDialog(this, "You don't have the privileges", "Error",
                             JOptionPane.ERROR_MESSAGE);
-                    e1.printStackTrace();
                 } catch (NotInArchiveException e1) {
                     JOptionPane.showMessageDialog(this,
                             "An error as occured. It seems that the book is no longer present", "Error",

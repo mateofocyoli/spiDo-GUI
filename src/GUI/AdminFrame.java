@@ -6,7 +6,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.util.List;
 
-import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -28,7 +27,7 @@ public class AdminFrame extends JFrame implements ActionListener {
     private JMenu sortBy, filterBy, edit, view;
     private JMenuItem sortByTitle, sortByAuthor, sortByYear, sortByPages, sortByGenre;
     private JMenuItem filterByTitle, filterByAuthor, filterByYear, filterByPages, filterByGenre;
-    private JMenuItem add;
+    private JMenuItem addBook, addAdmin;
     private JMenuItem loans, requests, people;
 
     private Admin admin;
@@ -81,8 +80,10 @@ public class AdminFrame extends JFrame implements ActionListener {
         // the fourth voice on the menu will be edit
         edit = new JMenu("Edit");
         // possibilities to chose what to filter by
-        add = new JMenuItem("Add book");
-        edit.add(add);
+        addBook = new JMenuItem("Add book");
+        addAdmin = new JMenuItem("Add admin");
+        edit.add(addBook);
+        edit.add(addAdmin);
 
         // the fifth voice on the menu will be view loans
         view = new JMenu("View");
@@ -115,10 +116,11 @@ public class AdminFrame extends JFrame implements ActionListener {
         filterByPages.setMnemonic(KeyEvent.VK_N);
         sortByGenre.setMnemonic(KeyEvent.VK_G); // G for genre
         filterByGenre.setMnemonic(KeyEvent.VK_G);
-        add.setMnemonic(KeyEvent.VK_A); // A for add
+        addBook.setMnemonic(KeyEvent.VK_B); // B for add Book
         loans.setMnemonic(KeyEvent.VK_V); // V for view
         requests.setMnemonic(KeyEvent.VK_R); // R for requests
         people.setMnemonic(KeyEvent.VK_P); // P for people
+        addAdmin.setMnemonic(KeyEvent.VK_A); // A for add Admin
 
         // addiction of the action listeners to perform methods when pressed
         sortByTitle.addActionListener(this);
@@ -131,7 +133,8 @@ public class AdminFrame extends JFrame implements ActionListener {
         filterByYear.addActionListener(this);
         filterByPages.addActionListener(this);
         filterByGenre.addActionListener(this);
-        add.addActionListener(this);
+        addBook.addActionListener(this);
+        addAdmin.addActionListener(this);
         loans.addActionListener(this);
         requests.addActionListener(this);
         people.addActionListener(this);
@@ -198,8 +201,8 @@ public class AdminFrame extends JFrame implements ActionListener {
         if (e.getSource() == filterByGenre) {
             System.out.println("filterByGenre");
         }
-        // if add
-        if (e.getSource() == add) {
+        // if add book
+        if (e.getSource() == addBook) {
             try {
                 this.dispose();
                 new NewBookFrame(admin);
@@ -208,14 +211,30 @@ public class AdminFrame extends JFrame implements ActionListener {
                 System.exit(ABORT);
             }
         }
+        // if add admin
+        if (e.getSource() == addAdmin) {
+            try {
+                this.dispose();
+                new NewAdminFrame(admin);
+            } catch (InvalidAdminException e1) {
+                e1.printStackTrace();
+                System.exit(ABORT);
+            }
+        }
         // if view loans
         if (e.getSource() == loans) {
-            System.out.println("view loans");
+            try {
+                this.dispose();
+                new LoanViewerFrameAdmin(admin);
+            } catch (InvalidAdminException e1) {
+                e1.printStackTrace();
+                System.exit(ABORT);
+            }
         }
         if(e.getSource() == requests) {
             try {
                 this.dispose();
-                new LoanViewerFrameAdmin(admin);
+                new RequestsViewerFrameAdmin(admin);
             } catch (InvalidAdminException e1) {
                 e1.printStackTrace();
                 System.exit(ABORT);

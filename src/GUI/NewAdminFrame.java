@@ -1,20 +1,34 @@
 package GUI;
 
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.nio.file.Path;
 import java.security.InvalidParameterException;
 import java.time.LocalDate;
 
-import javax.swing.*;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
 
-import app.AppCloser;
+import exceptions.InvalidAdminException;
+import users.Admin;
+import users.Credentials;
+import users.Person;
 import users.Person.Sex;
 import users.managers.PersonManager;
-import users.*;
 
-public class SignupFrame extends JFrame implements ActionListener {
+public class NewAdminFrame extends JFrame implements ActionListener {
 	
     private static String[] MONTHS = {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
 
@@ -35,21 +49,37 @@ public class SignupFrame extends JFrame implements ActionListener {
 	private Credentials credentials;
 	private String username;
 	private String password;
+
+    private Admin applicant;
 	
 	
-	SignupFrame() {
-		
+	public NewAdminFrame(Admin applicant) throws InvalidAdminException {
+		if (applicant == null)
+            throw new InvalidAdminException("The admin object can not be null.");
+        this.applicant = applicant;
+
 		//Frame setup
-		this.setTitle("Signing Page");
+		this.setTitle("Add new admin - " + applicant.getCredentials().getUsername());
 		this.setSize(500, 550);
 		this.setResizable(false);
 		this.setVisible(true);
 		this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-        this.addWindowListener(new AppCloser());
+        this.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                ((JFrame) e.getSource()).dispose();
+                try {
+                    new AdminFrame(applicant);
+                } catch (InvalidAdminException e1) {
+                    e1.printStackTrace();
+                    System.exit(ABORT);
+                }
+            }
+        });
         
 		this.setLayout(new BorderLayout(0, 40));
 		
-		//sets the icon of the LoginFrame
+		//sets the icon of the NewAdminFrame
         ImageIcon frameIcon = new ImageIcon(Path.of("assets", "spidogui.png").toString());
         this.setIconImage(frameIcon.getImage());
 		
@@ -212,7 +242,7 @@ public class SignupFrame extends JFrame implements ActionListener {
 		
 		//BOTTOM PANEL SETUP
 		signupButton = new JButton();
-		signupButton.setText("Sign up");
+		signupButton.setText("Add");
 		bottomPanel.add(signupButton);
 		signupButton.addActionListener(this);
 		
@@ -272,13 +302,19 @@ public class SignupFrame extends JFrame implements ActionListener {
 			}
 			
 			
-			Person person = new User(name, surname, birthDate, cityOfBirth, sex, credentials);
+			Person person = new Admin(name, surname, birthDate, cityOfBirth, sex, credentials);
 			PersonManager pm = PersonManager.getInstance();
 			
 			if(!pm.add(person)) JOptionPane.showMessageDialog(null, "Fields not valid", "Error", JOptionPane.ERROR_MESSAGE);
 			else {
 				this.dispose();
-				new LoginFrame();
+                JOptionPane.showMessageDialog(null, "New admin added successfully", "Success", JOptionPane.INFORMATION_MESSAGE);
+				try {
+                    new AdminFrame(applicant);
+                } catch (InvalidAdminException e1) {
+                    e1.printStackTrace();
+                    System.exit(ABORT);
+                }
 			}
 			
 		}

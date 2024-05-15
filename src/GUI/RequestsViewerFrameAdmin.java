@@ -10,22 +10,21 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
 import exceptions.InvalidAdminException;
-import items.Book;
-import items.Loanable;
-import items.managers.ArchiveManager;
+import items.LoanRequest;
+import items.managers.LoanRequestsManager;
 import users.Admin;
 
-public class LoanViewerFrameAdmin extends JFrame {
+public class RequestsViewerFrameAdmin extends JFrame {
 
     private Admin admin;
 
-    public LoanViewerFrameAdmin(Admin admin) throws InvalidAdminException {
+    public RequestsViewerFrameAdmin(Admin admin) throws InvalidAdminException {
         if (admin == null)
             throw new InvalidAdminException("The admin object can not be null.");
         this.admin = admin;
 
         // Frame setup
-        this.setTitle("Loan Viewer Frame Admin - " + admin.getCredentials().getUsername());
+        this.setTitle("Requests Viewer Frame Admin - " + admin.getCredentials().getUsername());
         this.setSize(500, 550);
         this.setResizable(false);
         this.setVisible(true);
@@ -49,17 +48,19 @@ public class LoanViewerFrameAdmin extends JFrame {
 		JScrollPane scrollPane = new JScrollPane(panel, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		this.add(scrollPane);
 
-        ArchiveManager am = ArchiveManager.getInstance();
-        List<Book> onLoan = am.filterBy(ArchiveManager.Criteria.LOAN_STATE, Loanable.LoanState.ON_LOAN);
-        for(Book b : onLoan) {
-            panel.add(new BorrowedBookPanelAdmin(admin, b, this));
+        LoanRequestsManager lrm = LoanRequestsManager.getInstance();
+        List<LoanRequest> requests = lrm.getSortedRequestsBy(LoanRequestsManager.Criteria.APPLICANT);
+        for(LoanRequest lr : requests) {
+            if(!lr.isAccepted()) {
+                panel.add(new RequestedBookPanelAdmin(admin, lr, this));
+            }
         }
     }
 
     public void redraw() {
         this.dispose();
         try {
-            new LoanViewerFrameAdmin(admin);
+            new RequestsViewerFrameAdmin(admin);
         } catch (InvalidAdminException e) {
             e.printStackTrace();
             System.exit(ABORT);

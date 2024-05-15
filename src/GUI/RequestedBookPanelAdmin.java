@@ -1,7 +1,6 @@
 package GUI;
 
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -9,7 +8,6 @@ import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -27,9 +25,9 @@ public class RequestedBookPanelAdmin extends JPanel implements ActionListener {
     private JButton denyButton, acceptButton;
     private Admin admin;
     private LoanRequest lr;
-    private LoanViewerFrameAdmin parent;
+    private RequestsViewerFrameAdmin parent;
 
-    public RequestedBookPanelAdmin(Admin admin, LoanRequest lr, LoanViewerFrameAdmin parent) {
+    public RequestedBookPanelAdmin(Admin admin, LoanRequest lr, RequestsViewerFrameAdmin parent) {
 
         this.lr = lr;
         this.admin = admin;
@@ -72,7 +70,7 @@ public class RequestedBookPanelAdmin extends JPanel implements ActionListener {
         buttonPanel.add(acceptButton);
         buttonPanel.add(denyButton);
 
-        // added the two panels tho the main panel
+        // added the two panels to the main panel
         this.add(dataPanel);
         this.add(buttonPanel);
 

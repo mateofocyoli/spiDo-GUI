@@ -2,8 +2,6 @@ package GUI;
 
 import java.awt.FlowLayout;
 import java.awt.Font;
-import java.awt.GridBagLayout;
-import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -27,6 +25,7 @@ public class PersonPanel extends JPanel implements ActionListener {
     public PersonPanel(Admin applicant, Person person, PersonViewerFrame pvf) {
         this.applicant = applicant;
         this.person = person;
+        this.pvf = pvf;
 
         JLabel typeLabel = new JLabel(person instanceof User ? "[U]   " : "[A]   ");
         typeLabel.setFont(new Font("Lexend", Font.ITALIC, 16));
