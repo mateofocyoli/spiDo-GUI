@@ -2,29 +2,20 @@ package GUI;
 
 import java.awt.*;
 import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
 import javax.swing.*;
 
-import app.AppCloser;
-import exceptions.InvalidAdminException;
 import items.LoanRequest;
 import items.managers.LoanRequestsManager;
 import users.User;
 
-public class LoanViewerUser extends JFrame implements ActionListener {
-	
-	private User user;
-	
-	public LoanViewerUser(User user) {
-		
-		this.user = user;
-		
+public class LoanViewerFrameUser extends JFrame {
+
+	public LoanViewerFrameUser(User user) {
 		//Frame setup
-		this.setTitle("Loan Viewer Frame");
+		this.setTitle("Loan Viewer Frame - " + user.getCredentials().getUsername());
 		this.setSize(500, 550);
 		this.setResizable(false);
 		this.setVisible(true);
@@ -68,14 +59,5 @@ public class LoanViewerUser extends JFrame implements ActionListener {
 				rightPanel.add(new RequestedBookPanelUser(user, lr));
 			}
 		}
-		
-		
 	}
-
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-
 }
