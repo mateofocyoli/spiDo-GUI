@@ -68,7 +68,7 @@ public class PersonPanel extends JPanel implements ActionListener {
             } catch (IllegalAccessException e1) {
                 JOptionPane.showMessageDialog(this, "You don't have the privileges", "Error", JOptionPane.ERROR_MESSAGE);
             }
-            pvf.redraw();
+            pvf.showPersonList(pm.getList());
         }
         if(e.getSource() == showInfoButton) {
             JOptionPane.showMessageDialog(this, 
