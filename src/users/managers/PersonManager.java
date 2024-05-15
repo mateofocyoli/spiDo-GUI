@@ -7,6 +7,8 @@ import java.util.Map;
 
 import exceptions.InvalidAdminException;
 import exceptions.ManagerAlreadyInitializedException;
+import users.sanctions.BookLostSanction;
+import users.sanctions.RepeatedBookLostSanction;
 import users.sanctions.Sanction;
 import users.*;
 import users.Person.Sex;
@@ -246,15 +248,28 @@ public class PersonManager {
      * Gives the sanction passed as parameter to the victim. Only an admin can call this method
      * @param applicant
      * @param victim
-     * @param s
+     * @param sanction
      * @return
      * @throws InvalidAdminException
      */
-    public boolean sanction(Admin applicant, User victim, Sanction s) throws InvalidAdminException {
+    public boolean sanction(Admin applicant, User victim, Sanction sanction) throws InvalidAdminException {
         if(applicant == null)
             throw new InvalidAdminException(INVALID_ADMIN_MSG);
         
-        return victim.addSanction(s);
+        boolean result = victim.addSanction(sanction);
+
+        // If the sanction is a BookLostSanction and the user has multiple of it, give him a RepeatedLostBookSanction
+        if(sanction instanceof BookLostSanction) {
+            int bls = 0;
+            for(Sanction s : victim.getSanctions())
+                if(s instanceof BookLostSanction)
+                    bls++;
+            
+            if(bls > RepeatedBookLostSanction.LIMIT)
+                victim.addSanction(new RepeatedBookLostSanction(LocalDate.now()));
+        }
+
+        return result;
     }
 
     /**

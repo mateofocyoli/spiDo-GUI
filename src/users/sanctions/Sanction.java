@@ -2,11 +2,17 @@ package users.sanctions;
 
 import java.time.LocalDate;
 
-public class Sanction {
+import com.google.gson.annotations.Expose;
 
+public class Sanction {
+    
+    @Expose
     public final String name;
+    @Expose
     public final String description;
+    @Expose
     public final Severity severity;
+    @Expose
     public final LocalDate date;
     
     public Sanction(String name, String description, Severity severity, LocalDate date) {

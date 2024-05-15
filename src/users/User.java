@@ -26,4 +26,10 @@ public class User extends Person {
     public boolean removeSanction(Sanction s) {
         return sanctions.remove(s);
     }
+
+    public List<Sanction> getSanctions() {
+        List<Sanction> clone = new ArrayList<>();
+        clone.addAll(sanctions);
+        return clone;
+    }
 }

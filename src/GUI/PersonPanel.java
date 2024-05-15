@@ -10,6 +10,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+import exceptions.InvalidAdminException;
 import users.Admin;
 import users.Person;
 import users.User;
@@ -19,7 +20,7 @@ public class PersonPanel extends JPanel implements ActionListener {
 
     private Admin applicant;
     private Person person;
-    private JButton removeButton, showInfoButton, showLoansButton;
+    private JButton removeButton, showInfoButton, showLoansButton, showSanctionsButton;
     private PersonViewerFrame pvf;
 
     public PersonPanel(Admin applicant, Person person, PersonViewerFrame pvf) {
@@ -37,10 +38,12 @@ public class PersonPanel extends JPanel implements ActionListener {
         removeButton = new JButton("Remove");
         showInfoButton = new JButton("Show info");
         showLoansButton = new JButton("Show loans");
+        showSanctionsButton = new JButton("Show sanctions");
 
         removeButton.addActionListener(this);
         showInfoButton.addActionListener(this);
         showLoansButton.addActionListener(this);
+        showSanctionsButton.addActionListener(this);
 
         this.setLayout(new FlowLayout());
         this.add(typeLabel);
@@ -48,7 +51,11 @@ public class PersonPanel extends JPanel implements ActionListener {
 
         buttonPanel.add(removeButton);
         buttonPanel.add(showInfoButton);
-        buttonPanel.add(showLoansButton);
+        if(person instanceof User) {
+            buttonPanel.add(showLoansButton);
+            buttonPanel.add(showSanctionsButton);
+        }
+        
         this.add(buttonPanel);
     }
 
@@ -74,7 +81,20 @@ public class PersonPanel extends JPanel implements ActionListener {
             "Info on " + person.getCredentials().getUsername(), JOptionPane.INFORMATION_MESSAGE);
         }
         if(e.getSource() == showLoansButton) {
-            
+            try {
+                pvf.dispose();
+                new LoanViewerFrameAdmin(applicant, (User) person);
+            } catch (InvalidAdminException e1) {
+                JOptionPane.showMessageDialog(this, "You don't have the privileges", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+        if(e.getSource() == showSanctionsButton) {
+            try {
+                pvf.dispose();
+                new SanctionViewerFrame(applicant, (User) person);
+            } catch (InvalidAdminException e1) {
+                JOptionPane.showMessageDialog(this, "You don't have the privileges", "Error", JOptionPane.ERROR_MESSAGE);
+            }
         }
     }
 }

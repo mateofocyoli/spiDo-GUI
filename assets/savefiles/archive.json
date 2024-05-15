@@ -6,10 +6,10 @@
     "releaseYear": 2024,
     "numPages": 7,
     "name": "Bibbia",
-    "state": "IN_ARCHIVE",
-    "dueDate": "2024-06-08",
+    "state": "LOST",
+    "dueDate": "2024-06-15",
     "ID": "5df49d04-eaac-445e-be48-a2a001d0b7c8",
-    "borrower": null
+    "borrower": "q"
   },
   {
     "title": "Fortnite. Trucchi e segreti",
@@ -30,10 +30,10 @@
     "releaseYear": 2023,
     "numPages": 128,
     "name": "I Burger di Ciccio",
-    "state": "IN_ARCHIVE",
-    "dueDate": "2024-05-15",
+    "state": "ON_LOAN",
+    "dueDate": "2024-06-15",
     "ID": "dea6916f-1875-47b2-90a4-a71ea34126a8",
-    "borrower": null
+    "borrower": "q"
   },
   {
     "title": "La Costituzione Italiana",
@@ -54,10 +54,10 @@
     "releaseYear": 2024,
     "numPages": 7,
     "name": "La mia vita di merda",
-    "state": "IN_ARCHIVE",
-    "dueDate": "2024-06-14",
+    "state": "ON_LOAN",
+    "dueDate": "2024-06-15",
     "ID": "1e5d1960-3216-43d8-a0d0-13c05c6114ef",
-    "borrower": null
+    "borrower": "j"
   },
   {
     "title": "Lo Spirito ANZAC",
@@ -66,7 +66,7 @@
     "releaseYear": 2023,
     "numPages": 330,
     "name": "Lo Spirito ANZAC",
-    "state": "ON_LOAN",
+    "state": "RUINED",
     "dueDate": "2024-06-14",
     "ID": "dded1514-a187-46c5-abb5-871170253e32",
     "borrower": "q"
@@ -90,10 +90,10 @@
     "releaseYear": 2024,
     "numPages": 32,
     "name": "Meglio Tardi",
-    "state": "IN_ARCHIVE",
-    "dueDate": "2024-06-14",
+    "state": "RUINED",
+    "dueDate": "2024-06-15",
     "ID": "d39b43fa-25ab-4d4c-814c-aee00dec70f6",
-    "borrower": null
+    "borrower": "q"
   },
   {
     "title": "Mein Kampf",
@@ -114,10 +114,10 @@
     "releaseYear": 1603,
     "numPages": 0,
     "name": "Motivi per iscriversi a Gestionale",
-    "state": "IN_ARCHIVE",
-    "dueDate": "2024-05-15",
+    "state": "ON_LOAN",
+    "dueDate": "2024-06-15",
     "ID": "c7e9d056-ddce-4875-93f5-804de516b21b",
-    "borrower": null
+    "borrower": "j"
   },
   {
     "title": "Teoria dei Circuiti",
@@ -139,7 +139,7 @@
     "numPages": 15,
     "name": "Two girls one cup",
     "state": "IN_ARCHIVE",
-    "dueDate": "2024-05-14",
+    "dueDate": "2024-06-15",
     "ID": "e01d326a-a315-44a9-bb29-e77e07f02745",
     "borrower": null
   },
