@@ -1,15 +1,15 @@
 package users.sanctions;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 public class Sanction {
 
     public final String name;
     public final String description;
     public final Severity severity;
-    public final Date date;
+    public final LocalDate date;
     
-    public Sanction(String name, String description, Severity severity, Date date) {
+    public Sanction(String name, String description, Severity severity, LocalDate date) {
         this.name = name;
         this.description = description;
         this.severity = severity;
