@@ -90,4 +90,56 @@ public abstract class Person implements Comparable<Credentials> {
         return getClass().getCanonicalName() + " [name=" + name + ", surname=" + surname + ", birth=" + birth + ", cityOfBirth=" + cityOfBirth
                 + ", sex=" + sex + ", username=" + credentials.getUsername() + "]";
     }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((name == null) ? 0 : name.hashCode());
+        result = prime * result + ((surname == null) ? 0 : surname.hashCode());
+        result = prime * result + ((birth == null) ? 0 : birth.hashCode());
+        result = prime * result + ((cityOfBirth == null) ? 0 : cityOfBirth.hashCode());
+        result = prime * result + ((sex == null) ? 0 : sex.hashCode());
+        result = prime * result + ((credentials == null) ? 0 : credentials.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        Person other = (Person) obj;
+        if (name == null) {
+            if (other.name != null)
+                return false;
+        } else if (!name.equals(other.name))
+            return false;
+        if (surname == null) {
+            if (other.surname != null)
+                return false;
+        } else if (!surname.equals(other.surname))
+            return false;
+        if (birth == null) {
+            if (other.birth != null)
+                return false;
+        } else if (!birth.equals(other.birth))
+            return false;
+        if (cityOfBirth == null) {
+            if (other.cityOfBirth != null)
+                return false;
+        } else if (!cityOfBirth.equals(other.cityOfBirth))
+            return false;
+        if (sex != other.sex)
+            return false;
+        if (credentials == null) {
+            if (other.credentials != null)
+                return false;
+        } else if (!credentials.equals(other.credentials))
+            return false;
+        return true;
+    }
 }
