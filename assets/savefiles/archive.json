@@ -54,10 +54,10 @@
     "releaseYear": 2024,
     "numPages": 7,
     "name": "La mia vita di merda",
-    "state": "IN_ARCHIVE",
-    "dueDate": "2024-06-15",
+    "state": "ON_LOAN",
+    "dueDate": "2024-06-16",
     "ID": "1e5d1960-3216-43d8-a0d0-13c05c6114ef",
-    "borrower": null
+    "borrower": "q"
   },
   {
     "title": "Lo Spirito ANZAC",

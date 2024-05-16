@@ -107,8 +107,6 @@ public class BookPanelUser extends JPanel implements ActionListener {
 				JOptionPane.showMessageDialog(this, "An error has occured", "Error", JOptionPane.ERROR_MESSAGE);
 				e1.printStackTrace();
 			}
-			this.validate();
-			System.out.println("dio");
 		}
 		
 	}

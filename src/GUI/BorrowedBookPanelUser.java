@@ -5,18 +5,16 @@ import javax.swing.*;
 import javax.swing.border.Border;
 
 import users.User;
-import items.LoanRequest;
-import items.Loanable;
+import items.Book;
 
 public class BorrowedBookPanelUser extends JPanel {
 	
-	public BorrowedBookPanelUser(User user, LoanRequest lr) {
+	public BorrowedBookPanelUser(User user, Book b) {
         
 		this.setLayout(new GridLayout(0, 1));
-		Loanable item = lr.getRequested();
 		
-		JLabel nameLabel = new JLabel(item.getName());
-		JLabel dateLabel = new JLabel("" + item.getDueDate());
+		JLabel nameLabel = new JLabel(b.getTitle());
+		JLabel dateLabel = new JLabel("" + b.getDueDate());
 		
 		
 		nameLabel.setForeground(Color.BLACK);

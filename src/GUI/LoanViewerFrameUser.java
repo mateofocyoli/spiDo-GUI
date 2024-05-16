@@ -6,7 +6,12 @@ import java.awt.event.WindowEvent;
 
 import javax.swing.*;
 
+import java.util.List;
+
+import items.Book;
 import items.LoanRequest;
+import items.Loanable;
+import items.managers.ArchiveManager;
 import items.managers.LoanRequestsManager;
 import users.User;
 
@@ -51,12 +56,15 @@ public class LoanViewerFrameUser extends JFrame {
 		
 		LoanRequestsManager lrm = LoanRequestsManager.getInstance();
 		for(LoanRequest lr : lrm.filterBy(LoanRequestsManager.Criteria.APPLICANT, user)) {
-			if(lr.isAccepted()) {
-				leftPanel.add(new BorrowedBookPanelUser(user, lr));
-			} else {
-				rightPanel.add(new RequestedBookPanelUser(user, lr));
-			}
+			rightPanel.add(new RequestedBookPanelUser(user, lr));
 		}
+
+        ArchiveManager am = ArchiveManager.getInstance();
+        List<Book> onLoan = am.filterBy(ArchiveManager.Criteria.LOAN_STATE, Loanable.LoanState.ON_LOAN);
+        for(Book b : onLoan) {
+            if(b.getBorrower().equals(user))
+                leftPanel.add(new BorrowedBookPanelUser(user, b));
+        }
 
         pack();
         Dimension screenDim = Toolkit.getDefaultToolkit().getScreenSize();
