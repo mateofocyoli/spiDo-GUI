@@ -74,10 +74,10 @@ public class ArchiveManager {
     );
 
     private static BookFilter<String> filterByTitle = 
-        (Book b, String title) -> b.getTitle().compareToIgnoreCase(title) == 0;
+        (Book b, String title) -> b.getTitle().toLowerCase().contains(title.toLowerCase());
 
     private static BookFilter<String> filterByAuthor = 
-        (Book b, String author) -> b.getAuthor().compareToIgnoreCase(author) == 0;
+        (Book b, String author) -> b.getAuthor().toLowerCase().contains(author.toLowerCase());
 
     private static BookFilter<Book.Genre> filterByGenre = 
         (Book b, Book.Genre genre) -> b.getGenre().compareTo(genre) == 0;

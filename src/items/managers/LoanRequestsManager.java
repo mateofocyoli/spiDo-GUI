@@ -55,7 +55,7 @@ public class LoanRequestsManager {
     );
 
     private static LoanRequestFilter<String> filterByRequestedName = 
-        (LoanRequest r, String name) -> r.getRequested().getName().compareToIgnoreCase(name) == 0;
+        (LoanRequest r, String name) -> r.getRequested().getName().toLowerCase().contains(name.toLowerCase());
 
     private static LoanRequestFilter<User> filterByApplicant = 
         (LoanRequest r, User applicant) -> r.getApplicant().compareTo(applicant.getCredentials()) == 0;
