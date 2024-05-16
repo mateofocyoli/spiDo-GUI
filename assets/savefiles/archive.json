@@ -54,10 +54,10 @@
     "releaseYear": 2024,
     "numPages": 7,
     "name": "La mia vita di merda",
-    "state": "ON_LOAN",
+    "state": "IN_ARCHIVE",
     "dueDate": "2024-06-15",
     "ID": "1e5d1960-3216-43d8-a0d0-13c05c6114ef",
-    "borrower": "j"
+    "borrower": null
   },
   {
     "title": "Lo Spirito ANZAC",
@@ -114,7 +114,7 @@
     "releaseYear": 1603,
     "numPages": 0,
     "name": "Motivi per iscriversi a Gestionale",
-    "state": "ON_LOAN",
+    "state": "RUINED",
     "dueDate": "2024-06-15",
     "ID": "c7e9d056-ddce-4875-93f5-804de516b21b",
     "borrower": "j"
