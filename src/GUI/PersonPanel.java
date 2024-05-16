@@ -70,8 +70,12 @@ public class PersonPanel extends JPanel implements ActionListener {
             
             PersonManager pm = PersonManager.getInstance();
             try {
-                pm.remove(applicant, person);
-            } catch (IllegalAccessException e1) {
+                if(!pm.remove(applicant, person))
+                    JOptionPane.showMessageDialog(this, "The account was not removed for two possible reasons:\n" + 
+                                "either you are using the same account you want to delete " +
+                                "or the user you want to delete has borrowed some books that are not been returned yet.", 
+                                "Error", JOptionPane.ERROR_MESSAGE);
+            } catch (InvalidAdminException e1) {
                 JOptionPane.showMessageDialog(this, "You don't have the privileges", "Error", JOptionPane.ERROR_MESSAGE);
             }
             pvf.showPersonList(pm.getList());

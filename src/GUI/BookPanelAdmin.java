@@ -93,26 +93,24 @@ public class BookPanelAdmin extends JPanel implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == removeButton) {
-            String[] responses = { "Confirm", "Cancel" };
-            int response = JOptionPane.showOptionDialog(null, "Are you sure you want to delete this book?",
-                    "Confirm deletion", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE, null,
-                    responses, 0);
+            if (!OptionPaneYesNo.show("Confirm deletion",
+                    "Are you sure you want to delete this book?",
+                    OptionPaneYesNo.Options.CONFIRM_CANCEL))
+                return;
 
-            if (response == 0) {
-                ArchiveManager am = ArchiveManager.getInstance();
-                try {
-                    am.removeBook(admin, book);
-                } catch (InvalidAdminException e1) {
-                    JOptionPane.showMessageDialog(this, "You don't have the privileges", "Error",
-                            JOptionPane.ERROR_MESSAGE);
-                } catch (NotInArchiveException e1) {
-                    JOptionPane.showMessageDialog(this,
-                            "An error as occured. It seems that the book is no longer present", "Error",
-                            JOptionPane.ERROR_MESSAGE);
-                }
-
-                adminFrame.redraw();
+            ArchiveManager am = ArchiveManager.getInstance();
+            try {
+                am.removeBook(admin, book);
+            } catch (InvalidAdminException e1) {
+                JOptionPane.showMessageDialog(this, "You don't have the privileges", "Error",
+                        JOptionPane.ERROR_MESSAGE);
+            } catch (NotInArchiveException e1) {
+                JOptionPane.showMessageDialog(this,
+                        "An error as occured. It seems that the book is no longer present", "Error",
+                        JOptionPane.ERROR_MESSAGE);
             }
+
+            adminFrame.redraw();
         }
     }
 }
