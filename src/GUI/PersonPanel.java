@@ -63,6 +63,11 @@ public class PersonPanel extends JPanel implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if(e.getSource() == removeButton) {
+            if( !OptionPaneYesNo.show("Removing user", 
+                    "Are you sure you want to remove " + person.getCredentials().getUsername(), 
+                    OptionPaneYesNo.Options.REMOVE_CANCEL) )
+                return;
+            
             PersonManager pm = PersonManager.getInstance();
             try {
                 pm.remove(applicant, person);

@@ -7,6 +7,9 @@ import java.util.Map;
 
 import exceptions.InvalidAdminException;
 import exceptions.ManagerAlreadyInitializedException;
+import items.Book;
+import items.Loanable;
+import items.managers.ArchiveManager;
 import users.sanctions.BookLostSanction;
 import users.sanctions.RepeatedBookLostSanction;
 import users.sanctions.Sanction;
@@ -153,17 +156,28 @@ public class PersonManager {
     /**
      * It is necessary to pass the applicant instance to verify that he can modify the list.
      * An Admin can not remove itself.
+     * You can't remove a user that has ON_LOAN books attached to him.
      * @param applicant The admin requesting the action.
      * @param p The person who is to be removed from the system
      * @return {@code true} if the system did contain the person removed.
-     * @throws InvalidAdminException
+     * @throws InvalidAdminException 
      */
     public boolean remove(Admin applicant, Person p) throws InvalidAdminException {
-        if(applicant == null)
+        if(!validApplicant(applicant))
             throw new InvalidAdminException(INVALID_ADMIN_MSG);
         
         if(applicant.equals(p))
             return false;
+        
+        if(p instanceof User) {
+            User u = (User) p;
+            ArchiveManager am = ArchiveManager.getInstance();
+            List<Book> onLoan = am.filterBy(ArchiveManager.Criteria.LOAN_STATE, Loanable.LoanState.ON_LOAN);
+            for(Book b : onLoan) {
+                if(b.getBorrower().equals(u))
+                    return false;
+            }
+        }
         
         return people.remove(p);
     }
@@ -250,10 +264,10 @@ public class PersonManager {
      * @param victim
      * @param sanction
      * @return
-     * @throws InvalidAdminException
+     * @throws InvalidAdminException If the applicant's object is not a valid admin
      */
     public boolean sanction(Admin applicant, User victim, Sanction sanction) throws InvalidAdminException {
-        if(applicant == null)
+        if(!validApplicant(applicant))
             throw new InvalidAdminException(INVALID_ADMIN_MSG);
         
         boolean result = victim.addSanction(sanction);
@@ -281,7 +295,7 @@ public class PersonManager {
      * @throws InvalidAdminException
      */
     public boolean pardon(Admin applicant, User victim, Sanction s) throws InvalidAdminException {
-        if(applicant == null)
+        if(!validApplicant(applicant))
             throw new InvalidAdminException(INVALID_ADMIN_MSG);
         
         return victim.removeSanction(s);
@@ -328,5 +342,18 @@ public class PersonManager {
             return false;
         
         return filterBy(Criteria.USERNAME, username).isEmpty();
+    }
+
+    /**
+     * Checks if the object is a valid applicant.
+     * A valid applicant is one that is contained inside the list of people.
+     * @param applicant The object to be tested
+     * @return {@code true} if it is a valid applicant.
+     */
+    public boolean validApplicant(Person applicant) {
+        if(applicant == null)
+            return false;
+        
+        return people.contains(applicant);
     }
 }
