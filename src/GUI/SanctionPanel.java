@@ -16,7 +16,6 @@ import users.Admin;
 import users.User;
 import users.managers.PersonManager;
 import users.sanctions.Sanction;
-import users.sanctions.Severity;
 
 public class SanctionPanel extends JPanel implements ActionListener {
 

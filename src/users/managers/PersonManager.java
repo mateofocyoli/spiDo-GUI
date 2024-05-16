@@ -48,12 +48,12 @@ public class PersonManager {
         entry(Criteria.TYPE, compareByType)
     );
 
-    private static PersonFilter<String> filterByName = (Person p, String name) -> p.getName().compareToIgnoreCase(name) == 0;
-    private static PersonFilter<String> filterBySurname = (Person p, String surname) -> p.getName().compareToIgnoreCase(surname) == 0;
+    private static PersonFilter<String> filterByName = (Person p, String name) -> p.getName().toLowerCase().contains(name.toLowerCase());
+    private static PersonFilter<String> filterBySurname = (Person p, String surname) -> p.getName().toLowerCase().contains(surname.toLowerCase());
     private static PersonFilter<LocalDate> filterByBirth = (Person p, LocalDate birth) -> p.getBirth().compareTo(birth) == 0;
-    private static PersonFilter<String> filterByCityOfBirth = (Person p1, String cityOfBirth) -> p1.getCityOfBirth().compareToIgnoreCase(cityOfBirth) == 0;
+    private static PersonFilter<String> filterByCityOfBirth = (Person p1, String cityOfBirth) -> p1.getCityOfBirth().toLowerCase().contains(cityOfBirth.toLowerCase());
     private static PersonFilter<Person.Sex> filterBySex = (Person p1, Person.Sex sex) -> p1.getSex().compareTo(sex) == 0;
-    private static PersonFilter<String> filterByUsername = (Person p1, String username) -> p1.getCredentials().compareTo(new Credentials(username, "useless")) == 0;
+    private static PersonFilter<String> filterByUsername = (Person p1, String username) -> p1.getCredentials().getUsername().toLowerCase().contains(username.toLowerCase());
     private static PersonFilter<Class<? extends Person>> filterByType = (Person p1, Class<? extends Person> type) -> p1.getClass().getCanonicalName().compareTo(type.getCanonicalName()) == 0;
 
     private static final Map<Criteria, PersonFilter<?>> FILTER_CRITERIAS = Map.ofEntries(
