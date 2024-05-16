@@ -31,6 +31,7 @@ public class PersonPanel extends JPanel implements ActionListener {
         JLabel typeLabel = new JLabel(person instanceof User ? "[U]   " : "[A]   ");
         typeLabel.setFont(new Font("Lexend", Font.ITALIC, 16));
         JLabel usernameLabel = new JLabel(person.getCredentials().getUsername());
+        usernameLabel.setFont(new Font("Lexend", Font.BOLD, 15));
 
         JPanel buttonPanel = new JPanel();
         buttonPanel.setLayout(new FlowLayout());

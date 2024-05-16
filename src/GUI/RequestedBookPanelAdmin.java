@@ -46,9 +46,9 @@ public class RequestedBookPanelAdmin extends JPanel implements ActionListener {
         dateLabel.setForeground(Color.BLACK);
         requesterLabel.setForeground(Color.BLACK);
         
-        nameLabel.setFont(new Font("Lexend", Font.PLAIN, 12));
-        dateLabel.setFont(new Font("Lexend", Font.ITALIC, 12));
-        requesterLabel.setFont(new Font("Lexend", Font.ITALIC, 12));
+        nameLabel.setFont(new Font("Lexend", Font.BOLD, 13));
+        dateLabel.setFont(new Font("Lexend", Font.ITALIC, 10));
+        requesterLabel.setFont(new Font("Lexend", Font.PLAIN, 15));
 
         dataPanel.add(requesterLabel);
         dataPanel.add(nameLabel);

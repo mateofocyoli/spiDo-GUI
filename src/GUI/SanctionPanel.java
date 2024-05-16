@@ -35,21 +35,21 @@ public class SanctionPanel extends JPanel implements ActionListener {
         JLabel nameLabel = new JLabel(sanction.name);
         nameLabel.setFont(new Font("Lexend", Font.BOLD, 16));
         JLabel dateLabel = new JLabel(sanction.date.toString());
-        dateLabel.setFont(new Font("Lexend", Font.ITALIC, 16));
+        dateLabel.setFont(new Font("Lexend", Font.ITALIC, 10));
         JLabel severityLabel = new JLabel(sanction.severity.toString());
         severityLabel.setFont(new Font("Lexend", Font.PLAIN, 16));
 
         switch (sanction.severity) {
-            case Severity.LOW:
+            case LOW:
                 severityLabel.setForeground(Color.YELLOW);
                 break;
-            case Severity.MEDIUM:
+            case MEDIUM:
                 severityLabel.setForeground(Color.ORANGE);
                 break;
-            case Severity.HIGH:
+            case HIGH:
                 severityLabel.setForeground(Color.RED);
                 break;
-            case Severity.WORST:
+            case WORST:
                 severityLabel.setForeground(Color.MAGENTA);
                 break;
             default:

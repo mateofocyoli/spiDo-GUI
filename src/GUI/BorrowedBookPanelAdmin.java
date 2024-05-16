@@ -47,9 +47,9 @@ public class BorrowedBookPanelAdmin extends JPanel implements ActionListener {
         dateLabel.setForeground(Color.BLACK);
         borrowerLabel.setForeground(Color.BLACK);
 
-        titleLabel.setFont(new Font("Lexend", Font.PLAIN, 12));
-        dateLabel.setFont(new Font("Lexend", Font.ITALIC, 12));
-        borrowerLabel.setFont(new Font("Lexend", Font.ITALIC, 12));
+        titleLabel.setFont(new Font("Lexend", Font.BOLD, 13));
+        dateLabel.setFont(new Font("Lexend", Font.ITALIC, 10));
+        borrowerLabel.setFont(new Font("Lexend", Font.PLAIN, 15));
 
         dataPanel.add(borrowerLabel);
         dataPanel.add(titleLabel);

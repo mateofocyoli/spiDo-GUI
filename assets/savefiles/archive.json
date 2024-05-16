@@ -30,10 +30,10 @@
     "releaseYear": 2023,
     "numPages": 128,
     "name": "I Burger di Ciccio",
-    "state": "ON_LOAN",
+    "state": "IN_ARCHIVE",
     "dueDate": "2024-06-15",
     "ID": "dea6916f-1875-47b2-90a4-a71ea34126a8",
-    "borrower": "q"
+    "borrower": null
   },
   {
     "title": "La Costituzione Italiana",
@@ -42,10 +42,10 @@
     "releaseYear": 1923,
     "numPages": 69,
     "name": "La Costituzione Italiana",
-    "state": "IN_ARCHIVE",
-    "dueDate": "2024-05-14",
+    "state": "ON_LOAN",
+    "dueDate": "2024-06-16",
     "ID": "e18308af-0b45-4101-8694-a801ea5cf63d",
-    "borrower": null
+    "borrower": "q"
   },
   {
     "title": "La mia vita di merda",
@@ -54,10 +54,10 @@
     "releaseYear": 2024,
     "numPages": 7,
     "name": "La mia vita di merda",
-    "state": "ON_LOAN",
+    "state": "IN_ARCHIVE",
     "dueDate": "2024-06-16",
     "ID": "1e5d1960-3216-43d8-a0d0-13c05c6114ef",
-    "borrower": "q"
+    "borrower": null
   },
   {
     "title": "Lo Spirito ANZAC",
@@ -138,10 +138,10 @@
     "releaseYear": 2005,
     "numPages": 15,
     "name": "Two girls one cup",
-    "state": "IN_ARCHIVE",
-    "dueDate": "2024-06-15",
+    "state": "LOST",
+    "dueDate": "2024-06-16",
     "ID": "e01d326a-a315-44a9-bb29-e77e07f02745",
-    "borrower": null
+    "borrower": "q"
   },
   {
     "title": "Vita, morte e miracoli di spido guidetti",

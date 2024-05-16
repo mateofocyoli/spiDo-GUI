@@ -58,10 +58,10 @@ public class PersonViewerFrame extends JFrame {
         @Override
         public void actionPerformed(ActionEvent e) {
             switch (criteria) {
-                case PersonManager.Criteria.DATE_OF_BIRTH:
+                case DATE_OF_BIRTH:
 
                     break;
-                case PersonManager.Criteria.SEX:
+                case SEX:
                     Person.Sex[] sexes = Person.Sex.values();
                     String[] options = new String[sexes.length];
                     for (int i = 0; i < options.length; i++)
@@ -74,7 +74,7 @@ public class PersonViewerFrame extends JFrame {
 
                     parentFrame.showPersonList(PersonManager.getInstance().filterBy(criteria, sexes[response]));
                     break;
-                case PersonManager.Criteria.TYPE:
+                case TYPE:
                     String[] types = {"ADMIN", "USER"};
 
                     int response1 = JOptionPane.showOptionDialog(null, "Select what filtering argument will be used",
