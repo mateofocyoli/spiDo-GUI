@@ -5,6 +5,7 @@ import java.awt.GridLayout;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.time.LocalDate;
@@ -143,6 +144,8 @@ public class PersonViewerFrame extends JFrame {
 
         menuBar.add(sortBy);
         menuBar.add(filterBy);
+        sortBy.setMnemonic(KeyEvent.VK_S);	//Alt+S for sortBy
+        filterBy.setMnemonic(KeyEvent.VK_F);	//Alt+F for filterBy
 
         PersonManager.Criteria[] criterias = PersonManager.Criteria.values();
         for (PersonManager.Criteria c : criterias) {

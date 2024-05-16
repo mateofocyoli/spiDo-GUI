@@ -54,10 +54,10 @@
     "releaseYear": 2024,
     "numPages": 7,
     "name": "La mia vita di merda",
-    "state": "IN_ARCHIVE",
+    "state": "ON_LOAN",
     "dueDate": "2024-06-16",
     "ID": "1e5d1960-3216-43d8-a0d0-13c05c6114ef",
-    "borrower": null
+    "borrower": "pete002"
   },
   {
     "title": "Lo Spirito ANZAC",
@@ -150,9 +150,9 @@
     "releaseYear": 2024,
     "numPages": 165564653,
     "name": "Vita, morte e miracoli di spido guidetti",
-    "state": "IN_ARCHIVE",
-    "dueDate": "2024-05-15",
+    "state": "ON_LOAN",
+    "dueDate": "2024-06-16",
     "ID": "9f867010-6870-40b0-802c-6e06469aa90b",
-    "borrower": null
+    "borrower": "pete002"
   }
 ]
