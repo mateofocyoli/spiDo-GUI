@@ -174,10 +174,10 @@ public class LoanRequestsManager {
     /**If the request is filed, it will be removed from the pending ones
      * @param applicant the user that wants to cancel one of its requests
      * @param request the loan request to cancel
-     * @throws InvalidAdminException if the user is not accredited or is not the original applicant
+     * @throws InvalidUserException if the user is not accredited or is not the original applicant
      * @throws RequestNotPresentException if the request was not filed
      */
-    public void denyRequest(User applicant, LoanRequest request) throws InvalidUserException, RequestNotPresentException {
+    public void cancelRequest(User applicant, LoanRequest request) throws InvalidUserException, RequestNotPresentException {
         if (!PersonManager.getInstance().getUsers().contains(applicant)) {
             throw new InvalidUserException();
         }

@@ -159,7 +159,8 @@ public class ArchiveManager {
 
     /**Obtain a sorted list of the books (values of the map archive) in the archive by a criteria specified,
      * if the criteria is invalid it will be sorted by title
-     * @param orderCriteria of the books in the archive, the options offered are in the static Criteria enum in this class
+     * @param orderCriteria of the books in the archive, the options offered are in the static Criteria enum in this class,
+     * if not valid defaults to TITLE
      */
     public List<Book> getSortedBooksBy(Criteria orderCriteria) {
         List<Book> list = new ArrayList<>(archive.values());
@@ -173,7 +174,7 @@ public class ArchiveManager {
      * @throws InvalidAdminException if the admin is not accredited
      */
     public void addBook(Admin applicant, Book book) throws InvalidAdminException, InvalidBookException {
-        if (applicant == null || !PersonManager.getInstance().getAdmins().contains(applicant))
+        if (applicant == null || !PersonManager.getInstance().validApplicant(applicant))
             throw new InvalidAdminException(INVALID_ADMIN_MSG);
         if (book == null)
             throw new InvalidBookException(INVALID_BOOK_MSG);
@@ -208,7 +209,7 @@ public class ArchiveManager {
      * @throws NotInArchiveException if the book is on loan to someone
      */
     public void removeBook(Admin applicant, String id) throws InvalidAdminException, NotInArchiveException {
-        if (!PersonManager.getInstance().getAdmins().contains(applicant)){
+        if (!PersonManager.getInstance().validApplicant(applicant)){
             throw new InvalidAdminException(INVALID_ADMIN_MSG);
         }
         if (!archive.containsKey(id)){
@@ -258,7 +259,8 @@ public class ArchiveManager {
 
     /**Get a filtered list of pending loan requests by the specified criteria and argument
      * @param <T> the type of argument
-     * @param criteria to filter the list of requests by, the options offered are in the static Criteria enum in this class
+     * @param criteria to filter the list of requests by, the options offered are in the static Criteria enum in this class,
+     * if not valid defaults to TITLE
      * @param argument that has to match the specified criteria
      * @return a list of loan requests filtered by the specified criteria and argument
      * @throws ClassCastException
