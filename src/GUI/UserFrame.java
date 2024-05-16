@@ -11,6 +11,7 @@ import java.util.List;
 import javax.swing.*;
 import app.AppCloser;
 import items.Book;
+import items.Loanable;
 import items.managers.ArchiveManager;
 import users.User;
 
@@ -18,12 +19,13 @@ public class UserFrame extends JFrame implements ActionListener {
 
 	private JMenuBar menuBar;
 	private JMenu sortBy, filterBy, view;
-	private JMenu filterByGenre, filterByPages;
+	private JMenu filterByGenre, filterByPages, filterByState;
 	private JMenuItem sortByTitle, sortByAuthor, sortByYear, sortByPages, sortByGenre;
 	private JMenuItem filterByTitle, filterByAuthor, filterByYear;
 	private JMenuItem loans;
 	private JMenuItem actionFilter, fantasyFilter, adventureFilter, romanceFilter, comedyFilter, scifiFilter,
 			mysteryFilter, thrillerFilter, historicalFilter, comicFilter, mangaFilter, childrenFilter;
+    private JMenuItem inArchiveFilter, onLoanFilter, ruinedFilter, lostFilter;
 	private JMenuItem less, greater;
 	private JPanel backgroundPanel;
 	private ArchiveManager am;
@@ -72,6 +74,7 @@ public class UserFrame extends JFrame implements ActionListener {
 		filterByYear = new JMenuItem("Year");
 		filterByPages = new JMenu("Number of pages");
 		filterByGenre = new JMenu("Genre");
+        filterByState = new JMenu("State");
 		// methods of pages filters
 		less = new JMenuItem("Less or equal");
 		greater = new JMenuItem("Greater or equal");
@@ -88,6 +91,10 @@ public class UserFrame extends JFrame implements ActionListener {
 		comicFilter = new JMenuItem("Comic");
 		mangaFilter = new JMenuItem("Manga");
 		childrenFilter = new JMenuItem("Children");
+        inArchiveFilter = new JMenuItem("IN_ARCHIVE");
+        onLoanFilter = new JMenuItem("ON_LOAN");
+        ruinedFilter = new JMenuItem("RUINED");
+        lostFilter = new JMenuItem("LOST");
 		// add
 		filterByPages.add(less);
 		filterByPages.add(greater);
@@ -103,12 +110,18 @@ public class UserFrame extends JFrame implements ActionListener {
 		filterByGenre.add(comicFilter);
 		filterByGenre.add(mangaFilter);
 		filterByGenre.add(childrenFilter);
+
+        filterByState.add(inArchiveFilter);
+        filterByState.add(onLoanFilter);
+        filterByState.add(ruinedFilter);
+        filterByState.add(lostFilter);
 		// addition of the voices to the sort menu
 		filterBy.add(filterByTitle);
 		filterBy.add(filterByAuthor);
 		filterBy.add(filterByYear);
 		filterBy.add(filterByPages);
 		filterBy.add(filterByGenre);
+        filterBy.add(filterByState);
 
 		// the third voice on the menu bar will be view
 		view = new JMenu("View");
@@ -160,6 +173,10 @@ public class UserFrame extends JFrame implements ActionListener {
 		childrenFilter.addActionListener(this);
 		less.addActionListener(this);
 		greater.addActionListener(this);
+        inArchiveFilter.addActionListener(this);
+        onLoanFilter.addActionListener(this);
+        ruinedFilter.addActionListener(this);
+        lostFilter.addActionListener(this);
 
 		// addition of the three voices to the menu bar
 		menuBar.add(sortBy);
@@ -215,18 +232,23 @@ public class UserFrame extends JFrame implements ActionListener {
 		// if filter by title
 		if (e.getSource() == filterByTitle) {
 			String title = JOptionPane.showInputDialog("Title filter");
-			this.setBooksInFrame(am.filterBy(ArchiveManager.Criteria.TITLE, title));
+			if(title != null)
+			    this.setBooksInFrame(am.filterBy(ArchiveManager.Criteria.TITLE, title));
 		}
 		// if filter by author
 		if (e.getSource() == filterByAuthor) {
 			String author = JOptionPane.showInputDialog("Author filter");
-			this.setBooksInFrame(am.filterBy(ArchiveManager.Criteria.AUTHOR, author));
+            if(author != null)
+			    this.setBooksInFrame(am.filterBy(ArchiveManager.Criteria.AUTHOR, author));
 		}
 		// if filter by year
 		if (e.getSource() == filterByYear) {
-			Year year;
+            String s = JOptionPane.showInputDialog("Year filter");
+                if(s == null)
+                    return;
+            
 			try {
-				year = Year.parse(JOptionPane.showInputDialog("Year filter").trim());
+				Year year = Year.parse(s.trim());
 				this.setBooksInFrame(am.filterBy(ArchiveManager.Criteria.RELEASE_YEAR, year));
 			} catch (Exception eParseYear) {
 				JOptionPane.showMessageDialog(null, "Input is not a valid year", "Error", JOptionPane.ERROR_MESSAGE);
@@ -236,13 +258,29 @@ public class UserFrame extends JFrame implements ActionListener {
 
 		// if less or equal
 		if (e.getSource() == less) {
-			int nPages = Integer.parseInt(JOptionPane.showInputDialog("Number of pages filter"));
-			this.setBooksInFrame(am.filterBy(ArchiveManager.Criteria.NUM_PAGES_LESS, nPages));
+            try {
+                String s = JOptionPane.showInputDialog("Number of pages filter");
+                if(s == null)
+                    return;
+                
+				int nPages = Integer.parseInt(s);
+				this.setBooksInFrame(am.filterBy(ArchiveManager.Criteria.NUM_PAGES_LESS, nPages));
+			} catch (NumberFormatException eParseInt) {
+				JOptionPane.showMessageDialog(null, "Input is not a valid number", "Error", JOptionPane.ERROR_MESSAGE);
+			}
 		}
 		// if less or greater
 		if (e.getSource() == greater) {
-			int nPages = Integer.parseInt(JOptionPane.showInputDialog("Number of pages filter"));
-			this.setBooksInFrame(am.filterBy(ArchiveManager.Criteria.NUM_PAGES_MORE, nPages));
+            try {
+                String s = JOptionPane.showInputDialog("Number of pages filter");
+                if(s == null)
+                    return;
+                
+				int nPages = Integer.parseInt(s);
+				this.setBooksInFrame(am.filterBy(ArchiveManager.Criteria.NUM_PAGES_MORE, nPages));
+			} catch (NumberFormatException eParseInt) {
+				JOptionPane.showMessageDialog(null, "Input is not a valid number", "Error", JOptionPane.ERROR_MESSAGE);
+			}
 		}
 
 		// filter by genre
@@ -305,6 +343,22 @@ public class UserFrame extends JFrame implements ActionListener {
 		// filter genre children
 		if (e.getSource() == childrenFilter) {
 			this.setBooksInFrame(am.filterBy(ArchiveManager.Criteria.GENRE, Book.Genre.CHILDREN));
+		}
+
+        if (e.getSource() == inArchiveFilter) {
+			this.setBooksInFrame(am.filterBy(ArchiveManager.Criteria.LOAN_STATE, Loanable.LoanState.IN_ARCHIVE));
+		}
+
+        if (e.getSource() == onLoanFilter) {
+			this.setBooksInFrame(am.filterBy(ArchiveManager.Criteria.LOAN_STATE, Loanable.LoanState.ON_LOAN));
+		}
+
+        if (e.getSource() == ruinedFilter) {
+			this.setBooksInFrame(am.filterBy(ArchiveManager.Criteria.LOAN_STATE, Loanable.LoanState.RUINED));
+		}
+
+        if (e.getSource() == lostFilter) {
+			this.setBooksInFrame(am.filterBy(ArchiveManager.Criteria.LOAN_STATE, Loanable.LoanState.LOST));
 		}
 
 		// if view loans

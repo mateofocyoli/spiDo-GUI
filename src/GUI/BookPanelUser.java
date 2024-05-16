@@ -85,7 +85,6 @@ public class BookPanelUser extends JPanel implements ActionListener {
 		case ON_LOAN: state.setForeground(Color.RED);
 		break;
 		case RUINED: state.setForeground(Color.ORANGE);
-					 buttonPanel.add(button);
 		break;
 		case LOST: state.setForeground(Color.GRAY);
 		break;
@@ -101,10 +100,10 @@ public class BookPanelUser extends JPanel implements ActionListener {
 			try {
 				lrm.makeBookRequest(user, book);
 			} catch (InvalidUserException e1) {
-				JOptionPane.showMessageDialog(this, "An error has occured", "Error", JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(this, "You are not a valid user", "Error", JOptionPane.ERROR_MESSAGE);
 				e1.printStackTrace();
 			} catch (NotInArchiveException e1) {
-				JOptionPane.showMessageDialog(this, "An error has occured", "Error", JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(this, "The book is not in the archive", "Error", JOptionPane.ERROR_MESSAGE);
 				e1.printStackTrace();
 			}
 		}
