@@ -23,6 +23,8 @@ import users.managers.PersonManager;
 
 public class LoanRequestsManager {
 
+    private static final String ORIGINAL_REQ_APPLICANT_MISMATCH_MSG = "Only the original applicant can cancel the request";
+
     private static final String FILTER_NOT_COHERENT_MSG = "Criteria and argument are not coherent";
 
     private static final String BOOK_NOT_AVAILABLE_MSG = "The request cannot be accepted, this book is currently unavailable";
@@ -165,6 +167,26 @@ public class LoanRequestsManager {
         }
         if (!requests.contains(request)) {
             throw new RequestNotPresentException();
+        }
+        requests.remove(request);
+    }
+
+    /**If the request is filed, it will be removed from the pending ones
+     * @param applicant the user that wants to cancel one of its requests
+     * @param request the loan request to cancel
+     * @throws InvalidAdminException if the user is not accredited or is not the original applicant
+     * @throws RequestNotPresentException if the request was not filed
+     */
+    public void denyRequest(User applicant, LoanRequest request) throws InvalidUserException, RequestNotPresentException {
+        if (!PersonManager.getInstance().getUsers().contains(applicant)) {
+            throw new InvalidUserException();
+        }
+        if (!requests.contains(request)) {
+            throw new RequestNotPresentException();
+        }
+        if (request.getApplicant().compareTo(applicant.getCredentials()) != 0) {
+            throw new InvalidUserException(ORIGINAL_REQ_APPLICANT_MISMATCH_MSG);
+
         }
         requests.remove(request);
     }
