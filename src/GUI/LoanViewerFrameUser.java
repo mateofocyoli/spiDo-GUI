@@ -24,7 +24,7 @@ public class LoanViewerFrameUser extends JFrame {
 		
 		//Frame setup
 		this.setTitle("Loan Viewer Frame - " + user.getCredentials().getUsername());
-		this.setResizable(false);
+		this.setResizable(true);
 		this.setVisible(true);
 		this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		this.addWindowListener(new WindowAdapter() {
