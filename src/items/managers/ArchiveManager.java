@@ -28,7 +28,7 @@ public class ArchiveManager {
 
   
     public static enum Criteria {
-        LOAN_STATE, ID, RELEASE_YEAR, NUM_PAGES, GENRE, AUTHOR, TITLE
+        LOAN_STATE, ID, RELEASE_YEAR, NUM_PAGES, GENRE, AUTHOR, TITLE, NUM_PAGES_MORE, NUM_PAGES_LESS
     }
 
     private static final String FILTER_NOT_COHERENT_MSG = "Criteria and argument are not coherent";
@@ -88,6 +88,17 @@ public class ArchiveManager {
     private static BookFilter<Loanable.LoanState> filterByLoanState = 
         (Book b, Loanable.LoanState loanState) -> b.getState().compareTo(loanState) == 0;
 
+    private static BookFilter<Integer> filterByNumPagesMoreThan = 
+        (Book b, Integer numPages) -> b.getNumPages() >= numPages;
+
+    
+    private static BookFilter<Integer> filterByNumPagesLessThan = 
+        (Book b, Integer numPages) -> b.getNumPages() <= numPages;
+
+    
+    private static BookFilter<Integer> filterByNumPagesEqual = 
+        (Book b, Integer numPages) -> b.getNumPages() == numPages;
+    
     /**Map used to store the filters used to get specific elements of the archive Map
      */
     private static final Map<Criteria, BookFilter<?>> FILTER_CRITERIAS = Map.ofEntries(
@@ -95,7 +106,10 @@ public class ArchiveManager {
         entry(Criteria.AUTHOR, filterByAuthor),
         entry(Criteria.GENRE, filterByGenre),
         entry(Criteria.RELEASE_YEAR, filterByYear),
-        entry(Criteria.LOAN_STATE, filterByLoanState)
+        entry(Criteria.LOAN_STATE, filterByLoanState),
+        entry(Criteria.NUM_PAGES, filterByNumPagesEqual),
+        entry(Criteria.NUM_PAGES_LESS, filterByNumPagesLessThan),
+        entry(Criteria.NUM_PAGES_MORE, filterByNumPagesMoreThan)
     );
 
 
