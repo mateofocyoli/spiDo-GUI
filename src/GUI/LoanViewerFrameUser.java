@@ -6,6 +6,8 @@ import java.awt.event.WindowEvent;
 
 import javax.swing.*;
 
+import exceptions.InvalidAdminException;
+
 import java.util.List;
 
 import items.Book;
@@ -17,7 +19,12 @@ import users.User;
 
 public class LoanViewerFrameUser extends JFrame {
 
+	private User user;
+	
 	public LoanViewerFrameUser(User user) {
+		
+		this.user = user;
+		
 		//Frame setup
 		this.setTitle("Loan Viewer Frame - " + user.getCredentials().getUsername());
 		this.setResizable(false);
@@ -56,7 +63,7 @@ public class LoanViewerFrameUser extends JFrame {
 		
 		LoanRequestsManager lrm = LoanRequestsManager.getInstance();
 		for(LoanRequest lr : lrm.filterBy(LoanRequestsManager.Criteria.APPLICANT, user)) {
-			rightPanel.add(new RequestedBookPanelUser(user, lr));
+			rightPanel.add(new RequestedBookPanelUser(user, lr, this));
 		}
 
         ArchiveManager am = ArchiveManager.getInstance();
@@ -70,4 +77,10 @@ public class LoanViewerFrameUser extends JFrame {
         Dimension screenDim = Toolkit.getDefaultToolkit().getScreenSize();
         setSize((int) Math.min(getSize().getWidth(), screenDim.getWidth()), (int) Math.min(getSize().getHeight(), screenDim.getHeight()));
 	}
+	
+	public void redraw() {
+        this.dispose();
+        new LoanViewerFrameUser(user);
+        
+    }
 }

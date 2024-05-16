@@ -12,6 +12,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.Border;
 
+import exceptions.InvalidUserException;
+import exceptions.RequestNotPresentException;
 import items.LoanRequest;
 import items.Loanable;
 import items.managers.LoanRequestsManager;
@@ -23,11 +25,13 @@ public class RequestedBookPanelUser extends JPanel implements ActionListener {
 	private LoanRequestsManager lrm;
 	private LoanRequest lr;
 	private User user;
+	private LoanViewerFrameUser lvfu;
 	
-	public RequestedBookPanelUser(User user, LoanRequest lr) {
+	public RequestedBookPanelUser(User user, LoanRequest lr, LoanViewerFrameUser lvfu) {
 		
 		this.lr = lr;
 		this.user = user;
+		this.lvfu = lvfu;
 		
 		//the dataPanel will contain the book data
 		JPanel dataPanel = new JPanel();
@@ -72,13 +76,22 @@ public class RequestedBookPanelUser extends JPanel implements ActionListener {
 		
 		
 	}
-
+	
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource()==button) {
-			
+			try {
+				lrm = LoanRequestsManager.getInstance();
+				lrm.cancelRequest(user, lr);
+				lvfu.redraw();
+			} catch (InvalidUserException | RequestNotPresentException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 		}
 		
 	}
+	
+	
 
 } 
