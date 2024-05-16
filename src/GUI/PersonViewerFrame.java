@@ -7,6 +7,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.List;
 
 import javax.swing.JFrame;
@@ -59,7 +62,18 @@ public class PersonViewerFrame extends JFrame {
         public void actionPerformed(ActionEvent e) {
             switch (criteria) {
                 case DATE_OF_BIRTH:
+                    String dateString = JOptionPane
+                            .showInputDialog("Insert " + criteria + "\nThe date must be in the format 'yyyy-mm-dd'");
+                    if (dateString != null) {
+                        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+                        try {
+                            LocalDate date = LocalDate.parse(dateString, dtf);
+                            parentFrame.showPersonList(PersonManager.getInstance().filterBy(criteria, date));
+                        } catch (DateTimeParseException dtpe) {
+                            JOptionPane.showMessageDialog(null, "The date could not be parsed", "Error", JOptionPane.ERROR_MESSAGE);
+                        }
 
+                    }
                     break;
                 case SEX:
                     Person.Sex[] sexes = Person.Sex.values();
@@ -75,7 +89,7 @@ public class PersonViewerFrame extends JFrame {
                     parentFrame.showPersonList(PersonManager.getInstance().filterBy(criteria, sexes[response]));
                     break;
                 case TYPE:
-                    String[] types = {"ADMIN", "USER"};
+                    String[] types = { "ADMIN", "USER" };
 
                     int response1 = JOptionPane.showOptionDialog(null, "Select what filtering argument will be used",
                             "Select filtering option", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE,
@@ -83,11 +97,13 @@ public class PersonViewerFrame extends JFrame {
                             types, 0);
 
                     parentFrame.showPersonList(PersonManager.getInstance()
-                            .filterBy(criteria, (response1 == 0 ? Admin.class : User.class) ));
+                            .filterBy(criteria, (response1 == 0 ? Admin.class : User.class)));
                     break;
                 default:
                     String argument = JOptionPane.showInputDialog("Insert " + criteria);
-                    parentFrame.showPersonList(PersonManager.getInstance().filterBy(criteria, argument));
+                    if (argument != null)
+                        parentFrame.showPersonList(PersonManager.getInstance().filterBy(criteria, argument));
+
                     break;
             }
         }
@@ -145,7 +161,8 @@ public class PersonViewerFrame extends JFrame {
 
         pack();
         Dimension screenDim = Toolkit.getDefaultToolkit().getScreenSize();
-        setSize((int) Math.min(getSize().getWidth(), screenDim.getWidth()), (int) Math.min(getSize().getHeight(), screenDim.getHeight()));
+        setSize((int) Math.min(getSize().getWidth(), screenDim.getWidth()),
+                (int) Math.min(getSize().getHeight(), screenDim.getHeight()));
     }
 
     public void showPersonList(List<Person> list) {
@@ -159,6 +176,7 @@ public class PersonViewerFrame extends JFrame {
         repaint();
         pack();
         Dimension screenDim = Toolkit.getDefaultToolkit().getScreenSize();
-        setSize((int) Math.min(getSize().getWidth(), screenDim.getWidth()), (int) Math.min(getSize().getHeight(), screenDim.getHeight()));
+        setSize((int) Math.min(getSize().getWidth(), screenDim.getWidth()),
+                (int) Math.min(getSize().getHeight(), screenDim.getHeight()));
     }
 }

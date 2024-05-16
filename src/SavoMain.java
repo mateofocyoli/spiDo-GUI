@@ -1,5 +1,7 @@
 import java.io.IOException;
 import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import users.Credentials;
 import users.Person;
@@ -80,6 +82,11 @@ public class SavoMain {
         System.out.println();
         list = PersonManager.filterBy(list, "Type", User.class);
         showList(list); */
+
+
+        ArrayList<Person> lista = new ArrayList<>();
+        lista.sort( (Person o1, Person o2) -> o1.getName().compareTo(o2.getName()) );
+
     }
 
     public static <E extends Object> void showList(List<E> list) {
