@@ -30,10 +30,11 @@ public class AdminFrame extends JFrame implements ActionListener {
 	private JMenuBar menuBar;
 	private JMenu sortBy, filterBy, edit, view;
 	private JMenuItem sortByTitle, sortByAuthor, sortByYear, sortByPages, sortByGenre;
-	private JMenuItem filterByTitle, filterByAuthor, filterByYear, filterByPages;
-	private JMenu filterByGenre;
+	private JMenuItem filterByTitle, filterByAuthor, filterByYear;
+	private JMenu filterByGenre, filterByPages;
 	private JMenuItem actionFilter, fantasyFilter, adventureFilter, romanceFilter, comedyFilter, scifiFilter,
 			mysteryFilter, thrillerFilter, historicalFilter, comicFilter, mangaFilter, childrenFilter;
+	private JMenuItem less, greater;
 	private JMenuItem addBook, addAdmin;
 	private JMenuItem loans, requests, people;
 	private JPanel backgroundPanel;
@@ -77,8 +78,11 @@ public class AdminFrame extends JFrame implements ActionListener {
 		filterByTitle = new JMenuItem("Title");
 		filterByAuthor = new JMenuItem("Author");
 		filterByYear = new JMenuItem("Year");
-		filterByPages = new JMenuItem("Number of pages");
+		filterByPages = new JMenu("Number of pages");
 		filterByGenre = new JMenu("Genre");
+		// methods of pages filters
+		less = new JMenuItem("Less or equal");
+		greater = new JMenuItem("Greater or equal");
 		// criteria for filter
 		actionFilter = new JMenuItem("Action");
 		fantasyFilter = new JMenuItem("Fantasy");
@@ -93,6 +97,8 @@ public class AdminFrame extends JFrame implements ActionListener {
 		mangaFilter = new JMenuItem("Manga");
 		childrenFilter = new JMenuItem("Children");
 		// add
+		filterByPages.add(less);
+		filterByPages.add(greater);
 		filterByGenre.add(actionFilter);
 		filterByGenre.add(fantasyFilter);
 		filterByGenre.add(adventureFilter);
@@ -156,6 +162,8 @@ public class AdminFrame extends JFrame implements ActionListener {
 		requests.setMnemonic(KeyEvent.VK_R); // R for requests
 		people.setMnemonic(KeyEvent.VK_A); // A for admin
 		addAdmin.setMnemonic(KeyEvent.VK_A); // A for add Admin
+		less.setMnemonic(KeyEvent.VK_L); // L for less
+		greater.setMnemonic(KeyEvent.VK_G); // G for greater
 
 		// addiction of the action listeners to perform methods when pressed
 		sortByTitle.addActionListener(this);
@@ -185,6 +193,8 @@ public class AdminFrame extends JFrame implements ActionListener {
 		comicFilter.addActionListener(this);
 		mangaFilter.addActionListener(this);
 		childrenFilter.addActionListener(this);
+		less.addActionListener(this);
+		greater.addActionListener(this);
 
 		// set of the menu bar in the frame
 		this.setJMenuBar(menuBar);
@@ -256,15 +266,18 @@ public class AdminFrame extends JFrame implements ActionListener {
 			}
 		}
 		// if filter by number of pages
-		if (e.getSource() == filterByPages) {
-			try {
-				int nPages = Integer.parseInt(JOptionPane.showInputDialog("Number of pages filter"));
-				this.setBooksInFrame(am.filterBy(ArchiveManager.Criteria.NUM_PAGES, nPages));
-			} catch (Exception eParsePages) {
-				JOptionPane.showMessageDialog(null, "Input is not a valid number of pages", "Error",
-						JOptionPane.ERROR_MESSAGE);
-			}
+
+		// if less or equal
+		if (e.getSource() == less) {
+			int nPages = Integer.parseInt(JOptionPane.showInputDialog("Number of pages filter"));
+			this.setBooksInFrame(am.filterBy(ArchiveManager.Criteria.NUM_PAGES_LESS, nPages));
 		}
+		// if less or greater
+		if (e.getSource() == greater) {
+			int nPages = Integer.parseInt(JOptionPane.showInputDialog("Number of pages filter"));
+			this.setBooksInFrame(am.filterBy(ArchiveManager.Criteria.NUM_PAGES_MORE, nPages));
+		}
+
 		// filter by genre
 
 		// filter genre action
