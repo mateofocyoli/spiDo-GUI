@@ -1,6 +1,8 @@
 package GUI;
 
+import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.awt.Toolkit;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import javax.swing.JFrame;
@@ -22,7 +24,6 @@ public class SanctionViewerFrame extends JFrame {
         this.admin = admin;
 
         this.setTitle("Person Viewer - " + admin.getCredentials().getUsername());
-        this.setSize(750, 500);
         this.setVisible(true);
         this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         this.addWindowListener(new WindowAdapter() {
@@ -47,6 +48,10 @@ public class SanctionViewerFrame extends JFrame {
         for(Sanction s : user.getSanctions()) {
             panel.add(new SanctionPanel(admin, user, s, this));
         }
+
+        pack();
+        Dimension screenDim = Toolkit.getDefaultToolkit().getScreenSize();
+        setSize((int) Math.min(getSize().getWidth(), screenDim.getWidth()), (int) Math.min(getSize().getHeight(), screenDim.getHeight()));
     }
 
     public void redraw() {

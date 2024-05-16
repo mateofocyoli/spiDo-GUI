@@ -1,6 +1,8 @@
 package GUI;
 
+import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -38,7 +40,6 @@ public class AdminFrame extends JFrame implements ActionListener {
         this.admin = admin;
 
         this.setTitle(FRAME_TITLE + admin.getCredentials().getUsername());
-        this.setSize(950, 500);
         this.setVisible(true);
         this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         this.addWindowListener(new AppCloser());
@@ -155,6 +156,11 @@ public class AdminFrame extends JFrame implements ActionListener {
 			backgroundPanel.add(bookPanel);
 		}
 
+        // Set the frame size as the preferred one
+        pack();
+        // Limit the size to the screen size
+        Dimension screenDim = Toolkit.getDefaultToolkit().getScreenSize();
+        setSize((int) Math.min(getSize().getWidth(), screenDim.getWidth()), (int) Math.min(getSize().getHeight(), screenDim.getHeight()));
     }
 
     @Override

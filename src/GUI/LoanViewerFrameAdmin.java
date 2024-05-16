@@ -1,7 +1,9 @@
 package GUI;
 
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.Toolkit;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.List;
@@ -35,7 +37,6 @@ public class LoanViewerFrameAdmin extends JFrame {
 
         // Frame setup
         this.setTitle("Loan Viewer Frame Admin - " + admin.getCredentials().getUsername());
-        this.setSize(500, 550);
         this.setResizable(true);
         this.setVisible(true);
         this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
@@ -62,6 +63,10 @@ public class LoanViewerFrameAdmin extends JFrame {
         for(Book b : onLoan) {
             panel.add(new BorrowedBookPanelAdmin(admin, b, this));
         }
+
+        pack();
+        Dimension screenDim = Toolkit.getDefaultToolkit().getScreenSize();
+        setSize((int) Math.min(getSize().getWidth(), screenDim.getWidth()), (int) Math.min(getSize().getHeight(), screenDim.getHeight()));
     }
 
     /**
@@ -78,7 +83,6 @@ public class LoanViewerFrameAdmin extends JFrame {
 
         // Frame setup
         this.setTitle("Loan Viewer Frame Admin - " + admin.getCredentials().getUsername());
-        this.setSize(500, 550);
         this.setResizable(true);
         this.setVisible(true);
         this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
@@ -111,6 +115,10 @@ public class LoanViewerFrameAdmin extends JFrame {
             if(b.getBorrower() == user)
                 panel.add(new BorrowedBookPanelAdmin(admin, b, this));
         }
+
+        pack();
+        Dimension screenDim = Toolkit.getDefaultToolkit().getScreenSize();
+        setSize((int) Math.min(getSize().getWidth(), screenDim.getWidth()), (int) Math.min(getSize().getHeight(), screenDim.getHeight()));
     }
 
     public void redraw() {

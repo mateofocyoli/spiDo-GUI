@@ -1,6 +1,8 @@
 package GUI;
 
+import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
@@ -100,7 +102,6 @@ public class PersonViewerFrame extends JFrame {
         this.admin = admin;
 
         this.setTitle("Person Viewer - " + admin.getCredentials().getUsername());
-        this.setSize(750, 500);
         this.setVisible(true);
         this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         this.addWindowListener(new WindowAdapter() {
@@ -141,6 +142,10 @@ public class PersonViewerFrame extends JFrame {
         this.add(scrollPane);
 
         showPersonList(PersonManager.getInstance().getList());
+
+        pack();
+        Dimension screenDim = Toolkit.getDefaultToolkit().getScreenSize();
+        setSize((int) Math.min(getSize().getWidth(), screenDim.getWidth()), (int) Math.min(getSize().getHeight(), screenDim.getHeight()));
     }
 
     public void showPersonList(List<Person> list) {
@@ -152,5 +157,8 @@ public class PersonViewerFrame extends JFrame {
 
         revalidate();
         repaint();
+        pack();
+        Dimension screenDim = Toolkit.getDefaultToolkit().getScreenSize();
+        setSize((int) Math.min(getSize().getWidth(), screenDim.getWidth()), (int) Math.min(getSize().getHeight(), screenDim.getHeight()));
     }
 }

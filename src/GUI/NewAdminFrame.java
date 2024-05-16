@@ -2,8 +2,10 @@ package GUI;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
@@ -60,7 +62,6 @@ public class NewAdminFrame extends JFrame implements ActionListener {
 
 		//Frame setup
 		this.setTitle("Add new admin - " + applicant.getCredentials().getUsername());
-		this.setSize(500, 550);
 		this.setResizable(false);
 		this.setVisible(true);
 		this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
@@ -252,6 +253,9 @@ public class NewAdminFrame extends JFrame implements ActionListener {
 		JPanel eastPanel = new JPanel();
 		this.add(eastPanel, BorderLayout.EAST);
 		
+        pack();
+        Dimension screenDim = Toolkit.getDefaultToolkit().getScreenSize();
+        setSize((int) Math.min(getSize().getWidth(), screenDim.getWidth()), (int) Math.min(getSize().getHeight(), screenDim.getHeight()));
 	}
 	
 	

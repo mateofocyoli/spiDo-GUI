@@ -1,6 +1,8 @@
 package GUI;
 
+import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.awt.Toolkit;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.List;
@@ -25,7 +27,6 @@ public class RequestsViewerFrameAdmin extends JFrame {
 
         // Frame setup
         this.setTitle("Requests Viewer Frame Admin - " + admin.getCredentials().getUsername());
-        this.setSize(500, 550);
         this.setResizable(false);
         this.setVisible(true);
         this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
@@ -55,6 +56,10 @@ public class RequestsViewerFrameAdmin extends JFrame {
                 panel.add(new RequestedBookPanelAdmin(admin, lr, this));
             }
         }
+
+        pack();
+        Dimension screenDim = Toolkit.getDefaultToolkit().getScreenSize();
+        setSize((int) Math.min(getSize().getWidth(), screenDim.getWidth()), (int) Math.min(getSize().getHeight(), screenDim.getHeight()));
     }
 
     public void redraw() {

@@ -23,7 +23,6 @@ public class LoginFrame extends JFrame implements ActionListener {
     public LoginFrame() {
 
         // frame setup
-        this.setSize(500, 400);
         this.setResizable(false);
         this.setVisible(true);
         this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
@@ -114,7 +113,9 @@ public class LoginFrame extends JFrame implements ActionListener {
         southPanel.add(signupButton);
         signupButton.addActionListener(this);
 
-        this.validate();
+        pack();
+        Dimension screenDim = Toolkit.getDefaultToolkit().getScreenSize();
+        setSize((int) Math.min(getSize().getWidth(), screenDim.getWidth()), (int) Math.min(getSize().getHeight(), screenDim.getHeight()));
     }
 
     @Override

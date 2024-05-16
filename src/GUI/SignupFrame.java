@@ -3,13 +3,14 @@ package GUI;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.nio.file.Path;
 import java.security.InvalidParameterException;
 import java.time.LocalDate;
 
 import javax.swing.*;
 
-import app.AppCloser;
 import users.Person.Sex;
 import users.managers.PersonManager;
 import users.*;
@@ -41,11 +42,16 @@ public class SignupFrame extends JFrame implements ActionListener {
 		
 		//Frame setup
 		this.setTitle("Signing Page");
-		this.setSize(500, 550);
 		this.setResizable(false);
 		this.setVisible(true);
 		this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-        this.addWindowListener(new AppCloser());
+        this.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                ((JFrame) e.getSource()).dispose();
+                new LoginFrame();
+            }
+        });
         
 		this.setLayout(new BorderLayout(0, 40));
 		
@@ -222,6 +228,9 @@ public class SignupFrame extends JFrame implements ActionListener {
 		JPanel eastPanel = new JPanel();
 		this.add(eastPanel, BorderLayout.EAST);
 		
+        pack();
+        Dimension screenDim = Toolkit.getDefaultToolkit().getScreenSize();
+        setSize((int) Math.min(getSize().getWidth(), screenDim.getWidth()), (int) Math.min(getSize().getHeight(), screenDim.getHeight()));
 	}
 	
 	

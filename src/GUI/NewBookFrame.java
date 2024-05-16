@@ -2,8 +2,10 @@ package GUI;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
@@ -41,7 +43,6 @@ public class NewBookFrame extends JFrame implements ActionListener {
         this.applicant = applicant;
 
         this.setTitle("Add new book");
-        this.setSize(500, 550);
         this.setResizable(false);
         this.setVisible(true);
 
@@ -170,7 +171,10 @@ public class NewBookFrame extends JFrame implements ActionListener {
         // it adds a little bit of an edge to the left
         JPanel eastPanel = new JPanel();
         this.add(eastPanel, BorderLayout.EAST);
-        this.pack();
+        
+        pack();
+        Dimension screenDim = Toolkit.getDefaultToolkit().getScreenSize();
+        setSize((int) Math.min(getSize().getWidth(), screenDim.getWidth()), (int) Math.min(getSize().getHeight(), screenDim.getHeight()));
     }
 
     @Override
