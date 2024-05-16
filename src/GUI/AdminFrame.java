@@ -1,6 +1,8 @@
 package GUI;
 
+import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
@@ -10,6 +12,7 @@ import java.time.Year;
 import java.util.List;
 
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
@@ -401,10 +404,19 @@ public class AdminFrame extends JFrame implements ActionListener {
 
 	private void setBooksInFrame(List<Book> books) {
 		this.backgroundPanel.removeAll();
-		for (Book b : books) {
-			BookPanelAdmin bookPanel = new BookPanelAdmin(admin, b, this);
-			this.backgroundPanel.add(bookPanel);
-		}
+		
+        if(books.isEmpty()) {
+            JLabel noBooksLabel = new JLabel("  There are no books  ");
+            noBooksLabel.setForeground(Color.GRAY);
+            noBooksLabel.setFont(new Font("Lexend", Font.ITALIC, 20));
+            this.backgroundPanel.add(noBooksLabel);
+        } else {
+            for (Book b : books) {
+                BookPanelAdmin bookPanel = new BookPanelAdmin(admin, b, this);
+                this.backgroundPanel.add(bookPanel);
+            }
+        }
+        
 		this.revalidate();
 		this.repaint();
 		pack();

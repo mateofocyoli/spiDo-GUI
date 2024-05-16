@@ -1,6 +1,8 @@
 package GUI;
 
+import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
@@ -14,6 +16,7 @@ import java.time.format.DateTimeParseException;
 import java.util.List;
 
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
@@ -171,8 +174,15 @@ public class PersonViewerFrame extends JFrame {
     public void showPersonList(List<Person> list) {
         personListPanel.removeAll();
 
-        for (Person p : list) {
-            personListPanel.add(new PersonPanel(admin, p, this));
+        if(list.isEmpty()) {
+            JLabel noPersonLabel = new JLabel("  There are no people  ");
+            noPersonLabel.setForeground(Color.GRAY);
+            noPersonLabel.setFont(new Font("Lexend", Font.ITALIC, 20));
+            personListPanel.add(noPersonLabel);
+        } else {
+            for (Person p : list) {
+                personListPanel.add(new PersonPanel(admin, p, this));
+            }
         }
 
         revalidate();

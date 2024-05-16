@@ -1,5 +1,6 @@
 package GUI;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
@@ -111,9 +112,16 @@ public class LoanViewerFrameAdmin extends JFrame {
 
         ArchiveManager am = ArchiveManager.getInstance();
         List<Book> onLoan = am.filterBy(ArchiveManager.Criteria.LOAN_STATE, Loanable.LoanState.ON_LOAN);
-        for(Book b : onLoan) {
-            if(b.getBorrower() == user)
-                panel.add(new BorrowedBookPanelAdmin(admin, b, this));
+        if(onLoan.isEmpty()) {
+            JLabel noLoanLabel = new JLabel("  There are no books on loan  ");
+            noLoanLabel.setForeground(Color.GRAY);
+            noLoanLabel.setFont(new Font("Lexend", Font.ITALIC, 20));
+            panel.add(noLoanLabel);
+        } else {
+            for(Book b : onLoan) {
+                if(b.getBorrower() == user)
+                    panel.add(new BorrowedBookPanelAdmin(admin, b, this));
+            }
         }
 
         pack();

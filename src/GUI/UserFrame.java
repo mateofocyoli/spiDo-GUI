@@ -194,11 +194,7 @@ public class UserFrame extends JFrame implements ActionListener {
 		this.add(s);
 
 		List<Book> bookList = am.getSortedBooksBy(ArchiveManager.Criteria.TITLE);
-		// temporary//bottoni a cazzo
-		for (Book b : bookList) {
-			BookPanelUser bookPanel = new BookPanelUser(user, b);
-			backgroundPanel.add(bookPanel);
-		}
+		setBooksInFrame(bookList);
 
 		pack();
 		Dimension screenDim = Toolkit.getDefaultToolkit().getScreenSize();
@@ -371,10 +367,19 @@ public class UserFrame extends JFrame implements ActionListener {
 
 	private void setBooksInFrame(List<Book> books) {
 		this.backgroundPanel.removeAll();
-		for (Book b : books) {
-			BookPanelUser bookPanel = new BookPanelUser(user, b);
-			this.backgroundPanel.add(bookPanel);
-		}
+
+        if(books.isEmpty()) {
+            JLabel noBooksLabel = new JLabel("  There are no books  ");
+            noBooksLabel.setForeground(Color.GRAY);
+            noBooksLabel.setFont(new Font("Lexend", Font.ITALIC, 20));
+            this.backgroundPanel.add(noBooksLabel);
+        } else {
+            for (Book b : books) {
+                BookPanelUser bookPanel = new BookPanelUser(user, b);
+                this.backgroundPanel.add(bookPanel);
+            }
+        }
+		
 		this.revalidate();
 		this.repaint();
 		pack();

@@ -5,9 +5,6 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
 import javax.swing.*;
-
-import exceptions.InvalidAdminException;
-
 import java.util.List;
 
 import items.Book;
@@ -62,15 +59,30 @@ public class LoanViewerFrameUser extends JFrame {
 		rightPanel.add(rightTitle);
 		
 		LoanRequestsManager lrm = LoanRequestsManager.getInstance();
-		for(LoanRequest lr : lrm.filterBy(LoanRequestsManager.Criteria.APPLICANT, user)) {
-			rightPanel.add(new RequestedBookPanelUser(user, lr, this));
-		}
+        List<LoanRequest> requests = lrm.filterBy(LoanRequestsManager.Criteria.APPLICANT, user);
+        if(requests.isEmpty()) {
+            JLabel noRequestsLabel = new JLabel("  There are no requests  ");
+            noRequestsLabel.setForeground(Color.GRAY);
+            noRequestsLabel.setFont(new Font("Lexend", Font.ITALIC, 20));
+            rightPanel.add(noRequestsLabel);
+        } else {
+            for(LoanRequest lr : lrm.filterBy(LoanRequestsManager.Criteria.APPLICANT, user)) {
+                rightPanel.add(new RequestedBookPanelUser(user, lr, this));
+            }
+        }
 
         ArchiveManager am = ArchiveManager.getInstance();
         List<Book> onLoan = am.filterBy(ArchiveManager.Criteria.LOAN_STATE, Loanable.LoanState.ON_LOAN);
-        for(Book b : onLoan) {
-            if(b.getBorrower().equals(user))
-                leftPanel.add(new BorrowedBookPanelUser(user, b));
+        if(requests.isEmpty()) {
+            JLabel noBooksLabel = new JLabel("  There are no borrowed books  ");
+            noBooksLabel.setForeground(Color.GRAY);
+            noBooksLabel.setFont(new Font("Lexend", Font.ITALIC, 20));
+            leftPanel.add(noBooksLabel);
+        } else {
+            for(Book b : onLoan) {
+                if(b.getBorrower().equals(user))
+                    leftPanel.add(new BorrowedBookPanelUser(user, b));
+            }
         }
 
         pack();

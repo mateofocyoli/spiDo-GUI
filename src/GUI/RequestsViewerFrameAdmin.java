@@ -1,6 +1,8 @@
 package GUI;
 
+import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.Toolkit;
 import java.awt.event.WindowAdapter;
@@ -8,6 +10,7 @@ import java.awt.event.WindowEvent;
 import java.util.List;
 
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
@@ -51,9 +54,16 @@ public class RequestsViewerFrameAdmin extends JFrame {
 
         LoanRequestsManager lrm = LoanRequestsManager.getInstance();
         List<LoanRequest> requests = lrm.getSortedRequestsBy(LoanRequestsManager.Criteria.APPLICANT);
-        for(LoanRequest lr : requests) {
-            if(!lr.isAccepted()) {
-                panel.add(new RequestedBookPanelAdmin(admin, lr, this));
+        if(requests.isEmpty()) {
+            JLabel noRequestsLabel = new JLabel("  There are no requests  ");
+            noRequestsLabel.setForeground(Color.GRAY);
+            noRequestsLabel.setFont(new Font("Lexend", Font.ITALIC, 20));
+            panel.add(noRequestsLabel);
+        } else {
+            for(LoanRequest lr : requests) {
+                if(!lr.isAccepted()) {
+                    panel.add(new RequestedBookPanelAdmin(admin, lr, this));
+                }
             }
         }
 

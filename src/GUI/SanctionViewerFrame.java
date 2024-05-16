@@ -1,13 +1,18 @@
 package GUI;
 
+import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.Toolkit;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+
+import java.util.List;
 
 import exceptions.InvalidAdminException;
 import users.Admin;
@@ -45,8 +50,16 @@ public class SanctionViewerFrame extends JFrame {
 		JScrollPane scrollPane = new JScrollPane(panel, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		this.add(scrollPane);
 
-        for(Sanction s : user.getSanctions()) {
-            panel.add(new SanctionPanel(admin, user, s, this));
+        List<Sanction> sanctions = user.getSanctions();
+        if(sanctions.isEmpty()) {
+            JLabel noSanctionsLabel = new JLabel("  There are no sanctions  ");
+            noSanctionsLabel.setForeground(Color.GRAY);
+            noSanctionsLabel.setFont(new Font("Lexend", Font.ITALIC, 20));
+            panel.add(noSanctionsLabel);
+        } else {
+            for(Sanction s : sanctions) {
+                panel.add(new SanctionPanel(admin, user, s, this));
+            }
         }
 
         pack();
