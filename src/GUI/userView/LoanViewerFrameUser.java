@@ -74,7 +74,7 @@ public class LoanViewerFrameUser extends JFrame {
 
         ArchiveManager am = ArchiveManager.getInstance();
         List<Book> onLoan = am.filterBy(ArchiveManager.Criteria.LOAN_STATE, Loanable.LoanState.ON_LOAN);
-        if(requests.isEmpty()) {
+        if(onLoan.isEmpty()) {
             JLabel noBooksLabel = new JLabel("  There are no borrowed books  ");
             noBooksLabel.setForeground(Color.GRAY);
             noBooksLabel.setFont(new Font("Lexend", Font.ITALIC, 20));
