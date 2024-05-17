@@ -176,9 +176,8 @@ public class EditProfileFrame extends JFrame implements ActionListener {
 		
 		
 		//sex label setup
-		JLabel sexLabel = new JLabel();
+		JLabel sexLabel = new JLabel("Sex:");
 		sexLabel.setFont(new Font("Lexend", Font.BOLD, 20));
-		sexLabel.setText("Sex:");
 		p51.add(sexLabel);
 		centerPanel.add(p51);
 		
@@ -192,10 +191,18 @@ public class EditProfileFrame extends JFrame implements ActionListener {
 		
 		
 		//username label setup
-		JLabel usernameLabel = new JLabel();
+		JLabel usernameLabel = new JLabel("Username:");
 		usernameLabel.setFont(new Font("Lexend", Font.BOLD, 20));
-		usernameLabel.setText("Username:\n(can not be modified)");
-		p61.add(usernameLabel);
+
+        JLabel cannotModifyLabel = new JLabel("(can not be modified)");
+        cannotModifyLabel.setFont(new Font("Lexend", Font.ITALIC, 12));
+
+        JPanel usernamePanel = new JPanel();
+        usernamePanel.setLayout(new GridLayout(0, 1));
+        usernamePanel.add(usernameLabel);
+        usernamePanel.add(cannotModifyLabel);
+
+		p61.add(usernamePanel);
 		centerPanel.add(p61);
 		
 		//username textfield setup
@@ -206,10 +213,18 @@ public class EditProfileFrame extends JFrame implements ActionListener {
 		
 		
 		//password label setup
-		JLabel passwordLabel = new JLabel();
+		JLabel passwordLabel = new JLabel("Password:");
 		passwordLabel.setFont(new Font("Lexend", Font.BOLD, 20));
-		passwordLabel.setText("Password:\n(blank = no update)");
-		p71.add(passwordLabel);
+
+        JLabel leaveBlankLabel = new JLabel("(blank = no update)");
+        leaveBlankLabel.setFont(new Font("Lexend", Font.ITALIC, 12));
+
+        JPanel passwordPanel = new JPanel();
+        passwordPanel.setLayout(new GridLayout(0, 1));
+        passwordPanel.add(passwordLabel);
+        passwordPanel.add(leaveBlankLabel);
+
+		p71.add(passwordPanel);
 		centerPanel.add(p71);
 		
 		//password textfield setup
