@@ -31,6 +31,7 @@ public class UserFrame extends JFrame implements ActionListener {
 	private JPanel backgroundPanel;
 	private ArchiveManager am;
 	private User user;
+    private List<Book> booksInFrame;
 
 	public UserFrame(User user) {
 
@@ -369,6 +370,7 @@ public class UserFrame extends JFrame implements ActionListener {
 	private void setBooksInFrame(List<Book> books) {
 		this.backgroundPanel.removeAll();
 
+        booksInFrame = books;
         if(books.isEmpty()) {
             JLabel noBooksLabel = new JLabel("  There are no books  ");
             noBooksLabel.setForeground(Color.GRAY);
@@ -376,7 +378,7 @@ public class UserFrame extends JFrame implements ActionListener {
             this.backgroundPanel.add(noBooksLabel);
         } else {
             for (Book b : books) {
-                BookPanelUser bookPanel = new BookPanelUser(user, b);
+                BookPanelUser bookPanel = new BookPanelUser(user, b, this);
                 this.backgroundPanel.add(bookPanel);
             }
         }
@@ -389,4 +391,7 @@ public class UserFrame extends JFrame implements ActionListener {
 				(int) Math.min(getSize().getHeight(), screenDim.getHeight()));
 	}
 
+    public void redraw() {
+        setBooksInFrame(booksInFrame);
+    }
 }

@@ -18,6 +18,8 @@ import users.User;
 public class LoanViewerFrameUser extends JFrame {
 
 	private User user;
+    private JPanel rightPanel;
+    private JPanel leftPanel;
 	
 	public LoanViewerFrameUser(User user) {
 		
@@ -40,8 +42,8 @@ public class LoanViewerFrameUser extends JFrame {
 		
 		
 		
-		JPanel leftPanel = new JPanel();
-		JPanel rightPanel = new JPanel();
+		leftPanel = new JPanel();
+		rightPanel = new JPanel();
 		leftPanel.setLayout(new GridLayout(0,1));
 		rightPanel.setLayout(new GridLayout(0,1));
 		
@@ -50,41 +52,13 @@ public class LoanViewerFrameUser extends JFrame {
 		this.add(lS);
 		this.add(rS);
 		
-		
-		
-		JLabel leftTitle = new JLabel("Borrowed books", SwingConstants.CENTER);
-		JLabel rightTitle = new JLabel("Requested books", SwingConstants.CENTER);
-		leftTitle.setFont(new Font("Lexend", Font.BOLD, 25));
-		leftPanel.add(leftTitle);
-		rightTitle.setFont(new Font("Lexend", Font.BOLD, 25));
-		rightPanel.add(rightTitle);
-		
 		LoanRequestsManager lrm = LoanRequestsManager.getInstance();
         List<LoanRequest> requests = lrm.filterBy(LoanRequestsManager.Criteria.APPLICANT, user);
-        if(requests.isEmpty()) {
-            JLabel noRequestsLabel = new JLabel("  There are no requests  ");
-            noRequestsLabel.setForeground(Color.GRAY);
-            noRequestsLabel.setFont(new Font("Lexend", Font.ITALIC, 20));
-            rightPanel.add(noRequestsLabel);
-        } else {
-            for(LoanRequest lr : lrm.filterBy(LoanRequestsManager.Criteria.APPLICANT, user)) {
-                rightPanel.add(new RequestedBookPanelUser(user, lr, this));
-            }
-        }
 
         ArchiveManager am = ArchiveManager.getInstance();
-        List<Book> onLoan = am.filterBy(ArchiveManager.Criteria.LOAN_STATE, Loanable.LoanState.ON_LOAN);
-        if(requests.isEmpty()) {
-            JLabel noBooksLabel = new JLabel("  There are no borrowed books  ");
-            noBooksLabel.setForeground(Color.GRAY);
-            noBooksLabel.setFont(new Font("Lexend", Font.ITALIC, 20));
-            leftPanel.add(noBooksLabel);
-        } else {
-            for(Book b : onLoan) {
-                if(b.getBorrower().equals(user))
-                    leftPanel.add(new BorrowedBookPanelUser(user, b));
-            }
-        }
+        List<Book> loans = am.filterBy(ArchiveManager.Criteria.LOAN_STATE, Loanable.LoanState.ON_LOAN);
+        
+        setRequestsAndLoansInFrame(requests, loans);
 
         pack();
         Dimension screenDim = Toolkit.getDefaultToolkit().getScreenSize();
@@ -94,6 +68,40 @@ public class LoanViewerFrameUser extends JFrame {
 	public void redraw() {
         this.dispose();
         new LoanViewerFrameUser(user);
-        
+    }
+
+    public void setRequestsAndLoansInFrame(List<LoanRequest> requests, List<Book> loans) {
+        rightPanel.removeAll();
+        leftPanel.removeAll();
+
+        JLabel leftTitle = new JLabel("Borrowed books", SwingConstants.CENTER);
+		JLabel rightTitle = new JLabel("Requested books", SwingConstants.CENTER);
+		leftTitle.setFont(new Font("Lexend", Font.BOLD, 25));
+		leftPanel.add(leftTitle);
+		rightTitle.setFont(new Font("Lexend", Font.BOLD, 25));
+		rightPanel.add(rightTitle);
+
+        if(requests.isEmpty()) {
+            JLabel noRequestsLabel = new JLabel("  There are no requests  ");
+            noRequestsLabel.setForeground(Color.GRAY);
+            noRequestsLabel.setFont(new Font("Lexend", Font.ITALIC, 20));
+            rightPanel.add(noRequestsLabel);
+        } else {
+            for(LoanRequest lr : requests) {
+                rightPanel.add(new RequestedBookPanelUser(user, lr, this));
+            }
+        }
+
+        if(requests.isEmpty()) {
+            JLabel noBooksLabel = new JLabel("  There are no borrowed books  ");
+            noBooksLabel.setForeground(Color.GRAY);
+            noBooksLabel.setFont(new Font("Lexend", Font.ITALIC, 20));
+            leftPanel.add(noBooksLabel);
+        } else {
+            for(Book b : loans) {
+                if(b.getBorrower().equals(user))
+                    leftPanel.add(new BorrowedBookPanelUser(user, b));
+            }
+        }
     }
 }

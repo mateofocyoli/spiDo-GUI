@@ -212,10 +212,7 @@ public class AdminFrame extends JFrame implements ActionListener {
 		this.add(s);
 
 		List<Book> bookList = ArchiveManager.getInstance().getSortedBooksBy(ArchiveManager.Criteria.TITLE);
-		for (Book b : bookList) {
-			BookPanelAdmin bookPanel = new BookPanelAdmin(admin, b, this);
-			backgroundPanel.add(bookPanel);
-		}
+		setBooksInFrame(bookList);
 
 		// Set the frame size as the preferred one
 		pack();
@@ -394,13 +391,7 @@ public class AdminFrame extends JFrame implements ActionListener {
 	}
 
 	public void redraw() {
-		this.dispose();
-		try {
-			new AdminFrame(admin);
-		} catch (InvalidAdminException e) {
-			e.printStackTrace();
-			System.exit(ABORT);
-		}
+		setBooksInFrame(ArchiveManager.getInstance().getSortedBooksBy(ArchiveManager.Criteria.TITLE));
 	}
 
 	private void setBooksInFrame(List<Book> books) {

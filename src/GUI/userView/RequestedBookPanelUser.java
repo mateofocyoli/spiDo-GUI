@@ -70,11 +70,6 @@ public class RequestedBookPanelUser extends JPanel implements ActionListener {
 		//set the border for the bookPanel
 		Border border = BorderFactory.createLineBorder(new Color(0xA9A9A9), 5);
 		this.setBorder(border);
-		
-		
-		
-		
-		
 	}
 	
 	@Override
