@@ -92,7 +92,7 @@ public class LoanViewerFrameUser extends JFrame {
             }
         }
 
-        if(requests.isEmpty()) {
+        if(loans.isEmpty()) {
             JLabel noBooksLabel = new JLabel("  There are no borrowed books  ");
             noBooksLabel.setForeground(Color.GRAY);
             noBooksLabel.setFont(new Font("Lexend", Font.ITALIC, 20));
