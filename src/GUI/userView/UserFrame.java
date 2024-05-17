@@ -1,4 +1,4 @@
-package GUI;
+package GUI.userView;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -9,6 +9,7 @@ import java.time.Year;
 import java.util.List;
 
 import javax.swing.*;
+
 import app.AppCloser;
 import items.Book;
 import items.Loanable;
@@ -31,7 +32,7 @@ public class UserFrame extends JFrame implements ActionListener {
 	private ArchiveManager am;
 	private User user;
 
-	UserFrame(User user) {
+	public UserFrame(User user) {
 
 		this.user = user;
 

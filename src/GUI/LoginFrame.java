@@ -9,6 +9,8 @@ import java.nio.file.Path;
 
 import javax.swing.*;
 
+import GUI.adminView.AdminFrame;
+import GUI.userView.UserFrame;
 import app.AppCloser;
 import exceptions.InvalidAdminException;
 import users.*;

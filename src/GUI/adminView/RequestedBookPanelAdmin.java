@@ -1,4 +1,4 @@
-package GUI;
+package GUI.adminView;
 
 import java.awt.Color;
 import java.awt.Font;

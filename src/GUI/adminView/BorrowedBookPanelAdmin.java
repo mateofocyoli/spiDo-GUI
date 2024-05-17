@@ -1,4 +1,4 @@
-package GUI;
+package GUI.adminView;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;

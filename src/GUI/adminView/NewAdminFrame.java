@@ -1,4 +1,4 @@
-package GUI;
+package GUI.adminView;
 
 import java.awt.BorderLayout;
 import java.awt.Color;

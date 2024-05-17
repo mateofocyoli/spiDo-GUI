@@ -1,4 +1,4 @@
-package GUI;
+package GUI.adminView;
 
 import java.awt.FlowLayout;
 import java.awt.Font;
@@ -10,6 +10,9 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+import GUI.OptionPaneYesNo;
+import GUI.PersonViewerFrame;
+import GUI.SanctionViewerFrame;
 import exceptions.InvalidAdminException;
 import users.Admin;
 import users.Person;

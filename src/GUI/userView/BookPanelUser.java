@@ -1,4 +1,4 @@
-package GUI;
+package GUI.userView;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;

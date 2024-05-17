@@ -1,4 +1,4 @@
-package GUI;
+package GUI.adminView;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -20,6 +20,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
+import GUI.PersonViewerFrame;
 import app.AppCloser;
 import exceptions.InvalidAdminException;
 import items.Book;

@@ -1,4 +1,4 @@
-package GUI;
+package GUI.adminView;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -12,6 +12,7 @@ import exceptions.NotInArchiveException;
 import items.Book;
 import items.managers.ArchiveManager;
 import users.Admin;
+import GUI.OptionPaneYesNo;
 
 public class BookPanelAdmin extends JPanel implements ActionListener {
 

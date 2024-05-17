@@ -1,10 +1,11 @@
-package GUI;
+package GUI.userView;
 
 import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
 import javax.swing.*;
+
 import java.util.List;
 
 import items.Book;
