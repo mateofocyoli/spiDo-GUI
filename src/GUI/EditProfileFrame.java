@@ -1,4 +1,4 @@
-package GUI.userView;
+package GUI;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -8,8 +8,6 @@ import java.awt.GridLayout;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 import java.nio.file.Path;
 import java.security.InvalidParameterException;
 import java.time.LocalDate;
@@ -24,10 +22,10 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import users.Credentials;
+import users.Person;
 import users.Person.Sex;
-import users.User;
 
-public class EditProfileUser extends JFrame implements ActionListener {
+public class EditProfileFrame extends JFrame implements ActionListener {
 	
     private static String[] MONTHS = {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
 
@@ -38,24 +36,17 @@ public class EditProfileUser extends JFrame implements ActionListener {
 	private JComboBox<Sex> sexComboBox;
 	private JButton editButton;
 
-    private User user;
+    private Person person;
 	
-	EditProfileUser(User user) {
+	public EditProfileFrame(Person person) {
 		
-        this.user = user;
+        this.person = person;
 
 		//Frame setup
 		this.setTitle("Edit profile");
 		this.setResizable(false);
 		this.setVisible(true);
-		this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-        this.addWindowListener(new WindowAdapter() {
-            @Override
-            public void windowClosing(WindowEvent e) {
-                ((JFrame) e.getSource()).dispose();
-                new UserFrame(user);
-            }
-        });
+		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         
 		this.setLayout(new BorderLayout(0, 40));
 		
@@ -112,7 +103,7 @@ public class EditProfileUser extends JFrame implements ActionListener {
 		//name textfield setup
 		nameTextField = new JTextField(14);
 		nameTextField.setFont(new Font("Lexend", Font.PLAIN, 20));
-        nameTextField.setText(user.getName());
+        nameTextField.setText(person.getName());
 		p12.add(nameTextField);
 		centerPanel.add(p12);
 		
@@ -127,7 +118,7 @@ public class EditProfileUser extends JFrame implements ActionListener {
 		//surname textfield setup
 		surnameTextField = new JTextField(14);
 		surnameTextField.setFont(new Font("Lexend", Font.PLAIN, 20));
-        surnameTextField.setText(user.getSurname());
+        surnameTextField.setText(person.getSurname());
 		p22.add(surnameTextField);
 		centerPanel.add(p22);
 		
@@ -157,9 +148,9 @@ public class EditProfileUser extends JFrame implements ActionListener {
 			monthComboBox.addItem(m);
 		}
 		
-        yearComboBox.setSelectedIndex(user.getBirth().getYear() - yearComboBox.getItemAt(0));
-        monthComboBox.setSelectedIndex(user.getBirth().getMonthValue() - 1);
-        dayComboBox.setSelectedIndex(user.getBirth().getDayOfMonth() - 1);
+        yearComboBox.setSelectedIndex(person.getBirth().getYear() - yearComboBox.getItemAt(0));
+        monthComboBox.setSelectedIndex(person.getBirth().getMonthValue() - 1);
+        dayComboBox.setSelectedIndex(person.getBirth().getDayOfMonth() - 1);
 
 		//adding the three combo boxes all together in the panel
 		p32.setLayout(new GridLayout(1, 3));
@@ -179,7 +170,7 @@ public class EditProfileUser extends JFrame implements ActionListener {
 		//city textfield setup
 		cityTextField = new JTextField(14);
 		cityTextField.setFont(new Font("Lexend", Font.PLAIN, 20));
-        cityTextField.setText(user.getCityOfBirth());
+        cityTextField.setText(person.getCityOfBirth());
 		p42.add(cityTextField);
 		centerPanel.add(p42);
 		
@@ -195,7 +186,7 @@ public class EditProfileUser extends JFrame implements ActionListener {
 		Sex[] sexes = {Sex.MALE, Sex.FEMALE};
 		sexComboBox = new JComboBox<>(sexes);
 		sexComboBox.setFont(new Font("Lexend", Font.PLAIN, 15));
-        sexComboBox.setSelectedIndex( (user.getSex() == sexes[0]) ? 0 : 1 );
+        sexComboBox.setSelectedIndex( (person.getSex() == sexes[0]) ? 0 : 1 );
 		p52.add(sexComboBox);
 		centerPanel.add(p52);
 		
@@ -208,7 +199,7 @@ public class EditProfileUser extends JFrame implements ActionListener {
 		centerPanel.add(p61);
 		
 		//username textfield setup
-		JLabel usernameTextFieldLabel = new JLabel(user.getCredentials().getUsername());
+		JLabel usernameTextFieldLabel = new JLabel(person.getCredentials().getUsername());
 		usernameTextFieldLabel.setFont(new Font("Lexend", Font.PLAIN, 20));
 		p62.add(usernameTextFieldLabel);
 		centerPanel.add(p62);
@@ -288,7 +279,7 @@ public class EditProfileUser extends JFrame implements ActionListener {
             Credentials credentials = null;
             if (!password.isBlank()) {
                 try {
-                    credentials = new Credentials(user.getCredentials().getUsername(), password);
+                    credentials = new Credentials(person.getCredentials().getUsername(), password);
                 } catch(InvalidParameterException ipe) {
                     JOptionPane.showMessageDialog(null, "Username and password cannot be empty", "Error", JOptionPane.ERROR_MESSAGE);
                 }
@@ -309,16 +300,15 @@ public class EditProfileUser extends JFrame implements ActionListener {
                 return;
             }
 
-			user.setName(name);
-            user.setSurname(surname);
-            user.setBirth(birthDate);
-            user.setCityOfBirth(cityOfBirth);
-            user.setSex(sex);
+			person.setName(name);
+            person.setSurname(surname);
+            person.setBirth(birthDate);
+            person.setCityOfBirth(cityOfBirth);
+            person.setSex(sex);
             if(credentials != null)
-                user.setCredentials(credentials);
+                person.setCredentials(credentials);
             
             this.dispose();
-            new UserFrame(user);
 		}
 		//if month or year is changed, update the number of days in the month
 		if(e.getSource()==monthComboBox || e.getSource()==yearComboBox) {

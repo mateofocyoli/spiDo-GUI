@@ -10,6 +10,7 @@ import java.util.List;
 
 import javax.swing.*;
 
+import GUI.EditProfileFrame;
 import app.AppCloser;
 import items.Book;
 import items.Loanable;
@@ -378,8 +379,7 @@ public class UserFrame extends JFrame implements ActionListener {
         }
 
         if(e.getSource() == editProfile) {
-            new EditProfileUser(user);
-            this.dispose();
+            new EditProfileFrame(user);
         }
     }
 

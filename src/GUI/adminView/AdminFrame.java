@@ -20,6 +20,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
+import GUI.EditProfileFrame;
 import GUI.PersonViewerFrame;
 import app.AppCloser;
 import exceptions.InvalidAdminException;
@@ -39,7 +40,7 @@ public class AdminFrame extends JFrame implements ActionListener {
 	private JMenuItem actionFilter, fantasyFilter, adventureFilter, romanceFilter, comedyFilter, scifiFilter,
 			mysteryFilter, thrillerFilter, historicalFilter, comicFilter, mangaFilter, childrenFilter;
 	private JMenuItem less, greater;
-	private JMenuItem addBook, addAdmin;
+	private JMenuItem addBook, addAdmin, editProfile;
 	private JMenuItem loans, requests, people;
 	private JPanel backgroundPanel;
 
@@ -127,8 +128,10 @@ public class AdminFrame extends JFrame implements ActionListener {
 		// possibilities to chose what to filter by
 		addBook = new JMenuItem("Add book");
 		addAdmin = new JMenuItem("Add admin");
+        editProfile = new JMenuItem("Edit profile");
 		edit.add(addBook);
 		edit.add(addAdmin);
+        edit.add(editProfile);
 
 		// the fifth voice on the menu will be view loans
 		view = new JMenu("View");
@@ -168,6 +171,7 @@ public class AdminFrame extends JFrame implements ActionListener {
 		addAdmin.setMnemonic(KeyEvent.VK_A); // A for add Admin
 		less.setMnemonic(KeyEvent.VK_L); // L for less
 		greater.setMnemonic(KeyEvent.VK_G); // G for greater
+        editProfile.setMnemonic(KeyEvent.VK_P); // P for profile
 
 		// addiction of the action listeners to perform methods when pressed
 		sortByTitle.addActionListener(this);
@@ -199,6 +203,7 @@ public class AdminFrame extends JFrame implements ActionListener {
 		childrenFilter.addActionListener(this);
 		less.addActionListener(this);
 		greater.addActionListener(this);
+        editProfile.addActionListener(this);
 
 		// set of the menu bar in the frame
 		this.setJMenuBar(menuBar);
@@ -388,6 +393,9 @@ public class AdminFrame extends JFrame implements ActionListener {
 				System.exit(ABORT);
 			}
 		}
+        if (e.getSource() == editProfile) {
+            new EditProfileFrame(admin);
+        }
 	}
 
 	public void redraw() {
