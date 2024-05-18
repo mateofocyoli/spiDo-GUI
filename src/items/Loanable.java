@@ -124,6 +124,18 @@ public abstract class Loanable {
         this.dueDate = dueDate;
     }
 
+    /**Modify the name of the loanable object
+     * @param applicant an admin is necessary to modify loan terms
+     * @param name new name of the object
+     * @throws InvalidAdminException if the admin is not accredited
+     */
+    public void setName(Admin applicant, String name) throws InvalidAdminException {
+        if (!PersonManager.getInstance().validApplicant(applicant)) {
+            throw new InvalidAdminException(INVALID_ADMIN_MSG);
+        }
+        this.name = name;
+    }
+
     public String getName() {
         return name;
     }

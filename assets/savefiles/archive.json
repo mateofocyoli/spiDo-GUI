@@ -1,9 +1,21 @@
 [
   {
+    "title": "Attack on Titan Vol.1",
+    "author": "Hajime Isayama",
+    "genre": "MANGA",
+    "releaseYear": 2012,
+    "numPages": 208,
+    "name": "Attack on Titan Vol.1",
+    "state": "IN_ARCHIVE",
+    "dueDate": "2024-05-14",
+    "ID": "c1f4e0fe-2f18-406d-868c-b53c9626ce42",
+    "borrower": null
+  },
+  {
     "title": "Bibbia",
-    "author": "jesoo",
+    "author": "Jesoo",
     "genre": "FANTASY",
-    "releaseYear": 2024,
+    "releaseYear": 0,
     "numPages": 7,
     "name": "Bibbia",
     "state": "LOST",
@@ -48,18 +60,6 @@
     "borrower": null
   },
   {
-    "title": "La mia vita di merda",
-    "author": "Phoenix",
-    "genre": "COMEDY",
-    "releaseYear": 2024,
-    "numPages": 7,
-    "name": "La mia vita di merda",
-    "state": "ON_LOAN",
-    "dueDate": "2024-06-16",
-    "ID": "1e5d1960-3216-43d8-a0d0-13c05c6114ef",
-    "borrower": "pete002"
-  },
-  {
     "title": "Lo Spirito ANZAC",
     "author": "Anna Foccoli",
     "genre": "ROMANCE",
@@ -70,6 +70,18 @@
     "dueDate": "2024-06-14",
     "ID": "dded1514-a187-46c5-abb5-871170253e32",
     "borrower": "q"
+  },
+  {
+    "title": "Manuale di improvvisazione",
+    "author": "Phoenix",
+    "genre": "COMEDY",
+    "releaseYear": 2024,
+    "numPages": 7,
+    "name": "Manuale di improvvisazione",
+    "state": "ON_LOAN",
+    "dueDate": "2024-06-17",
+    "ID": "1e5d1960-3216-43d8-a0d0-13c05c6114ef",
+    "borrower": "pete002"
   },
   {
     "title": "Manuale Java",
@@ -94,18 +106,6 @@
     "dueDate": "2024-06-15",
     "ID": "d39b43fa-25ab-4d4c-814c-aee00dec70f6",
     "borrower": "q"
-  },
-  {
-    "title": "Mein Kampf",
-    "author": "Adolf Hitler",
-    "genre": "MANGA",
-    "releaseYear": 1925,
-    "numPages": 420,
-    "name": "Mein Kampf",
-    "state": "IN_ARCHIVE",
-    "dueDate": "2024-05-14",
-    "ID": "c1f4e0fe-2f18-406d-868c-b53c9626ce42",
-    "borrower": null
   },
   {
     "title": "Motivi per iscriversi a Gestionale",

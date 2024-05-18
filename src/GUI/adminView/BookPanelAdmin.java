@@ -16,9 +16,10 @@ import GUI.OptionPaneYesNo;
 
 public class BookPanelAdmin extends JPanel implements ActionListener {
 
+    private static final String FONT_NAME = "Lexend";
     private Admin admin;
     private Book book;
-    private JButton removeButton;
+    private JButton removeButton, editButton;
     private AdminFrame adminFrame;
 
     BookPanelAdmin(Admin admin, Book book, AdminFrame adminFrame) {
@@ -42,11 +43,11 @@ public class BookPanelAdmin extends JPanel implements ActionListener {
         genreLabel.setForeground(Color.BLACK);
         yearLabel.setForeground(Color.BLACK);
         pagesLabel.setForeground(Color.BLACK);
-        titleLabel.setFont(new Font("Lexend", Font.BOLD, 20));
-        authorLabel.setFont(new Font("Lexend", Font.PLAIN, 20));
-        genreLabel.setFont(new Font("Lexend", Font.ITALIC, 12));
-        yearLabel.setFont(new Font("Lexend", Font.PLAIN, 12));
-        pagesLabel.setFont(new Font("Lexend", Font.ITALIC, 12));
+        titleLabel.setFont(new Font(FONT_NAME, Font.BOLD, 20));
+        authorLabel.setFont(new Font(FONT_NAME, Font.PLAIN, 20));
+        genreLabel.setFont(new Font(FONT_NAME, Font.ITALIC, 12));
+        yearLabel.setFont(new Font(FONT_NAME, Font.PLAIN, 12));
+        pagesLabel.setFont(new Font(FONT_NAME, Font.ITALIC, 12));
 
         dataPanel.add(titleLabel);
         dataPanel.add(authorLabel);
@@ -57,11 +58,20 @@ public class BookPanelAdmin extends JPanel implements ActionListener {
 
         // the buttonPanel will contain the button
         JPanel buttonPanel = new JPanel();
+        buttonPanel.setLayout(new GridLayout(2, 0, 5, 5));
+
+        editButton = new JButton("Edit");
+        editButton.setFocusable(false);
+        editButton.setForeground(Color.BLACK);
+        editButton.addActionListener(this);
 
         removeButton = new JButton("Remove");
         removeButton.setFocusable(false);
         removeButton.setForeground(Color.BLACK);
         removeButton.addActionListener(this);
+
+        buttonPanel.add(removeButton);
+        buttonPanel.add(editButton);
 
         // added the two panels tho the main panel
         this.add(dataPanel);
@@ -112,6 +122,10 @@ public class BookPanelAdmin extends JPanel implements ActionListener {
             }
 
             adminFrame.redraw();
+        }
+        else if (e.getSource() == editButton) {
+            adminFrame.dispose();
+            new EditBookFrame(admin, book);
         }
     }
 }

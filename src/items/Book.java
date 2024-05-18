@@ -94,6 +94,7 @@ public class Book extends Loanable{
 		if (!PersonManager.getInstance().validApplicant(applicant)){
             throw new InvalidAdminException(INVALID_ADMIN_MSG);
         }
+		this.setName(applicant, title);
 		this.title = title;
 	}
 

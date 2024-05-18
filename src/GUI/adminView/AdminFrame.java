@@ -230,7 +230,6 @@ public class AdminFrame extends JFrame implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// ACTION PERMORMED WHEN A VOICE OF THE MENUBAR IS SELECTED
-		// ------------------da sostituire con i metodi di Marco penso------------------
 		// if sort by title
 		if (e.getSource() == sortByTitle) {
 			this.setBooksInFrame(am.getSortedBooksBy(ArchiveManager.Criteria.TITLE));
