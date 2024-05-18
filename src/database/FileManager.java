@@ -11,7 +11,6 @@ import java.time.LocalDate;
 import java.time.Year;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -118,14 +117,14 @@ public class FileManager {
   }
 
   public static void writePeopleJSON(List<Person> people, String filename) throws JsonIOException, IOException{
-    Gson parser = new GsonBuilder()
+    Gson parser = new GsonBuilder().setPrettyPrinting()
                       .registerTypeAdapter(LocalDate.class, new LocalDateTypeAdapter())
                       .registerTypeAdapterFactory(RuntimeTypeAdapterFactory
-                                                .of(Person.class, "type")
+                                                .of(Person.class, "type").recognizeSubtypes()
                                                 .registerSubtype(User.class, "user")
                                                 .registerSubtype(Admin.class, "admin"))
                       .registerTypeAdapterFactory(RuntimeTypeAdapterFactory
-                                                .of(Sanction.class, "type")
+                                                .of(Sanction.class, "type").recognizeSubtypes()
                                                 .registerSubtype(BookDelayedSanction.class, "book_delayed")
                                                 .registerSubtype(BookRuinedSanction.class, "book_ruined")
                                                 .registerSubtype(BookLostSanction.class, "book_lost")
@@ -135,8 +134,7 @@ public class FileManager {
      
 
     PrintWriter writer = new PrintWriter(filename);
-    for(Person p : people)
-        writer.println(parser.toJson(p, Person.class));
+    parser.toJson(people, writer);
     writer.close();
     
   }
@@ -157,12 +155,11 @@ public class FileManager {
                       .excludeFieldsWithoutExposeAnnotation()
                       .create();
 
-    try (Scanner scanner = new Scanner(new File(filename))) {
+    try (FileReader reader = new FileReader(filename)) {
+      
       ArrayList<Person> people = new ArrayList<>();
-      while (scanner.hasNext()) {
-        Person p = parser.fromJson(scanner.nextLine(), Person.class);
-        people.add(p);
-      }
+      TypeToken<ArrayList<Person>> peopleType = new TypeToken<>() {};
+      people = parser.fromJson(reader, peopleType);
       return people;
     } 
   }

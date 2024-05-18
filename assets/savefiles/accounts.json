@@ -1,4 +1,208 @@
-{"type":"user","sanctions":[{"type":"book_ruined","name":"Book ruined","description":"The book has been returned ruined. It can be rent without needing repair","severity":"MEDIUM","date":"2024-05-15"},{"type":"book_lost","name":"Book lost","description":"The book has been lost. It must be bought new","severity":"HIGH","date":"2024-05-16"}],"name":"dsdas","surname":"asdasd","birth":"1900-01-01","cityOfBirth":"asdasd","sex":"MALE","credentials":{"username":"q","passwordHash":[-114,53,-62,-51,59,-10,100,27,-37,14,32,80,-73,105,50,-53,-78,-26,3,74,13,-38,-52,29,-101,-22,-126,-90,-70,87,-9,-49]}}
-{"type":"user","sanctions":[{"type":"book_ruined","name":"Book ruined","description":"The book has been returned ruined. It can be rent without needing repair","severity":"MEDIUM","date":"2024-05-16"}],"name":"eij","surname":"ampolla","birth":"1934-11-26","cityOfBirth":"cingalandia","sex":"MALE","credentials":{"username":"j","passwordHash":[24,-97,64,3,75,-25,-95,-103,-15,-6,-104,-111,102,-114,-29,-85,96,73,-8,45,56,-58,-117,-25,15,89,110,-85,46,24,87,-73]}}
-{"type":"user","sanctions":[],"name":"Pido","surname":"gg","birth":"2009-10-20","cityOfBirth":"grolf","sex":"FEMALE","credentials":{"username":"pete002","passwordHash":[-115,-106,-98,-17,110,-54,-45,-62,-102,58,98,-110,-128,-26,-122,-49,12,63,93,90,-122,-81,-13,-54,18,2,12,-110,58,-36,108,-110]}}
-{"type":"admin","name":"Tommaso","surname":"Savoldi","birth":"2002-08-30","cityOfBirth":"Brescia","sex":"MALE","credentials":{"username":"cyber","passwordHash":[-79,51,-96,-64,-23,-66,-29,-66,32,22,61,42,-45,29,98,72,-37,41,42,-90,-36,-79,-18,8,122,42,-91,14,15,-57,90,-30]}}
+[
+  {
+    "type": "user",
+    "sanctions": [
+      {
+        "type": "book_ruined",
+        "name": "Book ruined",
+        "description": "The book has been returned ruined. It can be rent without needing repair",
+        "severity": "MEDIUM",
+        "date": "2024-05-15"
+      },
+      {
+        "type": "book_lost",
+        "name": "Book lost",
+        "description": "The book has been lost. It must be bought new",
+        "severity": "HIGH",
+        "date": "2024-05-16"
+      }
+    ],
+    "name": "dsdas",
+    "surname": "asdasd",
+    "birth": "1900-01-01",
+    "cityOfBirth": "asdasd",
+    "sex": "MALE",
+    "credentials": {
+      "username": "q",
+      "passwordHash": [
+        -114,
+        53,
+        -62,
+        -51,
+        59,
+        -10,
+        100,
+        27,
+        -37,
+        14,
+        32,
+        80,
+        -73,
+        105,
+        50,
+        -53,
+        -78,
+        -26,
+        3,
+        74,
+        13,
+        -38,
+        -52,
+        29,
+        -101,
+        -22,
+        -126,
+        -90,
+        -70,
+        87,
+        -9,
+        -49
+      ]
+    }
+  },
+  {
+    "type": "user",
+    "sanctions": [
+      {
+        "type": "book_ruined",
+        "name": "Book ruined",
+        "description": "The book has been returned ruined. It can be rent without needing repair",
+        "severity": "MEDIUM",
+        "date": "2024-05-16"
+      }
+    ],
+    "name": "eij",
+    "surname": "ampolla",
+    "birth": "1934-11-26",
+    "cityOfBirth": "cingalandia",
+    "sex": "MALE",
+    "credentials": {
+      "username": "j",
+      "passwordHash": [
+        24,
+        -97,
+        64,
+        3,
+        75,
+        -25,
+        -95,
+        -103,
+        -15,
+        -6,
+        -104,
+        -111,
+        102,
+        -114,
+        -29,
+        -85,
+        96,
+        73,
+        -8,
+        45,
+        56,
+        -58,
+        -117,
+        -25,
+        15,
+        89,
+        110,
+        -85,
+        46,
+        24,
+        87,
+        -73
+      ]
+    }
+  },
+  {
+    "type": "user",
+    "sanctions": [],
+    "name": "Pido",
+    "surname": "gg",
+    "birth": "2009-10-20",
+    "cityOfBirth": "grolf",
+    "sex": "FEMALE",
+    "credentials": {
+      "username": "pete002",
+      "passwordHash": [
+        -115,
+        -106,
+        -98,
+        -17,
+        110,
+        -54,
+        -45,
+        -62,
+        -102,
+        58,
+        98,
+        -110,
+        -128,
+        -26,
+        -122,
+        -49,
+        12,
+        63,
+        93,
+        90,
+        -122,
+        -81,
+        -13,
+        -54,
+        18,
+        2,
+        12,
+        -110,
+        58,
+        -36,
+        108,
+        -110
+      ]
+    }
+  },
+  {
+    "type": "admin",
+    "name": "Tommaso",
+    "surname": "Savoldi",
+    "birth": "2002-08-30",
+    "cityOfBirth": "Brescia",
+    "sex": "MALE",
+    "credentials": {
+      "username": "cyber",
+      "passwordHash": [
+        -79,
+        51,
+        -96,
+        -64,
+        -23,
+        -66,
+        -29,
+        -66,
+        32,
+        22,
+        61,
+        42,
+        -45,
+        29,
+        98,
+        72,
+        -37,
+        41,
+        42,
+        -90,
+        -36,
+        -79,
+        -18,
+        8,
+        122,
+        42,
+        -91,
+        14,
+        15,
+        -57,
+        90,
+        -30
+      ]
+    }
+  }
+]
