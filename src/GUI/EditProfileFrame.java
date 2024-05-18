@@ -27,12 +27,10 @@ import users.Person.Sex;
 
 public class EditProfileFrame extends JFrame implements ActionListener {
 	
-    private static String[] MONTHS = {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
 
 	//Grafic tools for window design
 	private JTextField nameTextField, surnameTextField, cityTextField, passwordTextField;
-	private JComboBox<Integer> dayComboBox, yearComboBox;
-	private JComboBox<String> monthComboBox;
+	private DateSelectPanel datePanel;
 	private JComboBox<Sex> sexComboBox;
 	private JButton editButton;
 
@@ -41,7 +39,7 @@ public class EditProfileFrame extends JFrame implements ActionListener {
 	public EditProfileFrame(Person person) {
 		
         this.person = person;
-
+		this.datePanel = new DateSelectPanel(person.getBirth(), 1900, 2024);
 		//Frame setup
 		this.setTitle("Edit profile");
 		this.setResizable(false);
@@ -83,7 +81,7 @@ public class EditProfileFrame extends JFrame implements ActionListener {
 		JPanel p21 = new JPanel();
 		JPanel p22 = new JPanel();
 		JPanel p31 = new JPanel();
-		JPanel p32 = new JPanel();
+		
 		JPanel p41 = new JPanel();
 		JPanel p42 = new JPanel();
 		JPanel p51 = new JPanel();
@@ -130,34 +128,8 @@ public class EditProfileFrame extends JFrame implements ActionListener {
 		p31.add(dateLabel);
 		centerPanel.add(p31);
 		
-		//date combo box setup
-		dayComboBox = new JComboBox<>();
-		monthComboBox = new JComboBox<>();
-		yearComboBox = new JComboBox<>();
-
-		dayComboBox.addActionListener(this);
-		monthComboBox.addActionListener(this);
-		yearComboBox.addActionListener(this);
-		
-		//filling yearComboBox with years from 1900 to 2024
-		for(int i=1900; i<2024; i++) {
-			yearComboBox.addItem(i);
-		}
-		//filling monthComboBox with months
-		for(String m : MONTHS) {
-			monthComboBox.addItem(m);
-		}
-		
-        yearComboBox.setSelectedIndex(person.getBirth().getYear() - yearComboBox.getItemAt(0));
-        monthComboBox.setSelectedIndex(person.getBirth().getMonthValue() - 1);
-        dayComboBox.setSelectedIndex(person.getBirth().getDayOfMonth() - 1);
-
-		//adding the three combo boxes all together in the panel
-		p32.setLayout(new GridLayout(1, 3));
-		p32.add(dayComboBox);
-		p32.add(monthComboBox);
-		p32.add(yearComboBox);
-		centerPanel.add(p32);
+		//date combo box setup		
+		centerPanel.add(this.datePanel);
 		
 		
 		//city label setup
@@ -252,24 +224,7 @@ public class EditProfileFrame extends JFrame implements ActionListener {
 	}
 	
 	
-	public boolean isLeap(int year) {
-		if(year%400==0) return true;
-		else if(year%100==0) return false;
-		else if(year%4==0) return true;
-		return false;		
-	}
 	
-	
-	public int hasDays(int month, int year) {
-		
-		if(month==2) {
-			if(isLeap(year)) {
-				return 29;
-			} else return 28;
-		}
-		if(month==4 || month==6 || month==9 || month==11) return 30;
-		return 31;
-	}
 	
 	
 	@Override
@@ -280,9 +235,9 @@ public class EditProfileFrame extends JFrame implements ActionListener {
 			//memorize all the info
 			String name = nameTextField.getText();
 			String surname = surnameTextField.getText();
-            int year = (int) yearComboBox.getSelectedItem(),
-                month = (int) monthComboBox.getSelectedIndex() + 1,
-                day = (int) dayComboBox.getSelectedItem();
+            int year = datePanel.getYear(),
+                month = datePanel.getMonth(),
+                day = datePanel.getDay();
 			LocalDate birthDate = LocalDate.of(year, month, day);
 			
 			String cityOfBirth = cityTextField.getText();
@@ -324,17 +279,6 @@ public class EditProfileFrame extends JFrame implements ActionListener {
                 person.setCredentials(credentials);
             
             this.dispose();
-		}
-		//if month or year is changed, update the number of days in the month
-		if(e.getSource()==monthComboBox || e.getSource()==yearComboBox) {
-			if(monthComboBox.getSelectedItem() == null || yearComboBox.getSelectedItem() == null)
-                return;
-            
-            dayComboBox.removeAllItems();
-			for(int i=1; i<=hasDays((int)monthComboBox.getSelectedIndex() + 1, (int)yearComboBox.getSelectedItem()); i++) {
-				dayComboBox.addItem(i);
-			}
-			dayComboBox.setSelectedIndex(0);
 		}
 		
 	}

@@ -22,6 +22,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import GUI.DateSelectPanel;
 import exceptions.InvalidAdminException;
 
 import items.Book;
@@ -36,7 +37,6 @@ public class EditBookFrame extends JFrame implements ActionListener {
     private static final String TITLE = "Edit book";
     private static final String INVALID_ADMIN_MSG = "only an admin con edit book's information";
 
-    private static final String[] MONTHS = {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
 
     private Admin applicant;
     private Book toEdit;
@@ -44,8 +44,7 @@ public class EditBookFrame extends JFrame implements ActionListener {
     private JLabel titleLabel, authorLabel, genreLabel, yearLabel, numPagesLabel;
     private JTextField titleTextField, authorTextField, numPagesTextField, yearTextField;
     private JComboBox<Genre> genreComboBox;
-	private JComboBox<Integer> dueDayComboBox, dueYearComboBox;
-	private JComboBox<String> dueMonthComboBox;
+	private DateSelectPanel datePanel;
     private JButton editButton;
 
     public EditBookFrame(Admin applicant, Book toEdit)  {
@@ -106,7 +105,6 @@ public class EditBookFrame extends JFrame implements ActionListener {
         JPanel p51 = new JPanel();
         JPanel p52 = new JPanel();
         JPanel p61 = new JPanel();
-        JPanel p62 = new JPanel();
 
         // title label setup
         titleLabel = new JLabel();
@@ -179,40 +177,15 @@ public class EditBookFrame extends JFrame implements ActionListener {
         centerPanel.add(p52);
         if (toEdit.getState().equals(Loanable.LoanState.ON_LOAN)){
             //date label setup
+            this.datePanel = new DateSelectPanel(toEdit.getDueDate(), 2024, 2100);
+
             JLabel dateLabel = new JLabel();
             dateLabel.setFont(new Font("Lexend", Font.BOLD, 20));
             dateLabel.setText("Due date:");
             p61.add(dateLabel);
             centerPanel.add(p61);
             
-            //date combo box setup
-            dueDayComboBox = new JComboBox<>();
-            dueMonthComboBox = new JComboBox<>();
-            dueYearComboBox = new JComboBox<>();
-
-            dueDayComboBox.addActionListener(this);
-            dueMonthComboBox.addActionListener(this);
-            dueYearComboBox.addActionListener(this);
-            
-            //filling dueYearComboBox with years from 2024 to 2100
-            for(int i=2024; i<2100; i++) {
-                dueYearComboBox.addItem(i);
-            }
-            //filling dueMonthComboBox with months
-            for(String m : MONTHS) {
-                dueMonthComboBox.addItem(m);
-            }
-            
-            dueYearComboBox.setSelectedIndex(toEdit.getDueDate().getYear() - dueYearComboBox.getItemAt(0));
-            dueMonthComboBox.setSelectedIndex(toEdit.getDueDate().getMonthValue() - 1);
-            dueDayComboBox.setSelectedIndex(toEdit.getDueDate().getDayOfMonth() - 1);
-
-            //adding the three combo boxes all together in the panel
-            p62.setLayout(new GridLayout(1, 3));
-            p62.add(dueDayComboBox);
-            p62.add(dueMonthComboBox);
-            p62.add(dueYearComboBox);
-            centerPanel.add(p62);
+            centerPanel.add(datePanel);
         }
         
 
@@ -232,24 +205,6 @@ public class EditBookFrame extends JFrame implements ActionListener {
         setSize((int) Math.min(getSize().getWidth(), screenDim.getWidth()), (int) Math.min(getSize().getHeight(), screenDim.getHeight()));
     }
 
-    public boolean isLeap(int year) {
-		if(year%400==0) return true;
-		else if(year%100==0) return false;
-		else if(year%4==0) return true;
-		return false;		
-	}
-	
-	
-	public int hasDays(int month, int year) {
-		
-		if(month==2) {
-			if(isLeap(year)) {
-				return 29;
-			} else return 28;
-		}
-		if(month==4 || month==6 || month==9 || month==11) return 30;
-		return 31;
-	}
 
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -293,9 +248,9 @@ public class EditBookFrame extends JFrame implements ActionListener {
                 this.toEdit.setNumPages(applicant, numPages);
                 this.toEdit.setReleaseYear(applicant, year);
                 if (toEdit.getState().equals(Loanable.LoanState.ON_LOAN)) {
-                    int dueYear = (int) dueYearComboBox.getSelectedItem(),
-                    dueMonth = (int) dueMonthComboBox.getSelectedIndex() + 1,
-                    dueDay = (int) dueDayComboBox.getSelectedItem();
+                    int dueYear = datePanel.getYear(),
+                    dueMonth = datePanel.getMonth(),
+                    dueDay = datePanel.getDay();
                     LocalDate newDueDate = LocalDate.of(dueYear, dueMonth, dueDay);
                     this.toEdit.setDueDate(applicant, newDueDate);
                 }
@@ -313,15 +268,6 @@ public class EditBookFrame extends JFrame implements ActionListener {
                 e1.printStackTrace();
             }
         }
-        if(e.getSource()==dueMonthComboBox || e.getSource()==dueYearComboBox) {
-			if(dueMonthComboBox.getSelectedItem() == null || dueYearComboBox.getSelectedItem() == null)
-                return;
-            
-            dueDayComboBox.removeAllItems();
-			for(int i=1; i<=hasDays((int)dueMonthComboBox.getSelectedIndex() + 1, (int)dueYearComboBox.getSelectedItem()); i++) {
-				dueDayComboBox.addItem(i);
-			}
-			dueDayComboBox.setSelectedIndex(0);
-		}
+        
     }
 }

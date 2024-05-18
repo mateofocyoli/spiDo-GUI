@@ -209,7 +209,7 @@
     "type": "admin",
     "name": "Irene",
     "surname": "Treccani",
-    "birth": "1998-01-01",
+    "birth": "1998-01-13",
     "cityOfBirth": "Brescia",
     "sex": "FEMALE",
     "credentials": {
@@ -293,6 +293,52 @@
         -11,
         22,
         -6
+      ]
+    }
+  },
+  {
+    "type": "user",
+    "sanctions": [],
+    "name": "Alessandro",
+    "surname": "Muscio",
+    "birth": "2001-09-30",
+    "cityOfBirth": "Auletta",
+    "sex": "MALE",
+    "credentials": {
+      "username": "kibo",
+      "passwordHash": [
+        -113,
+        -28,
+        -98,
+        -72,
+        31,
+        0,
+        62,
+        80,
+        -79,
+        14,
+        105,
+        -4,
+        82,
+        -57,
+        -36,
+        -27,
+        45,
+        -126,
+        -93,
+        31,
+        -106,
+        -58,
+        -114,
+        -87,
+        -95,
+        -60,
+        6,
+        -30,
+        94,
+        -113,
+        92,
+        12
       ]
     }
   }
