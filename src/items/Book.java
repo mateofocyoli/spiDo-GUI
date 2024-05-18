@@ -1,8 +1,12 @@
 package items;
+
 import java.time.LocalDate;
 import java.time.Year;
 
+import exceptions.InvalidAdminException;
+import users.Admin;
 import users.User;
+import users.managers.PersonManager;
 
 public class Book extends Loanable{
 
@@ -22,6 +26,9 @@ public class Book extends Loanable{
 		MANGA,
 		CHILDREN
 	}
+
+
+    private static final String INVALID_ADMIN_MSG = "Permission Denied! Only an admin can update a book's information";
 	
 	private String title;
 	private String author;
@@ -79,6 +86,53 @@ public class Book extends Loanable{
 			return false;
 		return getID().equalsIgnoreCase(((Book)obj).getID());
 	}
+
+	
+
+
+	public void setTitle(Admin applicant, String title) throws InvalidAdminException {
+		if (!PersonManager.getInstance().validApplicant(applicant)){
+            throw new InvalidAdminException(INVALID_ADMIN_MSG);
+        }
+		this.title = title;
+	}
+
+
+
+	public void setAuthor(Admin applicant, String author) throws InvalidAdminException {
+		if (!PersonManager.getInstance().validApplicant(applicant)){
+            throw new InvalidAdminException(INVALID_ADMIN_MSG);
+        }
+		this.author = author;
+	}
+
+
+
+	public void setGenre(Admin applicant, Genre genre) throws InvalidAdminException {
+		if (!PersonManager.getInstance().validApplicant(applicant)){
+            throw new InvalidAdminException(INVALID_ADMIN_MSG);
+        }
+		this.genre = genre;
+	}
+
+
+
+	public void setReleaseYear(Admin applicant, Year releaseYear) throws InvalidAdminException {
+		if (!PersonManager.getInstance().validApplicant(applicant)){
+            throw new InvalidAdminException(INVALID_ADMIN_MSG);
+        }
+		this.releaseYear = releaseYear;
+	}
+
+
+
+	public void setNumPages(Admin applicant, int numPages) throws InvalidAdminException {
+		if (!PersonManager.getInstance().validApplicant(applicant)){
+            throw new InvalidAdminException(INVALID_ADMIN_MSG);
+        }
+		this.numPages = numPages;
+	}
+
 
 
 	public String getTitle() {
