@@ -103,13 +103,26 @@ public abstract class Loanable {
      * @throws InvalidAdminException if the admin is not accredited
      */
     public void setRuined(Admin applicant) throws InvalidAdminException {
-        if (!PersonManager.getInstance().getAdmins().contains(applicant)) {
+        if (!PersonManager.getInstance().validApplicant(applicant)) {
             throw new InvalidAdminException(INVALID_ADMIN_MSG);
         }
         this.state = LoanState.RUINED;
     }
 
     
+
+    
+    /**Modify the due date of the object on loan
+     * @param applicant an admin is necessary to modify loan terms
+     * @param dueDate new due date of the loan
+     * @throws InvalidAdminException if the admin is not accredited
+     */
+    public void setDueDate(Admin applicant, LocalDate dueDate) throws InvalidAdminException {
+        if (!PersonManager.getInstance().validApplicant(applicant)) {
+            throw new InvalidAdminException(INVALID_ADMIN_MSG);
+        }
+        this.dueDate = dueDate;
+    }
 
     public String getName() {
         return name;
