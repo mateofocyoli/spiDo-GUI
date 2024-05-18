@@ -48,18 +48,6 @@
     "borrower": null
   },
   {
-    "title": "La Costituzione Italiana",
-    "author": "Mussolini",
-    "genre": "HISTORICAL",
-    "releaseYear": 1923,
-    "numPages": 69,
-    "name": "La Costituzione Italiana",
-    "state": "IN_ARCHIVE",
-    "dueDate": "2024-06-16",
-    "ID": "e18308af-0b45-4101-8694-a801ea5cf63d",
-    "borrower": null
-  },
-  {
     "title": "Lo Spirito ANZAC",
     "author": "Anna Foccoli",
     "genre": "ROMANCE",
@@ -144,14 +132,38 @@
     "borrower": "q"
   },
   {
-    "title": "Vita, morte e miracoli di spido guidetti",
-    "author": "uuuuuuuuuuggio",
+    "title": "Uno, nessuno e centomila",
+    "author": "Pirandello",
+    "genre": "THRILLER",
+    "releaseYear": 1926,
+    "numPages": 69,
+    "name": "Uno, nessuno e centomila",
+    "state": "IN_ARCHIVE",
+    "dueDate": "2024-06-16",
+    "ID": "e18308af-0b45-4101-8694-a801ea5cf63d",
+    "borrower": null
+  },
+  {
+    "title": "V per Vendetta",
+    "author": "Alan Moore",
+    "genre": "THRILLER",
+    "releaseYear": 1982,
+    "numPages": 296,
+    "name": "V per Vendetta",
+    "state": "IN_ARCHIVE",
+    "dueDate": "2024-05-18",
+    "ID": "a889a9c4-8bc8-4540-8bee-9ccb097d30ce",
+    "borrower": null
+  },
+  {
+    "title": "Vita, morte e miracoli di Spido Guidetti",
+    "author": "Ruggio",
     "genre": "ROMANCE",
     "releaseYear": 2024,
     "numPages": 165564653,
-    "name": "Vita, morte e miracoli di spido guidetti",
+    "name": "Vita, morte e miracoli di Spido Guidetti",
     "state": "ON_LOAN",
-    "dueDate": "2024-06-16",
+    "dueDate": "2024-07-27",
     "ID": "9f867010-6870-40b0-802c-6e06469aa90b",
     "borrower": "pete002"
   }

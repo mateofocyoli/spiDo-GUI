@@ -1,1 +1,14 @@
-[]
+[
+  {
+    "applicant": "q",
+    "requested": "a889a9c4-8bc8-4540-8bee-9ccb097d30ce",
+    "accepted": false,
+    "dateOfRequest": "2024-05-18"
+  },
+  {
+    "applicant": "phoenix",
+    "requested": "a889a9c4-8bc8-4540-8bee-9ccb097d30ce",
+    "accepted": false,
+    "dateOfRequest": "2024-05-18"
+  }
+]
