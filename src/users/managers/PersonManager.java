@@ -41,7 +41,7 @@ public class PersonManager {
      * Enum that contains the various criteria that can be used to sort or filter the list of people
      */
     public enum Criteria {
-        NAME, SURNAME, DATE_OF_BIRTH, CITY_OF_BIRTH, SEX, USERNAME, TYPE
+        NAME, SURNAME, DATE_OF_BIRTH, DATE_OF_BIRTH_BEFORE, DATE_OF_BIRTH_AFTER, CITY_OF_BIRTH, SEX, USERNAME, TYPE
     }
 
     private static Comparator<Person> compareByName = 
@@ -66,6 +66,8 @@ public class PersonManager {
         entry(Criteria.NAME, compareByName),
         entry(Criteria.SURNAME, compareBySurname),
         entry(Criteria.DATE_OF_BIRTH, compareByBirth),
+        entry(Criteria.DATE_OF_BIRTH_BEFORE, compareByBirth),
+        entry(Criteria.DATE_OF_BIRTH_AFTER, compareByBirth),
         entry(Criteria.CITY_OF_BIRTH, compareByCityOfBirth),
         entry(Criteria.SEX, compareBySex),
         entry(Criteria.USERNAME, compareByUsername),
@@ -78,6 +80,10 @@ public class PersonManager {
                     (Person p, String surname) -> p.getName().toLowerCase().contains(surname.toLowerCase());
     private static PersonFilter<LocalDate> filterByBirth = 
                     (Person p, LocalDate birth) -> p.getBirth().compareTo(birth) == 0;
+    private static PersonFilter<LocalDate> filterByBirthBefore = 
+                    (Person p, LocalDate birth) -> p.getBirth().compareTo(birth) <= 0;
+    private static PersonFilter<LocalDate> filterByBirthAfter = 
+                    (Person p, LocalDate birth) -> p.getBirth().compareTo(birth) >= 0;
     private static PersonFilter<String> filterByCityOfBirth = 
                     (Person p1, String cityOfBirth) -> p1.getCityOfBirth().toLowerCase().contains(cityOfBirth.toLowerCase());
     private static PersonFilter<Person.Sex> filterBySex = 
@@ -94,6 +100,8 @@ public class PersonManager {
         entry(Criteria.NAME, filterByName),
         entry(Criteria.SURNAME, filterBySurname),
         entry(Criteria.DATE_OF_BIRTH, filterByBirth),
+        entry(Criteria.DATE_OF_BIRTH_BEFORE, filterByBirthBefore),
+        entry(Criteria.DATE_OF_BIRTH_AFTER, filterByBirthAfter),
         entry(Criteria.CITY_OF_BIRTH, filterByCityOfBirth),
         entry(Criteria.SEX, filterBySex),
         entry(Criteria.USERNAME, filterByUsername),

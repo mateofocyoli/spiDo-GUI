@@ -68,6 +68,8 @@ public class PersonViewerFrame extends JFrame {
         public void actionPerformed(ActionEvent e) {
             switch (criteria) {
                 case DATE_OF_BIRTH:
+                case DATE_OF_BIRTH_BEFORE:
+                case DATE_OF_BIRTH_AFTER:
                     String dateString = JOptionPane
                             .showInputDialog("Insert " + criteria + "\nThe date must be in the format 'yyyy-mm-dd'");
                     if (dateString != null) {
@@ -154,7 +156,9 @@ public class PersonViewerFrame extends JFrame {
 
         PersonManager.Criteria[] criterias = PersonManager.Criteria.values();
         for (PersonManager.Criteria c : criterias) {
-            sortBy.add(new PersonSorterMenuItem(c, this));
+            if (c != PersonManager.Criteria.DATE_OF_BIRTH_AFTER && c != PersonManager.Criteria.DATE_OF_BIRTH_BEFORE)
+                sortBy.add(new PersonSorterMenuItem(c, this));
+            
             filterBy.add(new PersonFilterMenuItem(c, this));
         }
 
