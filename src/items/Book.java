@@ -27,7 +27,6 @@ public class Book extends Loanable{
 		CHILDREN
 	}
 
-
     private static final String INVALID_ADMIN_MSG = "Permission Denied! Only an admin can update a book's information";
 	
 	private String title;
@@ -37,14 +36,12 @@ public class Book extends Loanable{
 	private int numPages;
 
 
-
-
 	/**Constructor with default loan state IN_ARCHIVE
-	 * @param title
-	 * @param author
-	 * @param genre
-	 * @param releaseYear
-	 * @param numPages
+	 * @param title of the book
+	 * @param author of the book
+	 * @param genre of the book
+	 * @param releaseYear of the book
+	 * @param numPages number of pages of the book
 	 */
 	public Book(String title, String author,
 				Genre genre, Year releaseYear, 
@@ -58,15 +55,15 @@ public class Book extends Loanable{
 	}
 
 
-
 	/**Constructor
-	 * @param title
-	 * @param author
-	 * @param genre
-	 * @param releaseYear
-	 * @param numPages
-	 * @param loanState
-	 * @param dueDate
+	 * @param title of the book
+	 * @param author of the book
+	 * @param genre of the book
+	 * @param releaseYear of the book
+	 * @param numPages number of pages of the book
+	 * @param loanState of the book
+	 * @param borrower of the book if ON_LOAN
+	 * @param dueDate of the loan
 	 */
 	public Book(String title, String author, 
 				Genre genre, Year releaseYear, 
@@ -87,9 +84,11 @@ public class Book extends Loanable{
 		return getID().equalsIgnoreCase(((Book)obj).getID());
 	}
 
-	
-
-
+	/**Setter of the book's title
+	 * @param applicant must be an admin
+	 * @param title
+	 * @throws InvalidAdminException if the admin is not accredited
+	 */
 	public void setTitle(Admin applicant, String title) throws InvalidAdminException {
 		if (!PersonManager.getInstance().validApplicant(applicant)){
             throw new InvalidAdminException(INVALID_ADMIN_MSG);
@@ -99,7 +98,11 @@ public class Book extends Loanable{
 	}
 
 
-
+	/**Setter of the book's author
+	 * @param applicant must be an admin
+	 * @param author
+	 * @throws InvalidAdminException if the admin is not accredited
+	 */
 	public void setAuthor(Admin applicant, String author) throws InvalidAdminException {
 		if (!PersonManager.getInstance().validApplicant(applicant)){
             throw new InvalidAdminException(INVALID_ADMIN_MSG);
@@ -108,7 +111,11 @@ public class Book extends Loanable{
 	}
 
 
-
+	/**Setter of the book's genre
+	 * @param applicant must be an admin
+	 * @param genre
+	 * @throws InvalidAdminException if the admin is not accredited
+	 */
 	public void setGenre(Admin applicant, Genre genre) throws InvalidAdminException {
 		if (!PersonManager.getInstance().validApplicant(applicant)){
             throw new InvalidAdminException(INVALID_ADMIN_MSG);
@@ -117,7 +124,11 @@ public class Book extends Loanable{
 	}
 
 
-
+	/**Setter of the book's release year
+	 * @param applicant must be an admin
+	 * @param year
+	 * @throws InvalidAdminException if the admin is not accredited
+	 */
 	public void setReleaseYear(Admin applicant, Year releaseYear) throws InvalidAdminException {
 		if (!PersonManager.getInstance().validApplicant(applicant)){
             throw new InvalidAdminException(INVALID_ADMIN_MSG);
@@ -126,7 +137,11 @@ public class Book extends Loanable{
 	}
 
 
-
+	/**Setter of the book's number of pages
+	 * @param applicant must be an admin
+	 * @param numPages
+	 * @throws InvalidAdminException if the admin is not accredited
+	 */
 	public void setNumPages(Admin applicant, int numPages) throws InvalidAdminException {
 		if (!PersonManager.getInstance().validApplicant(applicant)){
             throw new InvalidAdminException(INVALID_ADMIN_MSG);

@@ -19,7 +19,11 @@ public class LoanRequest {
     private boolean accepted;
     private LocalDate dateOfRequest;
 
-
+    /**Constructor
+     * @param applicant of the request
+     * @param requested the loanble object requested by applicant
+     * @param dateOfRequest the date that the request is filed
+     */
     public LoanRequest(User applicant, Loanable requested, LocalDate dateOfRequest) {
         this.applicant = applicant;
         this.requested = requested;
