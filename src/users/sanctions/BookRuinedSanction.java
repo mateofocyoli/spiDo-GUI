@@ -9,11 +9,11 @@ import items.Book;
 public class BookRuinedSanction extends BookSanction {
 
     public static final String NAME = "Book ruined";
-    public static final String DESCRIPTION = "The book has been returned ruined. It can be rent without needing repair";
+    public static final String DESCRIPTION = "The book has been returned ruined. It can not be rent again";
     public static final Severity SEVERITY = Severity.MEDIUM;
 
     public BookRuinedSanction(LocalDate date, Book book) {
-        super(date, book);
+        super(NAME, DESCRIPTION, SEVERITY, date, book);
     }
 
 }

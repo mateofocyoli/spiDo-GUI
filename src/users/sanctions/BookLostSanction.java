@@ -13,7 +13,7 @@ public class BookLostSanction extends BookSanction {
     public static final Severity SEVERITY = Severity.HIGH;
 
     public BookLostSanction(LocalDate date, Book book) {
-        super(date, book);
+        super(NAME, DESCRIPTION, SEVERITY, date, book);
     }
 
 }

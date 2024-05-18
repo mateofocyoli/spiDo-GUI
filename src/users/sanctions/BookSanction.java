@@ -14,8 +14,8 @@ public abstract class BookSanction extends Sanction {
     @Expose
     public final Book book;
 
-    protected BookSanction(LocalDate date, Book book) {
-        super(date);
+    protected BookSanction(String name, String description, Severity severity, LocalDate date, Book book) {
+        super(name, description, severity, date);
         this.book = book;
     }
 }

@@ -13,7 +13,7 @@ public class RepeatedBookLostSanction extends Sanction {
     public static final int LIMIT = 2;
 
     public RepeatedBookLostSanction(LocalDate date) {
-        super(date);
+        super(NAME, DESCRIPTION, SEVERITY, date);
     }
 
 }

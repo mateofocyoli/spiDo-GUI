@@ -13,7 +13,7 @@ public class BookDelayedSanction extends BookSanction {
     public static final Severity SEVERITY = Severity.LOW;
 
     public BookDelayedSanction(LocalDate date, Book book) {
-        super(date, book);
+        super(NAME, DESCRIPTION, SEVERITY, date, book);
     }
 
 }

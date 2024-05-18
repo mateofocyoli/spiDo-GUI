@@ -10,28 +10,33 @@ import com.google.gson.annotations.Expose;
  */
 public abstract class Sanction {
     
-    public static final String NAME = "abstract Sanction";
-    public static final String DESCRIPTION = "This is an abstract sanction and should not be used";
-    public static final Severity SEVERITY = null;
-    
+    @Expose
+    public final String name;
+    @Expose
+    public final String description;
+    @Expose
+    public final Severity severity;
     @Expose
     public final LocalDate date;
     
-    protected Sanction(LocalDate date) {
+    protected Sanction(String name, String description, Severity severty, LocalDate date) {
+        this.name = name;
+        this.description = description;
+        this.severity = severty;
         this.date = date;
     }
 
     @Override
     public String toString() {
-        return this.getClass().getSimpleName() + " [name=" + NAME + ", severity=" + SEVERITY + ", date=" + date + "]";
+        return this.getClass().getSimpleName() + " [name=" + name + ", severity=" + severity + ", date=" + date + "]";
     }
 
     @Override
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + ((NAME == null) ? 0 : NAME.hashCode());
-        result = prime * result + ((SEVERITY == null) ? 0 : SEVERITY.hashCode());
+        result = prime * result + ((name == null) ? 0 : name.hashCode());
+        result = prime * result + ((severity == null) ? 0 : severity.hashCode());
         result = prime * result + ((date == null) ? 0 : date.hashCode());
         return result;
     }
