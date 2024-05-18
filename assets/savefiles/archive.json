@@ -24,6 +24,18 @@
     "borrower": "q"
   },
   {
+    "title": "Elmer l\u0027Elefante Variopinto",
+    "author": "David McKee",
+    "genre": "CHILDREN",
+    "releaseYear": 1968,
+    "numPages": 16,
+    "name": "Elmer l\u0027Elefante Variopinto",
+    "state": "IN_ARCHIVE",
+    "dueDate": "2024-05-18",
+    "ID": "54ac395c-24eb-402d-bfa5-a7554f3cdbe1",
+    "borrower": null
+  },
+  {
     "title": "Fortnite. Trucchi e segreti",
     "author": "CiccioGamer89",
     "genre": "CHILDREN",
@@ -36,16 +48,52 @@
     "borrower": null
   },
   {
+    "title": "Harry Potter e la Risposta in Frequenza",
+    "author": "Marco Campi",
+    "genre": "SCIFI",
+    "releaseYear": 2023,
+    "numPages": 273,
+    "name": "Harry Potter e la Risposta in Frequenza",
+    "state": "IN_ARCHIVE",
+    "dueDate": "2024-05-18",
+    "ID": "ed4430fe-ce8a-48f0-8c84-d32485c9c950",
+    "borrower": null
+  },
+  {
     "title": "I Burger di Ciccio",
     "author": "CiccioGamer89",
     "genre": "CHILDREN",
     "releaseYear": 2023,
     "numPages": 128,
     "name": "I Burger di Ciccio",
-    "state": "IN_ARCHIVE",
-    "dueDate": "2024-06-16",
+    "state": "ON_LOAN",
+    "dueDate": "2024-06-18",
     "ID": "dea6916f-1875-47b2-90a4-a71ea34126a8",
+    "borrower": "q"
+  },
+  {
+    "title": "Io, me e me stesso",
+    "author": "CiccioGamer89",
+    "genre": "HISTORICAL",
+    "releaseYear": 2017,
+    "numPages": 141,
+    "name": "Io, me e me stesso",
+    "state": "IN_ARCHIVE",
+    "dueDate": "2024-05-18",
+    "ID": "8013cd4c-047c-4968-8ff1-ed264fc154c5",
     "borrower": null
+  },
+  {
+    "title": "Le vergini delle rocce",
+    "author": "Gabriele D\u0027Annunzio",
+    "genre": "ROMANCE",
+    "releaseYear": 1895,
+    "numPages": 396,
+    "name": "Le vergini delle rocce",
+    "state": "LOST",
+    "dueDate": "2024-06-16",
+    "ID": "e01d326a-a315-44a9-bb29-e77e07f02745",
+    "borrower": "q"
   },
   {
     "title": "Lo Spirito ANZAC",
@@ -66,10 +114,10 @@
     "releaseYear": 2024,
     "numPages": 7,
     "name": "Manuale di improvvisazione",
-    "state": "ON_LOAN",
+    "state": "IN_ARCHIVE",
     "dueDate": "2024-06-17",
     "ID": "1e5d1960-3216-43d8-a0d0-13c05c6114ef",
-    "borrower": "pete002"
+    "borrower": null
   },
   {
     "title": "Manuale Java",
@@ -118,18 +166,6 @@
     "dueDate": "2024-06-14",
     "ID": "6b40349e-e26c-4460-aca4-cd9516c550f1",
     "borrower": null
-  },
-  {
-    "title": "Two girls one cup",
-    "author": "Johnny Sins",
-    "genre": "CHILDREN",
-    "releaseYear": 2005,
-    "numPages": 15,
-    "name": "Two girls one cup",
-    "state": "LOST",
-    "dueDate": "2024-06-16",
-    "ID": "e01d326a-a315-44a9-bb29-e77e07f02745",
-    "borrower": "q"
   },
   {
     "title": "Uno, nessuno e centomila",
