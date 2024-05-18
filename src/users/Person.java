@@ -1,9 +1,15 @@
 package users;
 
+import java.security.InvalidParameterException;
 import java.time.LocalDate;
 
 import com.google.gson.annotations.Expose;
 
+/**
+ * Class used to represent the people signed up in the library.
+ * This is an abstract class used only to enable polymorphism.
+ * In order to create a object, use the subclasses.
+ */
 public abstract class Person implements Comparable<Credentials> {
 
     @Expose
@@ -23,7 +29,46 @@ public abstract class Person implements Comparable<Credentials> {
         MALE, FEMALE;
     }
 
-    protected Person(String name, String surname, LocalDate birth, String cityOfBirth, Sex sex, Credentials credentials) {
+    /**
+     * Constructor for the object Person. Since it's an abstract class, it can only
+     * be
+     * called by a non-abstract subclass.
+     * 
+     * @param name        The name of the person (can not be null, neither blank)
+     * @param surname     The surname of the person (can not be null, neither blank)
+     * @param birth       The date of birth of the person (can not be null)
+     * @param cityOfBirth The city of birth of the person (can not be null, neither
+     *                    blank)
+     * @param sex         The sex of the person (use the appropriate enum)
+     * @param credentials The credential object of the person (can not be null)
+     * @throws IllegalParameterException If an invalid parameter is passed
+     */
+    protected Person(String name, String surname, LocalDate birth, String cityOfBirth, Sex sex,
+            Credentials credentials) {
+        if (name == null)
+            throw new InvalidParameterException("name can not be null");
+        if (name.isBlank())
+            throw new InvalidParameterException("name can not be blank");
+
+        if (surname == null)
+            throw new InvalidParameterException("surname can not be null");
+        if (surname.isBlank())
+            throw new InvalidParameterException("surname can not be blank");
+
+        if (birth == null)
+            throw new InvalidParameterException("birth can not be null");
+
+        if (cityOfBirth == null)
+            throw new InvalidParameterException("cityOfBirth can not be null");
+        if (cityOfBirth.isBlank())
+            throw new InvalidParameterException("cityOfBirth can not be blank");
+
+        if (sex == null)
+            throw new InvalidParameterException("sex can not be null");
+
+        if (credentials == null)
+            throw new InvalidParameterException("credentials can not be null");
+
         this.name = name;
         this.surname = surname;
         this.birth = birth;
@@ -80,6 +125,10 @@ public abstract class Person implements Comparable<Credentials> {
         this.credentials = credentials;
     }
 
+    /**
+     * Compares the credentials of this person object with the credentials passed to the method.
+     * It calls the {@code compareTo(Credentials o)} method of this object's credentials.
+     */
     @Override
     public int compareTo(Credentials o) {
         return this.credentials.compareTo(o);
@@ -87,7 +136,8 @@ public abstract class Person implements Comparable<Credentials> {
 
     @Override
     public String toString() {
-        return getClass().getCanonicalName() + " [name=" + name + ", surname=" + surname + ", birth=" + birth + ", cityOfBirth=" + cityOfBirth
+        return getClass().getCanonicalName() + " [name=" + name + ", surname=" + surname + ", birth=" + birth
+                + ", cityOfBirth=" + cityOfBirth
                 + ", sex=" + sex + ", username=" + credentials.getUsername() + "]";
     }
 

@@ -31,14 +31,14 @@ public class SanctionPanel extends JPanel implements ActionListener {
         this.sanction = sanction;
         this.svf = svf;
 
-        JLabel nameLabel = new JLabel(sanction.name);
+        JLabel nameLabel = new JLabel(sanction.NAME);
         nameLabel.setFont(new Font("Lexend", Font.BOLD, 16));
         JLabel dateLabel = new JLabel(sanction.date.toString());
         dateLabel.setFont(new Font("Lexend", Font.ITALIC, 10));
-        JLabel severityLabel = new JLabel(sanction.severity.toString());
+        JLabel severityLabel = new JLabel(sanction.SEVERITY.toString());
         severityLabel.setFont(new Font("Lexend", Font.PLAIN, 16));
 
-        switch (sanction.severity) {
+        switch (sanction.SEVERITY) {
             case LOW:
                 severityLabel.setForeground(Color.YELLOW);
                 break;
@@ -88,7 +88,7 @@ public class SanctionPanel extends JPanel implements ActionListener {
         }
         if(e.getSource() == descriptionButton) {
             JOptionPane.showMessageDialog(this, 
-            sanction.description, "Description",JOptionPane.INFORMATION_MESSAGE);
+            sanction.DESCRIPTION, "Description",JOptionPane.INFORMATION_MESSAGE);
         }
     }
 }

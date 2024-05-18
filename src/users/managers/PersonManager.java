@@ -21,23 +21,47 @@ import static java.util.Map.entry;
 
 import java.time.LocalDate;
 
+/**
+ * Class used to manage the users and admins that are signed up to the library.
+ */
 public class PersonManager {
+
+    private static final String DEFAULT_ADMIN_PASSWORD = "p";
+    private static final String DEFAULT_ADMIN_USERNAME = "a";
+    private static final Sex DEFAULT_ADMIN_SEX = Sex.FEMALE;
+    private static final String DEFAULT_ADMIN_CITY_OF_BIRTH = "java-town";
+    private static final LocalDate DEFAULT_ADMIN_BIRTH = LocalDate.of(1970, 1, 1);
+    private static final String DEFAULT_ADMIN_SURNAME = "default";
+    private static final String DEFAULT_ADMIN_NAME = "admin";
 
     private static final String INVALID_ADMIN_MSG = "Permission Denied! Only an admin can can change the loan terms";
     private static final String FILTER_NOT_COHERENT_MSG = "Criteria and argument are not coherent";
 
+    /**
+     * Enum that contains the various criteria that can be used to sort or filter the list of people
+     */
     public enum Criteria {
         NAME, SURNAME, DATE_OF_BIRTH, CITY_OF_BIRTH, SEX, USERNAME, TYPE
     }
 
-    private static Comparator<Person> compareByName = (Person p1, Person p2) -> p1.getName().compareToIgnoreCase(p2.getName());
-    private static Comparator<Person> compareBySurname = (Person p1, Person p2) -> p1.getSurname().compareToIgnoreCase(p2.getSurname());
-    private static Comparator<Person> compareByBirth = (Person p1, Person p2) -> p1.getBirth().compareTo(p2.getBirth());
-    private static Comparator<Person> compareByCityOfBirth = (Person p1, Person p2) -> p1.getCityOfBirth().compareToIgnoreCase(p2.getCityOfBirth());
-    private static Comparator<Person> compareBySex = (Person p1, Person p2) -> p1.getSex().compareTo(p2.getSex());
-    private static Comparator<Person> compareByUsername = (Person p1, Person p2) -> p1.getCredentials().compareTo(p2.getCredentials());
-    private static Comparator<Person> compareByType = (Person p1, Person p2) -> p1.getClass().getCanonicalName().compareTo(p2.getClass().getCanonicalName());
+    private static Comparator<Person> compareByName = 
+                    (Person p1, Person p2) -> p1.getName().compareToIgnoreCase(p2.getName());
+    private static Comparator<Person> compareBySurname = 
+                    (Person p1, Person p2) -> p1.getSurname().compareToIgnoreCase(p2.getSurname());
+    private static Comparator<Person> compareByBirth = 
+                    (Person p1, Person p2) -> p1.getBirth().compareTo(p2.getBirth());
+    private static Comparator<Person> compareByCityOfBirth = 
+                    (Person p1, Person p2) -> p1.getCityOfBirth().compareToIgnoreCase(p2.getCityOfBirth());
+    private static Comparator<Person> compareBySex = 
+                    (Person p1, Person p2) -> p1.getSex().compareTo(p2.getSex());
+    private static Comparator<Person> compareByUsername = 
+                    (Person p1, Person p2) -> p1.getCredentials().compareTo(p2.getCredentials());
+    private static Comparator<Person> compareByType = 
+                    (Person p1, Person p2) -> p1.getClass().getCanonicalName().compareTo(p2.getClass().getCanonicalName());
 
+    /**
+     * Map that contains all of the sorting predicates associated with their corresponding {@code Criteria}
+     */
     private static final Map<Criteria, Comparator<Person>> ORDER_CRITERIAS = Map.ofEntries(
         entry(Criteria.NAME, compareByName),
         entry(Criteria.SURNAME, compareBySurname),
@@ -48,14 +72,24 @@ public class PersonManager {
         entry(Criteria.TYPE, compareByType)
     );
 
-    private static PersonFilter<String> filterByName = (Person p, String name) -> p.getName().toLowerCase().contains(name.toLowerCase());
-    private static PersonFilter<String> filterBySurname = (Person p, String surname) -> p.getName().toLowerCase().contains(surname.toLowerCase());
-    private static PersonFilter<LocalDate> filterByBirth = (Person p, LocalDate birth) -> p.getBirth().compareTo(birth) == 0;
-    private static PersonFilter<String> filterByCityOfBirth = (Person p1, String cityOfBirth) -> p1.getCityOfBirth().toLowerCase().contains(cityOfBirth.toLowerCase());
-    private static PersonFilter<Person.Sex> filterBySex = (Person p1, Person.Sex sex) -> p1.getSex().compareTo(sex) == 0;
-    private static PersonFilter<String> filterByUsername = (Person p1, String username) -> p1.getCredentials().getUsername().toLowerCase().contains(username.toLowerCase());
-    private static PersonFilter<Class<? extends Person>> filterByType = (Person p1, Class<? extends Person> type) -> p1.getClass().getCanonicalName().compareTo(type.getCanonicalName()) == 0;
+    private static PersonFilter<String> filterByName = 
+                    (Person p, String name) -> p.getName().toLowerCase().contains(name.toLowerCase());
+    private static PersonFilter<String> filterBySurname = 
+                    (Person p, String surname) -> p.getName().toLowerCase().contains(surname.toLowerCase());
+    private static PersonFilter<LocalDate> filterByBirth = 
+                    (Person p, LocalDate birth) -> p.getBirth().compareTo(birth) == 0;
+    private static PersonFilter<String> filterByCityOfBirth = 
+                    (Person p1, String cityOfBirth) -> p1.getCityOfBirth().toLowerCase().contains(cityOfBirth.toLowerCase());
+    private static PersonFilter<Person.Sex> filterBySex = 
+                    (Person p1, Person.Sex sex) -> p1.getSex().equals(sex);
+    private static PersonFilter<String> filterByUsername = 
+                    (Person p1, String username) -> p1.getCredentials().getUsername().toLowerCase().contains(username.toLowerCase());
+    private static PersonFilter<Class<? extends Person>> filterByType = 
+                    (Person p1, Class<? extends Person> type) -> p1.getClass().getCanonicalName().compareTo(type.getCanonicalName()) == 0;
 
+    /**
+     * Map that contains all of the filtering predicates associated with their corresponding {@code Criteria}
+     */
     private static final Map<Criteria, PersonFilter<?>> FILTER_CRITERIAS = Map.ofEntries(
         entry(Criteria.NAME, filterByName),
         entry(Criteria.SURNAME, filterBySurname),
@@ -66,22 +100,30 @@ public class PersonManager {
         entry(Criteria.TYPE, filterByType)
     );
 
-    private static final Admin DEFAULT_ADMIN = new Admin("admin", "account",
-                                                        LocalDate.of(1970, 1, 1),
-                                                        "java-town", Sex.FEMALE,
-                                                        new Credentials("a", "p"));
+    /**
+     * Default admin object that is inserted to the list whenever there are no admins present.
+     * It is removed when an admin object is created.
+     */
+    private static final Admin DEFAULT_ADMIN = new Admin(DEFAULT_ADMIN_NAME, DEFAULT_ADMIN_SURNAME,
+                                                        DEFAULT_ADMIN_BIRTH,
+                                                        DEFAULT_ADMIN_CITY_OF_BIRTH, DEFAULT_ADMIN_SEX,
+                                                        new Credentials(DEFAULT_ADMIN_USERNAME, DEFAULT_ADMIN_PASSWORD));
 
     private static PersonManager instance;
 
     private List<Person> people;
 
+    /**
+     * Constructor for this class. It is private in order to control all of the instances that exist.
+     */
     private PersonManager() {
         this.people = new ArrayList<>();
     }
 
     /**
-     * Only way to get an instance of this class, so there are no other instances around
-     * @return
+     * Only way to get an instance of this class, so there are no other instances around.
+     * If the instance was never created, it creates one.
+     * @return The only instance that exists.
      */
     public static PersonManager getInstance() {
         if(instance == null)
@@ -89,11 +131,6 @@ public class PersonManager {
 
         return instance;
     }
-
-    /* public PersonManager(Collection<? extends Person> people) {
-        this.people = new ArrayList<>();
-        this.people.addAll(people);
-    } */
 
     /**
      * Finds the user's object associated to the credentials passed as arguments.
@@ -182,17 +219,29 @@ public class PersonManager {
         return people.remove(p);
     }
 
+    /**
+     * Sorts the list of people that are present by the criteria passed and returns the list.
+     * If the sorting criteria is not found (or is null) the list is sorted by username.
+     * @param criteria The sorting criteria. It must be taken from the {@code Criteria} enum
+     * @return The list sorted
+     */
     public List<Person> sortBy(Criteria criteria) {
-        people.sort(ORDER_CRITERIAS.getOrDefault(criteria, compareBySurname));
+        if (criteria == null)
+            people.sort(ORDER_CRITERIAS.getOrDefault(compareByUsername, compareByUsername));
+        else
+            people.sort(ORDER_CRITERIAS.getOrDefault(criteria, compareByUsername));
+        
         return getList();
     }
 
     public List<Person> getList() {
-        ArrayList<Person> cloneList = new ArrayList<>();
-        cloneList.addAll(people);
-        return cloneList;
+        return people;
     }
 
+    /**
+     * Returns a list containg only the users.
+     * @return The list of Users
+     */
     public List<User> getUsers() {
         List<Person> personList = filterBy(people, Criteria.TYPE, User.class);
         List<User> usersList = new ArrayList<>();
@@ -203,6 +252,10 @@ public class PersonManager {
         return usersList;
     }
 
+    /**
+     * Returns a list containg only the admins.
+     * @return The list of Admins
+     */
     public List<Admin> getAdmins() {
         List<Person> personList = filterBy(people, Criteria.TYPE, Admin.class);
         List<Admin> adminsList = new ArrayList<>();
@@ -213,8 +266,17 @@ public class PersonManager {
         return adminsList;
     }
 
+    /**
+     * Static method used for sorting a list of Person that is not the one contained in the
+     * instance. If the sorting criteria is not found (or is null) the list is sorted by username.
+     * @param list The list to sort
+     * @param criteria The criteria for sorting the list
+     */
     public static void sortBy(List<? extends Person> list, Criteria criteria) {
-        list.sort(ORDER_CRITERIAS.getOrDefault(criteria, compareBySurname));
+        if (criteria == null)
+            list.sort(ORDER_CRITERIAS.getOrDefault(compareByUsername, compareByUsername));
+        else
+            list.sort(ORDER_CRITERIAS.getOrDefault(criteria, compareByUsername));
     }
 
     public List<User> getUsersSortedBy(Criteria criteria) {
@@ -229,6 +291,14 @@ public class PersonManager {
         return admins;
     }
 
+    /**
+     * Filters the people list by the criteria passed and uses the argument as the condition.
+     * If the criteria is {@code null} the list is not filtered.
+     * @param <T> The arument's type
+     * @param criteria The criteria to follow
+     * @param argument The condition of the filtering criteria
+     * @return The list filtered
+     */
     public <T> List<Person> filterBy(Criteria criteria, T argument) {
         List<Person> list = filterBy(people, criteria, argument);
         return list;
@@ -236,6 +306,7 @@ public class PersonManager {
 
     /**
      * Filters the list of person passed as argument and returns a list containg only the objects that met the criteria.
+     * If the criteria is {@code null} the list is not filtered.
      * @param <T> The type of the criteria (String, LocalDate, Credentials...)
      * @param list The list to be filtered
      * @param criteria A String representing the filter criteria
@@ -244,6 +315,9 @@ public class PersonManager {
      * @throws ClassCastException when argument and criteria don't match
      */
     public static <T, E extends Person> List<E> filterBy(List<E> list, Criteria criteria, T argument) throws ClassCastException {
+        if (criteria == null)
+            return list;
+        
         List<E> newList = new ArrayList<>();
         try {
             PersonFilter<T> filter = (PersonFilter<T>) FILTER_CRITERIAS.get(criteria);
@@ -259,11 +333,12 @@ public class PersonManager {
     }
 
     /**
-     * Gives the sanction passed as parameter to the victim. Only an admin can call this method
-     * @param applicant
-     * @param victim
-     * @param sanction
-     * @return
+     * Gives the sanction passed as parameter to the victim. Only an admin can call this method.
+     * This method adds automatically a repeated sanction if needed.
+     * @param applicant The admin object that is requesting the operation
+     * @param victim The user object that is receiving the sanction
+     * @param sanction The sanction object
+     * @return The result of {@code User.addSanction(Sanction s)}
      * @throws InvalidAdminException If the applicant's object is not a valid admin
      */
     public boolean sanction(Admin applicant, User victim, Sanction sanction) throws InvalidAdminException {
@@ -287,12 +362,12 @@ public class PersonManager {
     }
 
     /**
-     * Removes the sanction from the victim. Only an admin can call this method
-     * @param applicant
-     * @param victim
-     * @param s
-     * @return
-     * @throws InvalidAdminException
+     * Removes the sanction from the victim. Only an admin can call this method.
+     * @param applicant The admin object that is requesting the operation
+     * @param victim The user object that is receiving the pardon
+     * @param s The sanction to be removed
+     * @return The result of {@code User.removeSanction(Sanction s)}
+     * @throws InvalidAdminException If the applicant's object is not a valid admin
      */
     public boolean pardon(Admin applicant, User victim, Sanction s) throws InvalidAdminException {
         if(!validApplicant(applicant))

@@ -26,7 +26,6 @@ import items.Loanable;
 import users.Admin;
 import users.Person;
 import users.User;
-import users.sanctions.BookBrokenSanction;
 import users.sanctions.BookDelayedSanction;
 import users.sanctions.BookLostSanction;
 import users.sanctions.BookRuinedSanction;
@@ -130,7 +129,6 @@ public class FileManager {
                                                 .registerSubtype(BookDelayedSanction.class, "book_delayed")
                                                 .registerSubtype(BookRuinedSanction.class, "book_ruined")
                                                 .registerSubtype(BookLostSanction.class, "book_lost")
-                                                .registerSubtype(BookBrokenSanction.class, "book_broken")
                                                 .registerSubtype(RepeatedBookLostSanction.class, "rep_book_lost"))
                       .excludeFieldsWithoutExposeAnnotation()
                       .create();
@@ -155,7 +153,6 @@ public class FileManager {
                                                 .registerSubtype(BookDelayedSanction.class, "book_delayed")
                                                 .registerSubtype(BookRuinedSanction.class, "book_ruined")
                                                 .registerSubtype(BookLostSanction.class, "book_lost")
-                                                .registerSubtype(BookBrokenSanction.class, "book_broken")
                                                 .registerSubtype(RepeatedBookLostSanction.class, "rep_book_lost"))
                       .excludeFieldsWithoutExposeAnnotation()
                       .create();

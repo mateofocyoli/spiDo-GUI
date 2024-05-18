@@ -4,35 +4,34 @@ import java.time.LocalDate;
 
 import com.google.gson.annotations.Expose;
 
-public class Sanction {
+/**
+ * Abstract class to represent a sanction given to a user. A sanction has a name, a description, a severity
+ * and a date when the sanction was given.
+ */
+public abstract class Sanction {
     
-    @Expose
-    public final String name;
-    @Expose
-    public final String description;
-    @Expose
-    public final Severity severity;
+    public static final String NAME = "abstract Sanction";
+    public static final String DESCRIPTION = "This is an abstract sanction and should not be used";
+    public static final Severity SEVERITY = null;
+    
     @Expose
     public final LocalDate date;
     
-    public Sanction(String name, String description, Severity severity, LocalDate date) {
-        this.name = name;
-        this.description = description;
-        this.severity = severity;
+    protected Sanction(LocalDate date) {
         this.date = date;
     }
 
     @Override
     public String toString() {
-        return this.getClass().getSimpleName() + " [name=" + name + ", severity=" + severity + ", date=" + date + "]";
+        return this.getClass().getSimpleName() + " [name=" + NAME + ", severity=" + SEVERITY + ", date=" + date + "]";
     }
 
     @Override
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + ((name == null) ? 0 : name.hashCode());
-        result = prime * result + ((severity == null) ? 0 : severity.hashCode());
+        result = prime * result + ((NAME == null) ? 0 : NAME.hashCode());
+        result = prime * result + ((SEVERITY == null) ? 0 : SEVERITY.hashCode());
         result = prime * result + ((date == null) ? 0 : date.hashCode());
         return result;
     }
@@ -46,13 +45,6 @@ public class Sanction {
         if (getClass() != obj.getClass())
             return false;
         Sanction other = (Sanction) obj;
-        if (name == null) {
-            if (other.name != null)
-                return false;
-        } else if (!name.equals(other.name))
-            return false;
-        if (severity != other.severity)
-            return false;
         if (date == null) {
             if (other.date != null)
                 return false;
