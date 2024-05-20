@@ -66,8 +66,6 @@ public class PersonManager {
         entry(Criteria.NAME, compareByName),
         entry(Criteria.SURNAME, compareBySurname),
         entry(Criteria.DATE_OF_BIRTH, compareByBirth),
-        entry(Criteria.DATE_OF_BIRTH_BEFORE, compareByBirth),
-        entry(Criteria.DATE_OF_BIRTH_AFTER, compareByBirth),
         entry(Criteria.CITY_OF_BIRTH, compareByCityOfBirth),
         entry(Criteria.SEX, compareBySex),
         entry(Criteria.USERNAME, compareByUsername),
