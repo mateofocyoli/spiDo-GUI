@@ -48,6 +48,66 @@
     "borrower": null
   },
   {
+    "title": "Harry Potter e i Tre Orsi",
+    "author": "Panda",
+    "genre": "THRILLER",
+    "releaseYear": 2023,
+    "numPages": 999,
+    "name": "Harry Potter e i Tre Orsi",
+    "state": "IN_ARCHIVE",
+    "dueDate": "2024-05-20",
+    "ID": "acf7bd71-9b57-4042-ae63-6466ca3d84b4",
+    "borrower": null
+  },
+  {
+    "title": "Harry Potter e il Modello di Piccolo Segnale",
+    "author": "Ferrari",
+    "genre": "ROMANCE",
+    "releaseYear": 2023,
+    "numPages": 173,
+    "name": "Harry Potter e il Modello di Piccolo Segnale",
+    "state": "IN_ARCHIVE",
+    "dueDate": "2024-05-20",
+    "ID": "881a77b9-5d15-45d2-bfc1-5ad7af9fd1b5",
+    "borrower": null
+  },
+  {
+    "title": "Harry Potter e il Protocollo TCP",
+    "author": "IL Ghigno",
+    "genre": "SCIFI",
+    "releaseYear": 2022,
+    "numPages": 404,
+    "name": "Harry Potter e il Protocollo TCP",
+    "state": "IN_ARCHIVE",
+    "dueDate": "2024-05-20",
+    "ID": "55320ea9-9e29-4229-9265-d444bfb62abc",
+    "borrower": null
+  },
+  {
+    "title": "Harry Potter e il teorema di Cauchy Globale",
+    "author": "Colombo",
+    "genre": "ADVENTURE",
+    "releaseYear": 2023,
+    "numPages": 927,
+    "name": "Harry Potter e il teorema di Cauchy Globale",
+    "state": "IN_ARCHIVE",
+    "dueDate": "2024-05-20",
+    "ID": "9dc3b4f4-b9f9-4afa-90c2-65595ae2a675",
+    "borrower": null
+  },
+  {
+    "title": "Harry Potter e l\u0027Interfaccia Funzionale",
+    "author": "Oracle",
+    "genre": "SCIFI",
+    "releaseYear": 2022,
+    "numPages": 327,
+    "name": "Harry Potter e l\u0027Interfaccia Funzionale",
+    "state": "IN_ARCHIVE",
+    "dueDate": "2024-05-20",
+    "ID": "b66fe062-3c5c-4faf-8267-fa8788c74080",
+    "borrower": null
+  },
+  {
     "title": "Harry Potter e la Risposta in Frequenza",
     "author": "Marco Campi",
     "genre": "SCIFI",
@@ -57,6 +117,18 @@
     "state": "IN_ARCHIVE",
     "dueDate": "2024-05-18",
     "ID": "ed4430fe-ce8a-48f0-8c84-d32485c9c950",
+    "borrower": null
+  },
+  {
+    "title": "Harry Potter e le Onde Piane Uniformi",
+    "author": "Ciampolombo",
+    "genre": "MYSTERY",
+    "releaseYear": 2024,
+    "numPages": 777,
+    "name": "Harry Potter e le Onde Piane Uniformi",
+    "state": "IN_ARCHIVE",
+    "dueDate": "2024-05-20",
+    "ID": "b051f673-c975-4104-a548-5ebd579f3f28",
     "borrower": null
   },
   {

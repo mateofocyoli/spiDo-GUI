@@ -22,6 +22,7 @@ import users.Admin;
 
 public class RequestedBookPanelAdmin extends JPanel implements ActionListener {
 
+    private static final String FONT_NAME = "Lexend";
     private JButton denyButton, acceptButton;
     private Admin admin;
     private LoanRequest lr;
@@ -46,9 +47,9 @@ public class RequestedBookPanelAdmin extends JPanel implements ActionListener {
         dateLabel.setForeground(Color.BLACK);
         requesterLabel.setForeground(Color.BLACK);
         
-        nameLabel.setFont(new Font("Lexend", Font.BOLD, 13));
-        dateLabel.setFont(new Font("Lexend", Font.ITALIC, 10));
-        requesterLabel.setFont(new Font("Lexend", Font.PLAIN, 15));
+        nameLabel.setFont(new Font(FONT_NAME, Font.BOLD, 13));
+        dateLabel.setFont(new Font(FONT_NAME, Font.ITALIC, 10));
+        requesterLabel.setFont(new Font(FONT_NAME, Font.PLAIN, 15));
 
         dataPanel.add(requesterLabel);
         dataPanel.add(nameLabel);
@@ -57,12 +58,12 @@ public class RequestedBookPanelAdmin extends JPanel implements ActionListener {
         // the buttonPanel will contain the button
         JPanel buttonPanel = new JPanel();
 
-        denyButton = new JButton("🗷");
+        denyButton = new JButton("Deny");
         denyButton.setFocusable(false);
         denyButton.setForeground(Color.RED);
         denyButton.addActionListener(this);
 
-        acceptButton = new JButton("🗹");
+        acceptButton = new JButton("Accept");
         acceptButton.setFocusable(false);
         acceptButton.setForeground(Color.GREEN);
         acceptButton.addActionListener(this);
