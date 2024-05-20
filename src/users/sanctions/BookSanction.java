@@ -12,10 +12,10 @@ import items.Book;
 public abstract class BookSanction extends Sanction {
 
     @Expose
-    public final Book book;
+    public final String bookID;
 
     protected BookSanction(String name, String description, Severity severity, LocalDate date, Book book) {
         super(name, description, severity, date);
-        this.book = book;
+        this.bookID = book.getID();
     }
 }
